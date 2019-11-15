@@ -1,0 +1,52 @@
+/* You can add global styles to this file, and also import other style files */
+
+// .height-fragment {
+//     height: 50vh !important;
+// }
+.card {
+    margin-bottom: 10px !important;
+}
+
+.card-body {
+    padding: 10px 20px 4px 20px !important;
+}
+
+.carousel-caption {
+    background-color: rgba($color: #000000, $alpha: .7);
+}
+
+.page-wrapper {
+    padding-bottom: 0px !important;
+}
+
+.container-fluid {
+    padding: 6px 25px !important;
+}
+
+.bg-white {
+    background-color: white !important;
+}
+
+thead,
+tbody {
+    display: block;
+}
+
+tbody {
+    height: 40vh;
+    /* Just for the demo          */
+    overflow-y: auto;
+    /* Trigger vertical scroll    */
+    overflow-x: hidden;
+    /* Hide the horizontal scroll */
+}
+
+.padre {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hijo {
+    display: flex;
+}

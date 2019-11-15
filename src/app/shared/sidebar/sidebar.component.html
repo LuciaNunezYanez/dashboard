@@ -1,0 +1,27 @@
+<aside class="left-sidebar">
+    <div class="scroll-sidebar">
+        <!-- Sidebar navigation-->
+        <!-- <img class="img-fluid p-4 " src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcREGjy9DcMEx6o6f1MtfeRPOA0-yMMfSgLhXcBJOgR-Bcm3q_Jm" alt=""> -->
+        <img class="img-fluid p-4 " src="./assets/images/logotipo.jpg" alt="">
+
+        <nav class="sidebar-nav">
+
+            <ul id="sidebarnav" *ngFor="let alerta of wsService.alertas; let i = index">
+                <!-- Rojo, el usuario que lo abra le pertecene-->
+                <li *ngIf="alerta.estatus_actual == 0" (click)="abrirPeticion(alerta.id_reporte, alerta.estatus_actual)"> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded label-themecolor pull-right">!</span></span></a></li>
+                <!-- Verde, le pertenece al usuario y se puede abrir-->
+                <li *ngIf="validarColor(alerta.id_user_cc, alerta.estatus_actual)"> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded badge-success pull-right">!</span></span></a></li>
+                <!-- Amarillo, le pertenece a alguin mas y no se puede abrir-->
+                <li *ngIf="alerta.estatus_actual == 1 && idUsuarioNIT != alerta.id_user_cc"> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded badge-warning pull-right">!</span></span></a></li>
+            </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <div class="alert alert-success text-center mt-2" *ngIf="wsService.socketStatus">
+        <strong>Online</strong>
+    </div>
+    <div class="alert alert-danger text-center mt-2" *ngIf="!wsService.socketStatus">
+        <strong>Offline</strong>
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>
