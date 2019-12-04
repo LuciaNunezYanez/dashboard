@@ -8,7 +8,7 @@ export class UsuariosNitService {
 
   constructor(public wsService: WebsocketService ) { }
 
-  usuarioConectadoNIT( usuario: object) {
+  usuarioConectadoNIT( usuario: any) {
     this.wsService.emitirAlerta('loginNIT', usuario, function(usuariosComectados) {
       // console.log("Mis compañeros conectados son: ", usuariosComectados);
     });
@@ -28,4 +28,5 @@ export class Usuario {
   estatus?: number;
   sala?: string;
   contrasena?: string;
+  contrasena2?: string;
 }

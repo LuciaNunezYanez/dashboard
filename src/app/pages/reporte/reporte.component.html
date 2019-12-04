@@ -109,13 +109,14 @@
     </div>
     <div class="col-12 col-md-6 height-fragment padre">
         <div class="hijo">
+
             <div id="carouselExAdminProIndicators2" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#myCarousel" *ngFor="let x of imagenes;let i = index" [attr.data-slide-to]="i" ngClass="i == 0 ? 'active' : ''"></li>
                 </ol>
                 <div class="carousel-inner" role="listbox">
                     <div *ngFor="let j of imagenes; let k = index" [ngClass]="k == 0 ? 'carousel-item active' : 'carousel-item'">
-                        <img class="img-fluid" [src]="generarRuta(j.ruta)" alt="First slide">
+                        <img class="img-fluid img-tam" [src]="generarRuta(j.ruta)" alt="First slide">
                         <div class="carousel-caption d-none d-md-block">
                             <h3 class="text-white">{{j.fechahora_captura | date:'hh:mm:ss'}}</h3>
                         </div>
@@ -130,8 +131,20 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+            <div *ngIf="imagenes.length === 0" id="carouselExAdminProIndicators2" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" ngClass="i == 0 ? 'active' : ''"></li>
+                </ol>
+                <div class="carousel-inner" role="listbox">
+                    <div>
+                        <img class="img-fluid img-tam" src="../../../assets/images/no_results_found.png" alt="First slide">
+                    </div>
+                </div>
 
-
+            </div>
+            <!-- <div class="col-md-8 hijo" *ngIf="imagenes.length == 0">
+                <img src="../../../assets/images/no_results_found.png">
+            </div> -->
         </div>
     </div>
 </div>

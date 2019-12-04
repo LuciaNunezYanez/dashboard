@@ -5,46 +5,38 @@ import { WebsocketService, Alerta } from '../../services/sockets/websocket.servi
 import { AlertasNitService } from '../../services/sockets/alertas.service';
 import { UsuariosNitService, Usuario } from '../../services/sockets/usuarios-nit.service';
 import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styles: []
+  styles: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
 
   public alertas;
-  idUsuarioNIT = 4;
+  idUsuarioNIT = 4; // Cambiar ID por el del usuario que se logeo
   public alerta: Alerta;
 
   constructor(public wsService: WebsocketService, // VERIFICA LA CONEXION AL SERVIDOR (Connect) (Genera clientes)
-              public alertasService: AlertasNitService,
-              public usuariosService: UsuariosNitService,
+              private alertasService: AlertasNitService,
+              private usuariosService: UsuariosNitService,
+              private auth: LoginService,
               private route: Router) {
 
     this.wsService.alertasActualizadas();
     this.alertas = [];
-    
    }
 
   ngOnInit() {
-    var userLog:Usuario = {
-      id_user_cc: 4,
-      usuario: 'anadi1997@hotmail.com', // email
-      nombres: 'NOMBRE',  
-      sala: 'NIT',
-      apellPat: 'PAT',  
-      apellMat: 'MAT',  
-      tipo: 1,  
-      depend: 'SSP', 
-      sexo: 'F'
+    let token_encriptado = this.auth.leerToken();
+    var userLog = {
+      token: token_encriptado,
+      sala: 'NIT'
     }
-
     //Método de uso temporal
     this.usuariosService.usuarioConectadoNIT(userLog);
     // Toma la alerta 289 y se las quita a todos
-    // this.wsService.escucharNuevaAlerta();
-    // this.wsService.alertasActualizadas();
   }
 
   abrirPeticion(id_reporte: number, estatus_actual: number){
@@ -59,13 +51,11 @@ export class SidebarComponent implements OnInit {
   }
 
   validarColor(id_usuario: number, estatus_actual: number) {
-    let logueado = false;
     if(id_usuario === this.idUsuarioNIT && estatus_actual === 1){
-      logueado = true;
+      return true;
     } else {
-      logueado = false;
+      return false;
     }
-    return logueado;
   }
 }
 

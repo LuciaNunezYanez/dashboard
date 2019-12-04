@@ -34,6 +34,7 @@ export class LoginService {
       map( (resp: any) => {
         // Guardar el token recibido
         if (resp.token) {
+          console.log(resp);
           this.guardarToken(resp.token);
         }
         return resp;
@@ -41,6 +42,7 @@ export class LoginService {
     );
 
   }
+
   // =========================
   // AGREGAR NUEVO USUARIO NIT
   // ========================= 
@@ -49,16 +51,18 @@ export class LoginService {
       contrasena: usuario.contrasena, 
       nombres: usuario.nombres, 
       apellPat: usuario.apellPat, 
-      apellMar: usuario.apellMat,
+      apellMat: usuario.apellMat,
       usuario: usuario.usuario,
       tipo: 1,
       // tipo: usuario.tipo, // No esta en el form
-      depend: usuario.depend, 
+      depend: 'Bomberos', 
+      // usuario.depend
       sexo: 'F',
       // sexo: usuario.sexo, // No esta en el form
       estatus: 1,
       // estatus: usuario.estatus   // No esta en el form 
     }
+    console.log('El cuerpo que enviaré es:', body);
     return this.http.post(`${this.url}/usuarionit`, body);
   }
 
@@ -69,6 +73,15 @@ export class LoginService {
     this.userToken = idToken;
     localStorage.setItem('token', idToken);
   }
+
+  // =====================
+  // ESTA AUTENTICADO
+  // =====================
+  estaAutenticado(): boolean{
+
+    return this.userToken.length > 2;
+  }
+
 
   // =====================
   // LEER TOKEN

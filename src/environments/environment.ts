@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  wsUrl: 'http://localhost:3000'
+  // wsUrl: 'http://localhost:3000'
+  wsUrl: 'http://192.168.0.7:3000'
+  // wsUrl: 'http://10.11.113.136:3000'
   //wsUrl: 'https://boton-panico.herokuapp.com'
 };
 

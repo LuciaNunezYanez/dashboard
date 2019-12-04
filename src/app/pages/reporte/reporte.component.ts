@@ -4,12 +4,13 @@ import { SharedService } from '../../services/shared.service';
 import { Alerta, Comercio, UsuarioComercio, Multimedia } from '../../services/sockets/websocket.service';
 import { mostrarAlertaError } from '../../utilities/utilities';
 import { environment } from '../../../environments/environment';
+import { LoginService } from '../../services/login.service';
 
 
 @Component({
   selector: 'app-reporte',
   templateUrl: './reporte.component.html',
-  styles: []
+  styleUrls: ['./reporte.component.css']
 })
 export class ReporteComponent implements OnInit {
 
@@ -21,6 +22,7 @@ export class ReporteComponent implements OnInit {
 
   public imagenes: any[] = [];
   public audios: any[] = [];
+
 
   // Información general del reporte 
   private id_user_cc: number = 0; 
@@ -78,7 +80,7 @@ export class ReporteComponent implements OnInit {
   public apell_mat = '';
   public tel_movil = '';
   
-  constructor(private routerActive: ActivatedRoute, private obtener: SharedService) {
+  constructor(private routerActive: ActivatedRoute, private obtener: SharedService, private auth: LoginService) {
     
     // Suscripción al cambio de parametros en la URL 
     this.routerActive.params.subscribe( (data: any) => {
@@ -211,6 +213,7 @@ export class ReporteComponent implements OnInit {
   }
 
   generarRuta( ruta ) {
-    return `${environment.wsUrl}/${ruta}`;
+    // Enviar el codigo del usuario que tiene el reporte
+    return `${environment.wsUrl}/${ruta}?token=${this.auth.leerToken()}&id_usuario_pertenece=20`;
   }
 }

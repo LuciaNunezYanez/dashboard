@@ -70,7 +70,8 @@ export class LoginComponent implements OnInit {
           title: 'Exito al autenticar',
           text: '¡Bienvenido!'
         });
-        this.router.navigate(['reporte']);
+        // reporte
+        this.router.navigate(['/']); 
         // CONEXION A SOCKETS 
         // const userLog = {
         //     usuario: this.usuario.id, // email
