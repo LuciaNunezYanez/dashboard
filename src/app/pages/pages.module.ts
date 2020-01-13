@@ -5,6 +5,8 @@ import { SharedModule } from '../shared/shared.module';
 
 // ROUTES
 import { PAGES_ROUTES } from './pages.routes';
+import { AgmCoreModule } from '@agm/core'
+
 
 // COMPONENTS
 import { PagesComponent } from './pages.component';
@@ -34,7 +36,10 @@ import { BrowserModule } from '@angular/platform-browser';
         SharedModule,
         PAGES_ROUTES,
         FormsModule,
-        BrowserModule 
+        BrowserModule,
+        AgmCoreModule.forRoot({
+          apiKey: 'AIzaSyCqxLlIIJcj2ItDwwu3FwliQmE3lPh_pw0'
+        }) 
     ]
 })
 

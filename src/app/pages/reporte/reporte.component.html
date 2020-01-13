@@ -4,15 +4,18 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card shadow-sm border">
+
+                        <!-- INFORMACIÓN DEL COMERCIO -->
+
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-10 p-r-0">
-                                    <h5 class="font-light">Comercio: {{this.nombre_comercio}}</h5>
-                                    <h6 class="text-muted">Telefono: {{this.telefono_fijo}}</h6>
-                                    <h6 class="text-muted">{{this.calle}} #{{this.numero}} {{this.colonia}}</h6>
-                                    <h6 class="text-muted">Entre calles: {{this.entre_calle_1}} y {{this.entre_calle_2}}</h6>
-                                    <h6 class="text-muted">C.P: {{this.cp}}, {{this.nombre_estado}}, {{this.nombre_municipio}}</h6>
-                                    <h6 class="text-muted">Fachada: {{this.fachada}}</h6>
+                                    <h5 class="font-light">Comercio: {{this.data_comercio?.nombre_comercio}}</h5>
+                                    <h6 class="text-muted">Telefono: {{this.data_comercio?.telefono_fijo}}</h6>
+                                    <h6 class="text-muted">{{this.data_comercio?.calle}} #{{this.data_comercio?.numero}} {{this.data_comercio?.colonia}}</h6>
+                                    <h6 class="text-muted">Entre calles: {{this.data_comercio?.entre_calle_1}} y {{this.data_comercio?.entre_calle_2}}</h6>
+                                    <h6 class="text-muted">C.P: {{this.data_comercio?.cp}}, {{this.data_comercio?.nombre_estado}}, {{this.data_comercio?.nombre_municipio}}</h6>
+                                    <h6 class="text-muted">Fachada: {{this.data_comercio?.fachada}}</h6>
                                 </div>
                                 <div class="col-2 text-right align-self-center">
                                     <div>
@@ -25,11 +28,14 @@
                 </div>
                 <div class="col-md-12">
                     <div class="card shadow-sm border">
+
+                        <!-- INFORMACIÓN DEL USUARIO -->
+
                         <div class="card-body">
                             <div class="row">
                                 <div class="col p-r-0">
-                                    <h5 class="font-light">{{this.nombres_usuarios_app}} {{this.apell_pat}} {{this.apell_mat}}</h5>
-                                    <h6 class="text-muted">Telefono: {{this.tel_movil}}</h6>
+                                    <h5 class="font-light">{{this.data_usuario_comercio?.nombres_usuarios_app}} {{this.data_usuario_comercio?.apell_pat}} {{this.data_usuario_comercio?.apell_mat}}</h5>
+                                    <h6 class="text-muted">Telefono: {{this.data_usuario_comercio?.tel_movil}}</h6>
                                 </div>
                                 <div class="col text-right align-self-center">
                                     <div>
@@ -43,64 +49,91 @@
                 <div class="col-md-12">
                     <div class="card shadow-sm border">
                         <div class="card-body">
+
+                            <!-- ENCABEZADO DEL REPORTE -->
+
                             <div class="row">
                                 <div class="col-6 p-r-0">
-                                    <h5 class="font-light">Folio: 00{{ id_repor}}</h5>
+                                    <h5 class="font-light">Folio: 00{{ this.data_reporte?.id_reporte}}</h5>
                                 </div>
                                 <div class="col-6 p-r-0">
-                                    <h5 class="font-light text-right">{{ fecha_hora_ataq | date:'dd-MM-yyyy hh:mm:ss'}}</h5>
+                                    <h5 class="font-light text-right">{{ this.data_reporte?.fecha_hora_ataq | date:'dd-MM-yyyy hh:mm:ss'}}</h5>
                                 </div>
                             </div>
+
+                            <!-- FORMULARIO DE ENVIO  -->
+
                             <div class="row">
                                 <form class="col-12" #data="ngForm" (ngSubmit)="guardarCampos(data)">
                                     <div class="row justify-content-between">
-                                        <div class="col-6">
-                                            <select class="form-control  my-1" id="incidentes">
-                                                        <option>Seleccione incidente</option>
-                                                    </select>
+                                        <div class="col">
+                                            <!-- requiered -->
+                                            <select *ngIf="clasificacion" [(ngModel)]="selectedClasificacion" (change)="onSelectClasificacion($event.target.value)" class="form-control my-1" id="clasificacion" name="clasificacion"> 
+                                                <option value="0">SELECCIONE CLASIFICACIÓN</option>
+                                                <option *ngFor="let clasif of clasificacion"
+                                                        value="{{clasif.id_clasificacion}}"> 
+                                                        {{clasif.clasificacion}}</option>
+                                            </select>
                                         </div>
-                                        <div class="col-6">
-                                            <select class="form-control my-1" id="clasificacion">
-                                                        <option>Clasificación</option>
-                                                    </select>
+                                    </div>
+                                    <div class="row justify-content-between">
+                                        <div class="col">
+                                            <select *ngIf="filtro_subclasificacion" [(ngModel)]="selectedSubclasificacion" (change)="onSelectSubclasificacion($event.target.value)" class="form-control my-1" id="subclasificacion" name="subclasificacion">
+                                                <option value="0">SELECCIONE SUBCLASIFICACIÓN</option>
+                                                <option *ngFor="let subcl of filtro_subclasificacion"
+                                                        value="{{subcl.id_subclasificacion}}">
+                                                        {{subcl.subclasificacion}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-between">
+                                        <div class="col">
+                                            <select *ngIf="filtro_incidentes" [(ngModel)]="selectedIncidente" (change)="onSelectIncidente($event.target.value)" class="form-control  my-1" id="incidente" name="incidente">
+                                                <option value="0">SELECCIONE INCIDENTE</option>
+                                                <option *ngFor="let incid of filtro_incidentes"
+                                                        value="{{incid.id_incidente}}">
+                                                        {{incid.incidente}}</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
-                                            <input ngModel name="cierre" class="form-control  my-1" type="text" placeholder="Cierre">
+                                            <input ngModel name="cierre" class="form-control  my-1" type="text" placeholder="Cierre" name="cierre" ngModel>
                                         </div>
                                         <div class="col-6">
-                                            <input list="unidades" class="form-control  my-1" type="text" placeholder="Unidad atendida">
-                                            <datalist id="unidades">
-                                                        <option value="Internet Explorer">
-                                                        <option value="Firefox">
-                                                        <option value="Google Chrome">
-                                                        <option value="Opera">
-                                                        <option value="Safari">
-                                                    </datalist>
+                                            <input list="unidades" class="form-control  my-1" type="text" placeholder="Unidad atendida" name="unidad" ngModel>
+                                            <datalist id="unidades"> 
+                                                <option value="Internet Explorer">
+                                                <option value="Firefox">
+                                                <option value="Google Chrome">
+                                                <option value="Opera">
+                                                <option value="Safari">
+                                            </datalist>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-6">
-                                            <select class="col-12 form-control" name="fruit" multiple>
+                                        <!-- <div class="col-6">
+                                            <select class="col-12 form-control" multiple>
                                                         <option value ="none">21:13:50 - Lorem ipsum dolor sit amet.</option>
                                                         <option value ="none">21:13:50 - Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vel repellendus totam modi! Rem, consequatur nisi dicta quia vel assumenda officiis.</option>
                                                     </select>
-                                        </div>
-                                        <div class="col-6">
-                                            <textarea class="form-control" rows="2"></textarea>
+                                        </div> -->
+                                        <div class="col-12">
+                                            <textarea class="form-control" rows="2" placeholder="Notas" name="notas" ngModel></textarea>
                                             <div class="row">
-                                                <div class="col-7">
-                                                    <button class="btn btn-info col-12">Agregar nota</button>
-                                                </div>
-                                                <div class="col-5">
-                                                    <button class="btn btn-success col-12" type="submit">Guardar</button>
+                                                <!-- <div class="col-7">
+                                                    <button class="btn btn-info col-12 btn-sm">Agregar nota</button>
+                                                </div> -->
+                                                <div class="col-12 mb-1 text-center">
+                                                    <button class="btn btn-success" type="submit">Terminar reporte</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
                             </div>
+
+                            <!-- TERMINA FORMULARIO  -->
                         </div>
                     </div>
                 </div>
@@ -110,17 +143,20 @@
     <div class="col-12 col-md-6 height-fragment padre">
         <div class="hijo">
 
+            <!-- CAROUSEL DE IMAGENES -->
+
             <div id="carouselExAdminProIndicators2" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" *ngFor="let x of imagenes;let i = index" [attr.data-slide-to]="i" ngClass="i == 0 ? 'active' : ''"></li>
+                    <li data-target="#myCarousel" *ngFor="let x of this.wsService.imagenes;let i = index" [attr.data-slide-to]="i" ngClass="i == 0 ? 'active' : ''"></li>
                 </ol>
                 <div class="carousel-inner" role="listbox">
-                    <div *ngFor="let j of imagenes; let k = index" [ngClass]="k == 0 ? 'carousel-item active' : 'carousel-item'">
+                    <div *ngFor="let j of this.wsService.imagenes; let k = index" [ngClass]="k == 0 ? 'carousel-item active' : 'carousel-item'">
                         <img class="img-fluid img-tam" [src]="generarRuta(j.ruta)" alt="First slide">
                         <div class="carousel-caption d-none d-md-block">
                             <h3 class="text-white">{{j.fechahora_captura | date:'hh:mm:ss'}}</h3>
                         </div>
                     </div>
+
                 </div>
                 <a class="carousel-control-prev" href="#carouselExAdminProIndicators2" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -130,29 +166,42 @@
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
-            </div>
-            <div *ngIf="imagenes.length === 0" id="carouselExAdminProIndicators2" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" ngClass="i == 0 ? 'active' : ''"></li>
-                </ol>
-                <div class="carousel-inner" role="listbox">
-                    <div>
-                        <img class="img-fluid img-tam" src="../../../assets/images/no_results_found.png" alt="First slide">
+                <div *ngIf="this.wsService.imagenes.length === 0" id="carouselExAdminProIndicators2" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" ngClass="i == 0 ? 'active' : ''"></li>
+                    </ol>
+                    <div class="carousel-inner" role="listbox">
+                        <div>
+                            <img class="img-fluid img-tam" src="../../../assets/images/no_results_found.png" alt="First slide">
+                        </div>
                     </div>
+
                 </div>
 
+                <!-- TERMINA CAROUSEL -->
             </div>
-            <!-- <div class="col-md-8 hijo" *ngIf="imagenes.length == 0">
-                <img src="../../../assets/images/no_results_found.png">
-            </div> -->
         </div>
     </div>
+
 </div>
 <div class="row">
+
+    <!-- MAPA -->
+
     <div class="col-12 col-md-6 height-fragment">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2502.654313728046!2d-104.65675913318806!3d24.06642102622932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x869bb620c91b0d71%3A0x8f6d9ce204c9ee63!2sC-5%20Centro%20de%20Coordinaci%C3%B3n%20y%20C%C3%A1maras!5e0!3m2!1ses-419!2smx!4v1572143868247!5m2!1ses-419!2smx"
-            width="100%" height="90%" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+
+        <agm-map [latitude]="this.latitudComercio" [longitude]="this.longitudComercio" [zoom]="15" *ngIf="this.latitudComercio!=null&&this.longitudComercio!=null">
+            <agm-marker [latitude]="this.latitudComercio" [longitude]="this.longitudComercio">
+            </agm-marker>
+        </agm-map>
+
+
+        <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2502.654313728046!2d-104.65675913318806!3d24.06642102622932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x869bb620c91b0d71%3A0x8f6d9ce204c9ee63!2sC-5%20Centro%20de%20Coordinaci%C3%B3n%20y%20C%C3%A1maras!5e0!3m2!1ses-419!2smx!4v1572143868247!5m2!1ses-419!2smx"
+            width="100%" height="90%" frameborder="0" style="border:0;" allowfullscreen=""></iframe> -->
     </div>
+
+    <!-- TABLA DE AUDIOS  -->
+
     <div class="col-12 col-md-6 height-fragment">
         <div>
             <div class="table-responsive bg-white">
@@ -164,103 +213,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-expanded="true">
-                            <td>21:43:20</td>
+                        <tr data-expanded="true" *ngFor="let aud of this.wsService.audios">
+                            <td>{{aud.fechahora_captura | date:'hh:mm:ss'}}</td>
                             <td class="col">
                                 <audio class="col" controls>
-                                            <source  src="./assets/test/audio.mp3" type="">
-                                        </audio>
-                            </td>
-                        </tr>
-                        <tr data-expanded="true">
-                            <td>21:43:20</td>
-                            <td class="col">
-                                <audio class="col" controls>
-                                            <source  src="./assets/test/audio.mp3" type="">
-                                        </audio>
-                            </td>
-                        </tr>
-                        <tr data-expanded="true">
-                            <td>21:43:20</td>
-                            <td class="col">
-                                <audio class="col" controls>
-                                            <source  src="./assets/test/audio.mp3" type="">
-                                        </audio>
-                            </td>
-                        </tr>
-                        <tr data-expanded="true">
-                            <td>21:43:20</td>
-                            <td class="col">
-                                <audio class="col" controls>
-                                            <source  src="./assets/test/audio.mp3" type="">
-                                        </audio>
-                            </td>
-                        </tr>
-                        <tr data-expanded="true">
-                            <td>21:43:20</td>
-                            <td class="col">
-                                <audio class="col" controls>
-                                            <source  src="./assets/test/audio.mp3" type="">
-                                        </audio>
-                            </td>
-                        </tr>
-                        <tr data-expanded="true">
-                            <td>21:43:20</td>
-                            <td class="col">
-                                <audio class="col" controls>
-                                            <source  src="./assets/test/audio.mp3" type="">
-                                        </audio>
+                                    <source [src]="generarRuta(aud.ruta)" type="">
+                                </audio>
                             </td>
                         </tr>
 
-                        <tr data-expanded="true">
-                            <td>21:43:20</td>
-                            <td class="col">
-                                <audio class="col" controls>
-                                            <source  src="./assets/test/audio.mp3" type="">
-                                        </audio>
-                            </td>
-                        </tr>
-                        <tr data-expanded="true">
-                            <td>21:43:20</td>
-                            <td class="col">
-                                <audio class="col" controls>
-                                            <source  src="./assets/test/audio.mp3" type="">
-                                        </audio>
-                            </td>
-                        </tr>
-                        <tr data-expanded="true">
-                            <td>21:43:20</td>
-                            <td class="col">
-                                <audio class="col" controls>
-                                            <source  src="./assets/test/audio.mp3" type="">
-                                        </audio>
-                            </td>
-                        </tr>
-                        <tr data-expanded="true">
-                            <td>21:43:20</td>
-                            <td class="col">
-                                <audio class="col" controls>
-                                            <source  src="./assets/test/audio.mp3" type="">
-                                        </audio>
-                            </td>
-                        </tr>
-                        <tr data-expanded="true">
-                            <td>21:43:20</td>
-                            <td class="col">
-                                <audio class="col" controls>
-                                            <source  src="./assets/test/audio.mp3" type="">
-                                        </audio>
-                            </td>
-                        </tr>
-                        <tr data-expanded="true">
-                            <td>21:43:20</td>
-                            <td class="col">
-                                <audio class="col" controls>
-                                            <source  src="./assets/test/audio.mp3" type="">
-                                        </audio>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>

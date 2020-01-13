@@ -17,10 +17,10 @@ export class SharedService {
   getDataComercio( id_comercio ) {
     return this.http.get(`${ this.URL_API }/comercio/${ id_comercio }`);
   }
+
   getDataUsuarioComercio( id_usuario) {
     return this.http.get(`${this.URL_API}/usuariocomercio/${id_usuario}`);
   }
-
 
   getDataMultimedia( id_alerta ) {
     return this.http.get(`${ this.URL_API }/multimedia/reporte/${ id_alerta }`);

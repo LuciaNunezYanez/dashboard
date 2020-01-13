@@ -8,6 +8,10 @@ export class WebsocketService {
 
   public socketStatus = false;
   alertas: Alerta[] = [];
+  multimedia = [];
+  imagenes = [];
+  audios = [];
+  valor = false;
 
   constructor( private socket: Socket ) {
     this.checkStatus();
@@ -64,6 +68,41 @@ export class WebsocketService {
     });
   }
 
+  escucharNuevaImagen(idReporte: number){
+    this.socket.on(`nuevaImagen${idReporte}`, (data) => {
+      this.agregarMultimediaService(data);
+      // console.log('Se recibió nueva imagen', data);
+      this.valor = true;
+    })
+  }
+
+  removeListenerNuevaImagen(idReporte: number){
+    this.socket.removeListener(`nuevaImagen${idReporte}`);
+  }
+
+  public agregarMultimediaService(data: any){
+    this.multimedia.push(data);
+    this.filtrarMultimedia();
+  }
+
+  escucharNuevoAudio(idReporte: number){
+    this.socket.on(`nuevoAudio${idReporte}`, (data) => {
+      this.agregarMultimediaService(data);
+      // console.log('Se recibió nuevo audio', data);
+    })
+  }
+
+  removeListenerNuevoAudio(idReporte: number){
+    this.socket.removeListener(`nuevoAudio${idReporte}`);
+  }
+
+  filtrarMultimedia(){
+    this.imagenes = this.multimedia.filter(dato => dato.tipo_archivo === 'imagen');
+    this.audios = this.multimedia.filter(dato => dato.tipo_archivo === 'audio')
+    // console.log('Mi multimedia es: ', this.multimedia);
+    // console.log('Array imagenes: ', this.imagenes);
+    // console.log('Array audios: ', this.audios);
+  }
   // Debe traer todos los datos de una alerta en especifico
   obtenerAlerta(idReporte: number, idUsuario: number){
     let alerta = this.alertas.filter((alerta: any ) => {

@@ -3,3 +3,14 @@
     height: 80%;
     width: 70vh;
 }
+
+
+/* Estilos para el mapa */
+
+agm-map {
+    height: 100%;
+}
+
+.mapa {
+    height: 580px;
+}
