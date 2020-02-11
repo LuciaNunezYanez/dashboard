@@ -16,6 +16,7 @@ import { MapaComponent } from './mapa/mapa.component';
 import { AudioComponent } from './audio/audio.component';
 import { ImagenesComponent } from './imagenes/imagenes.component';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReportesComponent } from './reportes/reportes.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { BrowserModule } from '@angular/platform-browser';
         ComercioComponent,
         MapaComponent,
         AudioComponent,
-        ImagenesComponent
+        ImagenesComponent,
+        ReportesComponent
     ],
     exports: [
         PagesComponent,

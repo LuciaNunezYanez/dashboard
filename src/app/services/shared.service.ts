@@ -29,4 +29,8 @@ export class SharedService {
   getDataAudio( id_alerta ) {
     return this.http.get(`${ this.URL_API }/audio/${ id_alerta }`);
   }
+
+  getDataCoordenadas( id_alerta ) {
+    return this.http.get(`${ this.URL_API }/coordenadas/${ id_alerta }`);
+  }
 }

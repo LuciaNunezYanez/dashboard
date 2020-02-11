@@ -184,25 +184,30 @@
     </div>
 
 </div>
-<div class="row">
+<div class="row mb-5">
 
     <!-- MAPA -->
 
-    <div class="col-12 col-md-6 height-fragment">
-
-        <agm-map [latitude]="this.latitudComercio" [longitude]="this.longitudComercio" [zoom]="15" *ngIf="this.latitudComercio!=null&&this.longitudComercio!=null">
+    <div class="col-12 col-md-6 mb-3">
+        <!-- <agm-map [latitude]="this.latitudComercio" [longitude]="this.longitudComercio" [zoom]="15" *ngIf="(this.latitudComercio != null && this.longitudComercio != null) || (this.latitudActual != 0.0 && this.longitudActual != 0.0)">
             <agm-marker [latitude]="this.latitudComercio" [longitude]="this.longitudComercio">
             </agm-marker>
-        </agm-map>
-
-
-        <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2502.654313728046!2d-104.65675913318806!3d24.06642102622932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x869bb620c91b0d71%3A0x8f6d9ce204c9ee63!2sC-5%20Centro%20de%20Coordinaci%C3%B3n%20y%20C%C3%A1maras!5e0!3m2!1ses-419!2smx!4v1572143868247!5m2!1ses-419!2smx"
-            width="100%" height="90%" frameborder="0" style="border:0;" allowfullscreen=""></iframe> -->
+            <agm-marker *ngIf="this.latitudActual != 0.0." [latitude]="this.latitudActual" [longitude]="this.longitudActual">
+            </agm-marker>
+        </agm-map> -->
+        <div class="form-group row justify-content-end mr-2 mt-3" *ngIf="(this.latitudComercio != null && this.longitudComercio != null) && (this.latitudActual != 0.0 && this.longitudActual != 0.0)">
+            <div class="col-4">
+                <input class="form-control" type="number" name="distancia" disabled [ngModel]="this.distancia">
+            </div>
+            <p class="col-2 col-form-label text-white bg-success" *ngIf="this.metrosKilometros === 'Metros'">Metros</p>
+            <p class="col-2 col-form-label text-white bg-danger" *ngIf="this.metrosKilometros === 'Kilometros'">Km</p>
+            <!-- <div class="p-3 mb-2 bg-danger text-white">{{this.metrosKilometros}}</div> -->
+        </div>
     </div>
 
     <!-- TABLA DE AUDIOS  -->
 
-    <div class="col-12 col-md-6 height-fragment">
+    <div class="col-12 col-md-6 mb-3">
         <div>
             <div class="table-responsive bg-white">
                 <table id="demo-foo-row-toggler" class="table table-bordered" data-toggle-column="first">

@@ -6,6 +6,7 @@ import { mostrarAlertaError } from '../../utilities/utilities';
 import { environment } from '../../../environments/environment';
 import { LoginService } from '../../services/login.service';
 import { IncidentesService } from '../..//services/reporte/incidentes.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-reporte',
@@ -45,6 +46,12 @@ export class ReporteComponent implements OnInit {
   latitudComercio:number = 0.0;
   longitudComercio:number = 0.0;
 
+  latitudActual: number = 0.0;
+  longitudActual: number = 0.0;
+  fechaCoordenadas: String = "";
+  distancia: number = 0.0;
+  metrosKilometros: any = "";
+
   constructor(private routerActive: ActivatedRoute, 
     private obtener: SharedService, 
     private auth: LoginService,
@@ -79,12 +86,14 @@ export class ReporteComponent implements OnInit {
         else {
           // Cancelar la suscripción anterior
           this.wsService.removeListenerNuevaImagen(this.ultima_suscripcion);
-          this.wsService.removeListenerNuevoAudio(this.ultima_suscripcion);          
+          this.wsService.removeListenerNuevoAudio(this.ultima_suscripcion);    
+          this.wsService.removeListenerGeolocalizacion(this.ultima_suscripcion);      
 
           // Suscribirse a los cambios de una imagen y audio
           this.ultima_suscripcion = this.id_reporte;
           this.wsService.escucharNuevaImagen(this.id_reporte);
           this.wsService.escucharNuevoAudio(this.id_reporte);
+          this.wsService.escucharNuevaGeolocalizacion(this.id_reporte);
 
           this.cargarDatosReporte(); 
           // Traer los datos del comercio (2)
@@ -95,7 +104,7 @@ export class ReporteComponent implements OnInit {
               this.data_comercio = data_comercio.comercio[0];
               this.latitudComercio = this.data_comercio.lat_dir;
               this.longitudComercio = this.data_comercio.lgn_dir;
-              console.log("LATITUD: " + this.latitudComercio + " LONGITUD: " + this.longitudComercio);
+              console.log("LATITUD COM: " + this.latitudComercio + " LONGITUD COM: " + this.longitudComercio);
               // console.log(this.data_comercio);
             });
           }
@@ -115,7 +124,30 @@ export class ReporteComponent implements OnInit {
             this.data_multimedia = data_multimedia.multimedia;
             this.wsService.multimedia = this.data_multimedia;
             this.wsService.filtrarMultimedia();
+          });
 
+          this.obtener.getDataCoordenadas(this.id_reporte).subscribe((data_coordenadas: any ) => {
+            // Reiniciar valores de las coordenadas
+            this.longitudActual = 0.0;
+            this.latitudActual = 0.0;
+            this.fechaCoordenadas = "";
+            this.distancia = 0.0;
+            this.metrosKilometros = "";
+
+            //Traer nuevos valores
+            if(data_coordenadas.id_coord_reporte){
+              if(data_coordenadas.id_coord_reporte === this.id_reporte){
+                this.latitudActual = data_coordenadas.lat_coord_reporte;
+                this.longitudActual = data_coordenadas.lng_coord_reporte;
+                this.fechaCoordenadas = data_coordenadas.fecha_coord_reporte;
+                console.log('LATITUD ACTUAL: ', this.latitudActual);
+                console.log('LONGITUD ACTUAL: ', this.longitudActual);
+                console.log('FECHA COORDENADAS: ', this.fechaCoordenadas);
+
+                this.distancia = this.getDistanceBetweenTwoCoordinates(this.latitudComercio, this.longitudComercio, this.latitudActual, this.longitudActual);
+              }
+            }
+            
           });
         }
       });     
@@ -199,4 +231,38 @@ export class ReporteComponent implements OnInit {
  
   // TERMINA LOGICA PARA SELECTED ANIDADOS
 
+  // CALCULA LA DISTANCIA ENTRE DOS COORDENADAS 
+  getDistanceBetweenTwoCoordinates(lat1, lon1, lat2, lon2) {
+
+    console.log('Està: ');
+    console.log('latitud', this.latitudActual);
+    console.log('longitud', this.longitudActual);
+    console.log('registro');
+    console.log('latitud', this.latitudComercio);
+    console.log('longitud', this.longitudComercio);
+
+    var R = 6371; // Radio de la tierra en km
+    var dLat = this.deg2rad(lat2-lat1); 
+    var dLon = this.deg2rad(lon2-lon1); 
+    var a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ; 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c; // Distancia en km
+
+    console.log(d);
+    if(d >= 1.0){
+      this.metrosKilometros = "Kilometros";
+    } else {
+      this.metrosKilometros = "Metros";
+      d = d * 1000;
+    }
+    return d;
+  }
+  
+  deg2rad(deg) {
+    return deg * (Math.PI/180)
+  }
 }

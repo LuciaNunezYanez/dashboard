@@ -66,26 +66,32 @@ export class LoginService {
     return this.http.post(`${this.url}/usuarionit`, body);
   }
 
-  // =====================
+  // =========================================
   // GUARDAR TOKEN
-  // =====================
+  // =========================================
   private guardarToken( idToken: string ) {
     this.userToken = idToken;
     localStorage.setItem('token', idToken);
   }
 
-  // =====================
+  // =========================================
   // ESTA AUTENTICADO
-  // =====================
-  estaAutenticado(): boolean{
-
+  // =========================================
+  estaAutenticado(): Boolean{
     return this.userToken.length > 2;
   }
 
+  // =========================================
+  // SIGUE DESARROLLAR EL CIERRE DE SESION
+  // =========================================
+  cerrarSesion() {
+    localStorage.removeItem('token'); // CREO 
+    // Eliminar token 
+  }
 
-  // =====================
+  // =========================================
   // LEER TOKEN
-  // =====================
+  // =========================================
   leerToken() {
     if ( localStorage.getItem('token') ){
       this.userToken = localStorage.getItem('token');

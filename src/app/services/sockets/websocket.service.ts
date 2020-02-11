@@ -92,8 +92,19 @@ export class WebsocketService {
     })
   }
 
+  escucharNuevaGeolocalizacion(idReporte: number){
+    this.socket.on(`nuevaGeolocalizacion${idReporte}`, (data) => {
+      console.log('Nueva geolocalizacion; ', idReporte);
+      console.log(data);
+    })
+  }
+
   removeListenerNuevoAudio(idReporte: number){
     this.socket.removeListener(`nuevoAudio${idReporte}`);
+  }
+
+  removeListenerGeolocalizacion(idReporte: number){
+    this.socket.removeListener(`nuevaGeolocalizacion${idReporte}`);
   }
 
   filtrarMultimedia(){
