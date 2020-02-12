@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLinkActive, ActivatedRoute } from '@angular/router';
+import { RouterLinkActive, ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
 import { Alerta, Comercio, UsuarioComercio, Multimedia, WebsocketService } from '../../services/sockets/websocket.service';
 import { mostrarAlertaError } from '../../utilities/utilities';
@@ -7,6 +7,8 @@ import { environment } from '../../../environments/environment';
 import { LoginService } from '../../services/login.service';
 import { IncidentesService } from '../..//services/reporte/incidentes.service';
 import { ThrowStmt } from '@angular/compiler';
+import { AlertasNitService } from '../../services/sockets/alertas.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reporte',
@@ -14,6 +16,9 @@ import { ThrowStmt } from '@angular/compiler';
   styleUrls: ['./reporte.component.css']
 })
 export class ReporteComponent implements OnInit {
+
+  idUsuarioNIT = 4; // Cambiar ID por el del usuario que se logeo
+
 
   private id_reporte:number = 0;
   public data_reporte: Alerta;
@@ -56,7 +61,9 @@ export class ReporteComponent implements OnInit {
     private obtener: SharedService, 
     private auth: LoginService,
     public wsService: WebsocketService, 
-    private incidentesService: IncidentesService) {
+    private incidentesService: IncidentesService, 
+    private alertasService: AlertasNitService, 
+    private route: Router) {
         
     // OBTENER LA LISTA DE INCIDENTES DE LA BD 
     this.getIncidentesBD();
@@ -104,7 +111,7 @@ export class ReporteComponent implements OnInit {
               this.data_comercio = data_comercio.comercio[0];
               this.latitudComercio = this.data_comercio.lat_dir;
               this.longitudComercio = this.data_comercio.lgn_dir;
-              console.log("LATITUD COM: " + this.latitudComercio + " LONGITUD COM: " + this.longitudComercio);
+              // console.log("LATITUD COM: " + this.latitudComercio + " LONGITUD COM: " + this.longitudComercio);
               // console.log(this.data_comercio);
             });
           }
@@ -140,9 +147,9 @@ export class ReporteComponent implements OnInit {
                 this.latitudActual = data_coordenadas.lat_coord_reporte;
                 this.longitudActual = data_coordenadas.lng_coord_reporte;
                 this.fechaCoordenadas = data_coordenadas.fecha_coord_reporte;
-                console.log('LATITUD ACTUAL: ', this.latitudActual);
-                console.log('LONGITUD ACTUAL: ', this.longitudActual);
-                console.log('FECHA COORDENADAS: ', this.fechaCoordenadas);
+                // console.log('LATITUD ACTUAL: ', this.latitudActual);
+                // console.log('LONGITUD ACTUAL: ', this.longitudActual);
+                // console.log('FECHA COORDENADAS: ', this.fechaCoordenadas);
 
                 this.distancia = this.getDistanceBetweenTwoCoordinates(this.latitudComercio, this.longitudComercio, this.latitudActual, this.longitudActual);
               }
@@ -167,12 +174,43 @@ export class ReporteComponent implements OnInit {
   }
 
   guardarCampos( data ) {
-    const cierre = data.cierre;
-    const unidad = data.unidad;
+    const info = {
+      id_reporte: this.id_reporte, 
+      id_user_cc: this.idUsuarioNIT, 
+      estatus_actual: 1, 
+      tipo_incid: data.control.value.incidente, 
+      descrip_emerg: data.control.value.notas, 
+      cierre_conclusion: data.control.value.cierre, 
+      num_unidad: data.control.value.unidad
+    };
 
-    console.log( data );
-    // console.log( cierre );
-    // console.log( unidad );
+    if(data.control.value.unidad.length === 0){
+      Swal.fire({
+        type: 'error', title: 'Error', text: 'Ingrese número de la unidad que atendió la petición'
+      });
+    }
+    if(data.control.value.cierre.length === 0){
+      Swal.fire({ 
+        type: 'error', title: 'Error', text: 'Ingrese la conclusión correspondiente'
+      });
+    }   
+    if(data.control.value.notas.length === 0){
+      Swal.fire({ 
+        type: 'error', title: 'Error', text: 'Ingrese descripción de la emergencia' 
+      });
+    }
+    if(data.control.value.incidente === 0 ){
+      Swal.fire({ 
+        type: 'error', title: 'Error', text: 'Seleccione incidente'
+      });
+    }
+
+    if(data.valid && data.control.value.incidente != 0) {
+      this.alertasService.alertaCerrada(info)
+    }
+    
+    // console.log( info );
+    // console.log(data);
   }
 
   generarRuta( ruta ) {
@@ -212,7 +250,7 @@ export class ReporteComponent implements OnInit {
     this.filtro_subclasificacion = this.subclasificacion.filter((subclasificacion) => {
       return subclasificacion.id_clasificacion_incid === Number(id_clasificacion);
     });
-    console.log('ID:', this.selectedClasificacion);
+    // console.log('ID:', this.selectedClasificacion);
   }
 
   onSelectSubclasificacion(id_subclasificacion: number){
@@ -221,7 +259,7 @@ export class ReporteComponent implements OnInit {
     this.filtro_incidentes = this.incidentes.filter((incidente) => {
       return incidente.id_subclasificacion === Number(id_subclasificacion);
     });
-    console.log('Subclasificacion', this.selectedSubclasificacion);
+    // console.log('Subclasificacion', this.selectedSubclasificacion);
   }
 
   onSelectIncidente(id_incidente: number){
@@ -234,12 +272,12 @@ export class ReporteComponent implements OnInit {
   // CALCULA LA DISTANCIA ENTRE DOS COORDENADAS 
   getDistanceBetweenTwoCoordinates(lat1, lon1, lat2, lon2) {
 
-    console.log('Està: ');
-    console.log('latitud', this.latitudActual);
-    console.log('longitud', this.longitudActual);
-    console.log('registro');
-    console.log('latitud', this.latitudComercio);
-    console.log('longitud', this.longitudComercio);
+    // console.log('Està: ');
+    // console.log('latitud', this.latitudActual);
+    // console.log('longitud', this.longitudActual);
+    // console.log('registro');
+    // console.log('latitud', this.latitudComercio);
+    // console.log('longitud', this.longitudComercio);
 
     var R = 6371; // Radio de la tierra en km
     var dLat = this.deg2rad(lat2-lat1); 
@@ -252,7 +290,7 @@ export class ReporteComponent implements OnInit {
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
     var d = R * c; // Distancia en km
 
-    console.log(d);
+    // console.log(d);
     if(d >= 1.0){
       this.metrosKilometros = "Kilometros";
     } else {

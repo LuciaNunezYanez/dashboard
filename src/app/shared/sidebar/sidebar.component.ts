@@ -50,6 +50,8 @@ export class SidebarComponent implements OnInit {
     this.route.navigate(['reporte', id_reporte]);
   }
 
+ 
+
   validarColor(id_usuario: number, estatus_actual: number) {
     if(id_usuario === this.idUsuarioNIT && estatus_actual === 1){
       return true;

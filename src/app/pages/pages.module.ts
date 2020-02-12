@@ -11,10 +11,7 @@ import { AgmCoreModule } from '@agm/core'
 // COMPONENTS
 import { PagesComponent } from './pages.component';
 import { ReporteComponent } from './reporte/reporte.component';
-import { ComercioComponent } from './comercio/comercio.component';
-import { MapaComponent } from './mapa/mapa.component';
 import { AudioComponent } from './audio/audio.component';
-import { ImagenesComponent } from './imagenes/imagenes.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReportesComponent } from './reportes/reportes.component';
 
@@ -23,16 +20,12 @@ import { ReportesComponent } from './reportes/reportes.component';
     declarations: [
         PagesComponent,
         ReporteComponent,
-        ComercioComponent,
-        MapaComponent,
         AudioComponent,
-        ImagenesComponent,
         ReportesComponent
     ],
     exports: [
         PagesComponent,
-        ReporteComponent,
-        ComercioComponent
+        ReporteComponent
     ],
     imports: [
         SharedModule,

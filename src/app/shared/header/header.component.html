@@ -48,7 +48,7 @@
                 </li>
                 <li class="nav-item hidden-xs-down search-box"> <a class="nav-link py-0 hidden-sm-down waves-effect waves-dark" [routerLink]="['/reportes']">Reportes</a>
                 </li>
-                <li class="nav-item hidden-xs-down search-box"> <a class="nav-link py-0 hidden-sm-down waves-effect waves-dark" href="javascript:void(0)">Cerrar sesion</a>
+                <li class="nav-item hidden-xs-down search-box"> <a class="nav-link py-0 hidden-sm-down waves-effect waves-dark" [routerLink]="['/login']" (click)="cerrarSesion()">Cerrar sesion</a>
                 </li>
                 <div class="alerta-status m-0 alert alert-success text-center" *ngIf="_ws.socketStatus">
                 </div>

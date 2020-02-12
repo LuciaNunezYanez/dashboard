@@ -15,6 +15,8 @@ export class HeaderComponent implements OnInit {
   }
 
   cerrarSesion() {
+    console.log('Cerró sesión');
     this._login.cerrarSesion();
+    
   }
 }

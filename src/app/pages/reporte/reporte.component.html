@@ -97,21 +97,6 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-6">
-                                            <input ngModel name="cierre" class="form-control  my-1" type="text" placeholder="Cierre" name="cierre" ngModel>
-                                        </div>
-                                        <div class="col-6">
-                                            <input list="unidades" class="form-control  my-1" type="text" placeholder="Unidad atendida" name="unidad" ngModel>
-                                            <datalist id="unidades"> 
-                                                <option value="Internet Explorer">
-                                                <option value="Firefox">
-                                                <option value="Google Chrome">
-                                                <option value="Opera">
-                                                <option value="Safari">
-                                            </datalist>
-                                        </div>
-                                    </div>
-                                    <div class="row">
                                         <!-- <div class="col-6">
                                             <select class="col-12 form-control" multiple>
                                                         <option value ="none">21:13:50 - Lorem ipsum dolor sit amet.</option>
@@ -119,17 +104,36 @@
                                                     </select>
                                         </div> -->
                                         <div class="col-12">
-                                            <textarea class="form-control" rows="2" placeholder="Notas" name="notas" ngModel></textarea>
-                                            <div class="row">
-                                                <!-- <div class="col-7">
-                                                    <button class="btn btn-info col-12 btn-sm">Agregar nota</button>
-                                                </div> -->
-                                                <div class="col-12 mb-1 text-center">
-                                                    <button class="btn btn-success" type="submit">Terminar reporte</button>
-                                                </div>
-                                            </div>
+                                            <textarea class="form-control" rows="2" placeholder="Descripción de la emergencia" name="notas" ngModel required></textarea>
+
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input ngModel name="cierre" class="form-control  my-1" type="text" placeholder="Conclusión" name="cierre" ngModel required>
+                                        </div>
+                                        <div class="col-6">
+                                            <input list="unidades" class="form-control  my-1" type="text" placeholder="Unidad atendida" name="unidad" ngModel required>
+                                            <datalist id="unidades"> 
+                                                <option value="Internet Explorer">
+                                                <option value="Firefox">
+                                                <option value="Google Chrome">
+                                                <option value="Opera">
+                                                <option value="Safari">
+                                            </datalist>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <!-- <div class="col-7">
+                                            <button class="btn btn-info col-12 btn-sm">Agregar nota</button>
+                                        </div> -->
+                                        <div class="col-12 mb-1 text-center">
+                                            <button class="btn btn-success" type="submit">Terminar reporte</button>
+                                        </div>
+                                    </div>
+
                                 </form>
                             </div>
 
