@@ -8,11 +8,11 @@
 
             <ul id="sidebarnav" *ngFor="let alerta of wsService.alertas; let i = index">
                 <!-- Rojo, el usuario que lo abra le pertecene-->
-                <li *ngIf="alerta.estatus_actual == 0" (click)="abrirPeticion(alerta.id_reporte, alerta.estatus_actual)"> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded label-themecolor pull-right">!</span></span></a></li>
+                <li *ngIf="alerta.estatus_actual == 0" (click)="abrirNuevaPeticion(alerta.id_reporte, alerta.estatus_actual)"> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded label-themecolor pull-right">{{alerta.botonazos}}</span></span></a></li>
                 <!-- Verde, le pertenece al usuario y se puede abrir-->
-                <li *ngIf="validarColor(alerta.id_user_cc, alerta.estatus_actual)" (click)="abrirPeticion(alerta.id_reporte, alerta.estatus_actual)"> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded badge-success pull-right">!</span></span></a></li>
+                <li *ngIf="validarColor(alerta.id_user_cc, alerta.estatus_actual)" (click)="abrirPeticion(alerta.id_reporte)"> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded badge-success pull-right">{{alerta.botonazos}}</span></span></a></li>
                 <!-- Amarillo, le pertenece a alguin mas y no se puede abrir-->
-                <li *ngIf="alerta.estatus_actual == 1 && idUsuarioNIT != alerta.id_user_cc"> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded badge-warning pull-right">!</span></span></a></li>
+                <li *ngIf="alerta.estatus_actual == 1 && idUsuarioNIT != alerta.id_user_cc"> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded badge-warning pull-right">{{alerta.botonazos}}</span></span></a></li>
             </ul>
         </nav>
     </div>

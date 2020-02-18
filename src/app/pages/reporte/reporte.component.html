@@ -176,7 +176,7 @@
                     </ol>
                     <div class="carousel-inner" role="listbox">
                         <div>
-                            <img class="img-fluid img-tam" src="../../../assets/images/no_results_found.png" alt="First slide">
+                            <img class="img-fluid img-tam" src="../../../assets/images/no_registrada.jpg" alt="First slide">
                         </div>
                     </div>
 
@@ -193,12 +193,12 @@
     <!-- MAPA -->
 
     <div class="col-12 col-md-6 mb-3">
-        <!-- <agm-map [latitude]="this.latitudComercio" [longitude]="this.longitudComercio" [zoom]="15" *ngIf="(this.latitudComercio != null && this.longitudComercio != null) || (this.latitudActual != 0.0 && this.longitudActual != 0.0)">
+        <!--<agm-map [latitude]="this.latitudComercio" [longitude]="this.longitudComercio" [zoom]="15" *ngIf="(this.latitudComercio != null && this.longitudComercio != null) || (this.latitudActual != 0.0 && this.longitudActual != 0.0)">
             <agm-marker [latitude]="this.latitudComercio" [longitude]="this.longitudComercio">
             </agm-marker>
             <agm-marker *ngIf="this.latitudActual != 0.0." [latitude]="this.latitudActual" [longitude]="this.longitudActual">
             </agm-marker>
-        </agm-map> -->
+        </agm-map>-->
         <div class="form-group row justify-content-end mr-2 mt-3" *ngIf="(this.latitudComercio != null && this.longitudComercio != null) && (this.latitudActual != 0.0 && this.longitudActual != 0.0)">
             <div class="col-4">
                 <input class="form-control" type="number" name="distancia" disabled [ngModel]="this.distancia">

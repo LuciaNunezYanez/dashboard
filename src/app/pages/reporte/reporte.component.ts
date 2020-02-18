@@ -17,9 +17,6 @@ import Swal from 'sweetalert2';
 })
 export class ReporteComponent implements OnInit {
 
-  idUsuarioNIT = 4; // Cambiar ID por el del usuario que se logeo
-
-
   private id_reporte:number = 0;
   public data_reporte: Alerta;
   public data_comercio: Comercio;
@@ -174,14 +171,14 @@ export class ReporteComponent implements OnInit {
   }
 
   guardarCampos( data ) {
-    const info = {
+    const dataReporte = {
       id_reporte: this.id_reporte, 
-      id_user_cc: this.idUsuarioNIT, 
       estatus_actual: 1, 
       tipo_incid: data.control.value.incidente, 
       descrip_emerg: data.control.value.notas, 
       cierre_conclusion: data.control.value.cierre, 
-      num_unidad: data.control.value.unidad
+      num_unidad: data.control.value.unidad,
+      token: this.auth.leerToken()
     };
 
     if(data.control.value.unidad.length === 0){
@@ -206,7 +203,7 @@ export class ReporteComponent implements OnInit {
     }
 
     if(data.valid && data.control.value.incidente != 0) {
-      this.alertasService.alertaCerrada(info)
+      this.alertasService.alertaCerrada(dataReporte)
     }
     
     // console.log( info );
@@ -215,7 +212,7 @@ export class ReporteComponent implements OnInit {
 
   generarRuta( ruta ) {
     // Enviar el codigo del usuario que tiene el reporte
-    const RUTA = `${environment.wsUrl}/${ruta}?token=${this.auth.leerToken()}&id_usuario_pertenece=20`;
+    const RUTA = `${environment.wsUrl}/${ruta}?token=${this.auth.leerToken()}`;
     return RUTA;
     
   }

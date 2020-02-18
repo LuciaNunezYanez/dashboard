@@ -143,7 +143,8 @@ export interface Alerta {
   id_corp?: number,
   num_unidad?: string,
   id_corporacion?: number,
-  tipo_corp?: string
+  tipo_corp?: string, 
+  botonazos?: number
 }
 
 export interface Comercio { 

@@ -18,7 +18,6 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
 
   usuario: Usuario = new Usuario();
-  successMessage = '';
   
   constructor(
       private router: Router,
@@ -72,24 +71,6 @@ export class LoginComponent implements OnInit {
         });
         // reporte
         this.router.navigate(['/']); 
-        // CONEXION A SOCKETS 
-        // const userLog = {
-        //     usuario: this.usuario.id, // email
-        //     nombre: 'DENISSE',  
-        //     apePat: 'PAT',  
-        //     apeMat: 'MAT',  
-        //     tipo: 1,  
-        //     depend: 'SSP', 
-        //     sexo: 'F',
-        //     sala: 'NIT'
-        // }
-        // this.alertasNIT.usuarioConectadoNIT(userLog);
-
-        // EL QUE HACE LA NAVEGACION ES EL NAVIGATE
-        // ESTE ES UN ARREGLO POR ESO SE COLOCA DENTRO DE LAS LLAVES
-        // this.router.navigate(['alertas']);
-        // this.router.navigate(['/alertas']);
-        // LAS 2 DE ARRIBA SON VARIANTES VALIDAS
       }
     }, (err) => {
       console.log(err);

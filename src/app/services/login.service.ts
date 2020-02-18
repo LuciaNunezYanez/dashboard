@@ -11,9 +11,11 @@ export class LoginService {
 
   url = environment.wsUrl;
   userToken: string;
+  idUsuarioNIT: string;
 
   constructor( private http: HttpClient) {
     this.leerToken();
+    this.leerIDUsuario();
   }
 
   logout() {
@@ -32,10 +34,12 @@ export class LoginService {
     return this.http.post(`${this.url}/login/`, body)
     .pipe(
       map( (resp: any) => {
-        // Guardar el token recibido
         if (resp.token) {
-          console.log(resp);
+          
+          // Guardar la información del usuario 
+          // resp.usuario
           this.guardarToken(resp.token);
+          this.guardarIDUsuario(resp.id_usuario);
         }
         return resp;
       })
@@ -67,15 +71,20 @@ export class LoginService {
   }
 
   // =========================================
-  // GUARDAR TOKEN
+  // GUARDAR 
   // =========================================
   private guardarToken( idToken: string ) {
     this.userToken = idToken;
     localStorage.setItem('token', idToken);
   }
 
+  private guardarIDUsuario ( idUsuario: string ) {
+    this.idUsuarioNIT = idUsuario;
+    localStorage.setItem('idUsuario', idUsuario);
+  }
+
   // =========================================
-  // ESTA AUTENTICADO
+  // ESTA AUTENTICADO (Validar la fecha del token)
   // =========================================
   estaAutenticado(): Boolean{
     return this.userToken.length > 2;
@@ -85,12 +94,12 @@ export class LoginService {
   // SIGUE DESARROLLAR EL CIERRE DE SESION
   // =========================================
   cerrarSesion() {
-    localStorage.removeItem('token'); // CREO 
-    // Eliminar token 
+    localStorage.removeItem('token');
+    localStorage.removeItem('idUsuario');
   }
 
   // =========================================
-  // LEER TOKEN
+  // LEER
   // =========================================
   leerToken() {
     if ( localStorage.getItem('token') ){
@@ -100,4 +109,14 @@ export class LoginService {
     }
     return this.userToken;
   }
+
+  leerIDUsuario() {
+    if( localStorage.getItem('idUsuario')){
+      this.idUsuarioNIT = localStorage.getItem('idUsuario');
+    } else{
+      this.idUsuarioNIT = '';
+    }
+    return this.idUsuarioNIT;
+  }
+
 }

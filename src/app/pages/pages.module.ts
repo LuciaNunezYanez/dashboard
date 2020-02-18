@@ -11,7 +11,6 @@ import { AgmCoreModule } from '@agm/core'
 // COMPONENTS
 import { PagesComponent } from './pages.component';
 import { ReporteComponent } from './reporte/reporte.component';
-import { AudioComponent } from './audio/audio.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReportesComponent } from './reportes/reportes.component';
 
@@ -20,7 +19,6 @@ import { ReportesComponent } from './reportes/reportes.component';
     declarations: [
         PagesComponent,
         ReporteComponent,
-        AudioComponent,
         ReportesComponent
     ],
     exports: [
@@ -31,10 +29,11 @@ import { ReportesComponent } from './reportes/reportes.component';
         SharedModule,
         PAGES_ROUTES,
         FormsModule,
-        BrowserModule,
-        AgmCoreModule.forRoot({
-          apiKey: 'AIzaSyCqxLlIIJcj2ItDwwu3FwliQmE3lPh_pw0'
-        }) 
+        BrowserModule
+        // AgmCoreModule.forRoot({
+        //   apiKey: 'AIzaSyCqxLlIIJcj2ItDwwu3FwliQmE3lPh_pw0'
+        // }
+        //) 
     ]
 })
 
