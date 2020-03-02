@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from '../environments/environment';
 import { FormsModule }   from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+
 
 
 // MODULOS
@@ -32,11 +34,12 @@ const config: SocketIoConfig = {
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     PagesModule,
     AppRoutingModule,
     FormsModule,
     SocketIoModule.forRoot(config),
-    HttpClientModule
+    HttpClientModule, 
   ],
   providers: [],
   bootstrap: [AppComponent]

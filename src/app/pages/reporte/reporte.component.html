@@ -1,51 +1,98 @@
 <div class="row">
-    <div class="col-12 col-md-6 height-fragment padre">
+    <div class="col-xl-6 col-lg-12 height-fragment padre">
         <div class="hijo">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card shadow-sm border">
+                    <div class="row" *ngIf="this.data_reporte.estatus_actual == 3">
+                        <div class="col-12">
+                            <div class="alert alert-info" role="alert">
+                                ¡El usuario canceló la alerta!
+                            </div>
+                        </div>
+                    </div>
 
-                        <!-- INFORMACIÓN DEL COMERCIO -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card shadow-sm border">
 
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-10 p-r-0">
-                                    <h5 class="font-light">Comercio: {{this.data_comercio?.nombre_comercio}}</h5>
-                                    <h6 class="text-muted">Telefono: {{this.data_comercio?.telefono_fijo}}</h6>
-                                    <h6 class="text-muted">{{this.data_comercio?.calle}} #{{this.data_comercio?.numero}} {{this.data_comercio?.colonia}}</h6>
-                                    <h6 class="text-muted">Entre calles: {{this.data_comercio?.entre_calle_1}} y {{this.data_comercio?.entre_calle_2}}</h6>
-                                    <h6 class="text-muted">C.P: {{this.data_comercio?.cp}}, {{this.data_comercio?.nombre_estado}}, {{this.data_comercio?.nombre_municipio}}</h6>
-                                    <h6 class="text-muted">Fachada: {{this.data_comercio?.fachada}}</h6>
+                                <!-- INFORMACIÓN DEL COMERCIO -->
+
+                                <div class="card-body">
+                                    <div class="row  align-items-end">
+                                        <div class="col-12 col-xl-7 p-r-0">
+                                            <h6 class="h6">Comercio: {{this.data_comercio?.nombre_comercio}}</h6>
+                                            <h6 class="text-muted">Teléfono: {{this.data_comercio?.telefono_fijo}}</h6>
+                                            <h6 class="text-muted">{{this.data_comercio?.calle}} #{{this.data_comercio?.numero}} {{this.data_comercio?.colonia}}</h6>
+                                            <h6 class="text-muted">Entre: {{this.data_comercio?.entre_calle_1}} y {{this.data_comercio?.entre_calle_2}}</h6>
+                                            <h6 class="text-muted">C.P: {{this.data_comercio?.cp}}, {{this.data_comercio?.nombre_estado}}, {{this.data_comercio?.nombre_municipio}}</h6>
+                                            <h6 class="text-muted">Fachada: {{this.data_comercio?.fachada}}</h6>
+                                        </div>
+                                        <div class="col-12 col-xl-5 text-left">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="text-right mb-2">
+                                                        <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modalComercio" data-whatever="@mdo"><i class="mdi mdi-store"></i></button>
+                                                        <!-- <h2><i class="mdi mdi-store"></i></h2> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h6 class="text-muted">No. Empleados: {{this.data_comercio?.num_empleados }}</h6>
+                                                    <h6 class="text-muted">Razón social: {{this.data_comercio?.razon_social}}</h6>
+                                                    <h6 class="text-muted">Giro: {{this.data_comercio?.giro}}</h6>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-2 text-right align-self-center">
-                                    <div>
-                                        <h2><i class="mdi mdi-store"></i></h2>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card shadow-sm border">
+
+                                <!-- INFORMACIÓN DEL USUARIO -->
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col p-r-0">
+                                            <h6 class="h6">{{this.data_usuario_comercio?.nombres_usuarios_app}} {{this.data_usuario_comercio?.apell_pat}} {{this.data_usuario_comercio?.apell_mat}}</h6>
+                                            <h6 class="text-muted">Teléfono: {{this.data_usuario_comercio?.tel_movil}}</h6>
+                                        </div>
+                                        <div class="col text-right align-self-center">
+                                            <div>
+                                                <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modalUsuario" data-whatever="@mdo"><i class="mdi mdi-account"></i></button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
+
                 <div class="col-md-12">
                     <div class="card shadow-sm border">
-
-                        <!-- INFORMACIÓN DEL USUARIO -->
-
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col p-r-0">
-                                    <h5 class="font-light">{{this.data_usuario_comercio?.nombres_usuarios_app}} {{this.data_usuario_comercio?.apell_pat}} {{this.data_usuario_comercio?.apell_mat}}</h5>
-                                    <h6 class="text-muted">Telefono: {{this.data_usuario_comercio?.tel_movil}}</h6>
-                                </div>
-                                <div class="col text-right align-self-center">
-                                    <div>
-                                        <h2><i class="mdi mdi-account"></i></h2>
-                                    </div>
+                            <h6 class="h6 text-center"> Activaciones</h6>
+                            <div class="row justify-content-center">
+                                <!-- <div class="col-lg-2 col-xs-4 col-md-3 m-1 alert alert-secondary text-center" *ngFor="let activ of this.wsService.activaciones">
+                                    <h6>{{ activ.fecha_hora_activacion | date: 'hh:mm:ss' }}</h6>
+
+                                </div> -->
+                                <div class="col-xl-4 col-xlg-2 col-lg-3 col-sm-6 col-xs-12  m-1 alert alert-secondary text-center" *ngFor="let activ of this.wsService.activaciones">
+                                    {{ activ.fecha_hora_activacion | date: 'hh:mm:ss' }}
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
+
                 <div class="col-md-12">
                     <div class="card shadow-sm border">
                         <div class="card-body">
@@ -54,9 +101,9 @@
 
                             <div class="row">
                                 <div class="col-6 p-r-0">
-                                    <h5 class="font-light">Folio: 00{{ this.data_reporte?.id_reporte}}</h5>
+                                    <h6 class="h6 text-danger">Folio: 00{{ this.data_reporte?.id_reporte}}</h6>
                                 </div>
-                                <div class="col-6 p-r-0">
+                                <div class="col-6 mr-0">
                                     <h5 class="font-light text-right">{{ this.data_reporte?.fecha_hora_ataq | date:'dd-MM-yyyy hh:mm:ss'}}</h5>
                                 </div>
                             </div>
@@ -96,7 +143,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row mt-1">
                                         <!-- <div class="col-6">
                                             <select class="col-12 form-control" multiple>
                                                         <option value ="none">21:13:50 - Lorem ipsum dolor sit amet.</option>
@@ -125,7 +172,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="row">
+                                    <div class="row mt-1">
                                         <!-- <div class="col-7">
                                             <button class="btn btn-info col-12 btn-sm">Agregar nota</button>
                                         </div> -->
@@ -141,10 +188,13 @@
                         </div>
                     </div>
                 </div>
+
+
+
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-6 height-fragment padre">
+    <div class="col-xl-6 col-lg-12 height-fragment padre">
         <div class="hijo">
 
             <!-- CAROUSEL DE IMAGENES -->
@@ -192,26 +242,46 @@
 
     <!-- MAPA -->
 
-    <div class="col-12 col-md-6 mb-3">
-        <!--<agm-map [latitude]="this.latitudComercio" [longitude]="this.longitudComercio" [zoom]="15" *ngIf="(this.latitudComercio != null && this.longitudComercio != null) || (this.latitudActual != 0.0 && this.longitudActual != 0.0)">
+    <div class="col-xl-6 col-lg-12 mb-3">
+        <!-- <agm-map [latitude]="this.latitudComercio" [longitude]="this.longitudComercio" [zoom]="15" *ngIf="(this.latitudComercio != null && this.longitudComercio != null) || (this.latitudActual != 0.0 && this.longitudActual != 0.0)">
             <agm-marker [latitude]="this.latitudComercio" [longitude]="this.longitudComercio">
+                <agm-info-window>
+                    <h6 class="h5 text-success">Ubicación registrada</h6>
+                    <p>
+                        Calle Abasolo #1040 Col. IV Centenario
+                    </p>
+                    <div>
+                        <button class="btn btn-sm btn-success">Copiar dirección</button>
+                    </div>
+
+                </agm-info-window>
             </agm-marker>
             <agm-marker *ngIf="this.latitudActual != 0.0." [latitude]="this.latitudActual" [longitude]="this.longitudActual">
+                <agm-info-window>
+                    <h6 class="h5 text-danger">Ubicación actual</h6>
+                    <p>
+                        Calle Abasolo #1040 Col. IV Centenario
+                    </p>
+                    <div>
+                        <button class="btn btn-sm btn-danger">Copiar dirección</button>
+                    </div>
+
+                </agm-info-window>
             </agm-marker>
-        </agm-map>-->
+        </agm-map> -->
         <div class="form-group row justify-content-end mr-2 mt-3" *ngIf="(this.latitudComercio != null && this.longitudComercio != null) && (this.latitudActual != 0.0 && this.longitudActual != 0.0)">
             <div class="col-4">
-                <input class="form-control" type="number" name="distancia" disabled [ngModel]="this.distancia">
+                <input class="form-control" type="number" name="distancia" disabled [ngModel]="_localizacion.distancia">
             </div>
-            <p class="col-2 col-form-label text-white bg-success" *ngIf="this.metrosKilometros === 'Metros'">Metros</p>
-            <p class="col-2 col-form-label text-white bg-danger" *ngIf="this.metrosKilometros === 'Kilometros'">Km</p>
+            <p class="col-2 col-form-label text-white bg-success" *ngIf="_localizacion.metrosKilometros === 'Metros'">Metros</p>
+            <p class="col-2 col-form-label text-white bg-danger" *ngIf="_localizacion.metrosKilometros === 'Kilometros'">Km</p>
             <!-- <div class="p-3 mb-2 bg-danger text-white">{{this.metrosKilometros}}</div> -->
         </div>
     </div>
 
     <!-- TABLA DE AUDIOS  -->
 
-    <div class="col-12 col-md-6 mb-3">
+    <div class="col-xl-6 col-lg-12 mb-3">
         <div>
             <div class="table-responsive bg-white">
                 <table id="demo-foo-row-toggler" class="table table-bordered" data-toggle-column="first">
@@ -233,6 +303,160 @@
 
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="modalComercio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="h5 modal-title" id="exampleModalLabel">Datos del comercio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Nombre del comercio:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.nombre_comercio}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Teléfono fijo:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.telefono_fijo}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Calle:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.calle}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Número:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.numero}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Colonia/Fraccionamiento:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.colonia}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Código postal:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.cp}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Entre calle #1:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.entre_calle_1}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Entre calle #2:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.entre_calle_2}}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Localidad:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.nombre_localidad}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Municipio:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.nombre_municipio}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Estado:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.nombre_estado}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-form-label">Razón social:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.razon_social}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-form-label">Giro:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.giro}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-form-label">Número de empleados:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.num_empleados}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Fachada del comercio:</label>
+                                <textarea class="form-control" id="message-text" rows="4" value="{{this.data_comercio?.fachada}}" disabled></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="modalUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="h5 modal-title" id="exampleModalLabel">Datos del usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Nombre (s):</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.nombres_usuarios_app}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Apellido Paterno:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.apell_pat}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Apellido Materno:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.apell_mat}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Teléfono móvil:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.tel_movil}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Sexo:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.sexo_app}}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Fecha de nacimiento:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.fecha_nacimiento | date: 'dd-MM-yyyy'}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Tipo de sangre:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.tipo_sangre}}" disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-form-label">Padecimientos:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.padecimientos}}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Alergias:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.alergias}}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

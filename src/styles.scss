@@ -50,3 +50,10 @@ tbody {
 .hijo {
     display: flex;
 }
+
+.containter-scrollv {
+    height: 100px;
+    width: 100%;
+    overflow-x: scroll;
+    white-space: nowrap;
+}

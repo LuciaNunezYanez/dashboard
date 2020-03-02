@@ -33,4 +33,8 @@ export class SharedService {
   getDataCoordenadas( id_alerta ) {
     return this.http.get(`${ this.URL_API }/coordenadas/${ id_alerta }`);
   }
+
+  getDataActivaciones ( id_alerta ) {
+    return this.http.get(`${this.URL_API}/activaciones/${id_alerta}`);
+  }
 }

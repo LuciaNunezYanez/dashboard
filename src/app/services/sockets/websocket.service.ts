@@ -11,6 +11,7 @@ export class WebsocketService {
   multimedia = [];
   imagenes = [];
   audios = [];
+  activaciones = [];
   valor = false;
 
   constructor( private socket: Socket ) {
@@ -64,8 +65,13 @@ export class WebsocketService {
   alertasActualizadas(){
     this.socket.on('alertasActualizadas', (alertasActualizadas) => {
       this.alertas = alertasActualizadas.alertas;
-      // console.log('Las alertas actualizadas son: ', alertasActualizadas);
+      console.log('Las alertas actualizadas son: ', alertasActualizadas);
     });
+  }
+
+  public agregarMultimediaService(data: any){
+    this.multimedia.push(data);
+    this.filtrarMultimedia();
   }
 
   escucharNuevaImagen(idReporte: number){
@@ -80,11 +86,6 @@ export class WebsocketService {
     this.socket.removeListener(`nuevaImagen${idReporte}`);
   }
 
-  public agregarMultimediaService(data: any){
-    this.multimedia.push(data);
-    this.filtrarMultimedia();
-  }
-
   escucharNuevoAudio(idReporte: number){
     this.socket.on(`nuevoAudio${idReporte}`, (data) => {
       this.agregarMultimediaService(data);
@@ -92,6 +93,11 @@ export class WebsocketService {
     })
   }
 
+  removeListenerNuevoAudio(idReporte: number){
+    this.socket.removeListener(`nuevoAudio${idReporte}`);
+  }
+
+  // No esta guardando en ningun lado la geolocalización
   escucharNuevaGeolocalizacion(idReporte: number){
     this.socket.on(`nuevaGeolocalizacion${idReporte}`, (data) => {
       console.log('Nueva geolocalizacion; ', idReporte);
@@ -99,14 +105,24 @@ export class WebsocketService {
     })
   }
 
-  removeListenerNuevoAudio(idReporte: number){
-    this.socket.removeListener(`nuevoAudio${idReporte}`);
-  }
-
   removeListenerGeolocalizacion(idReporte: number){
     this.socket.removeListener(`nuevaGeolocalizacion${idReporte}`);
   }
 
+  escucharNuevoBotonazos(idReporte: number){
+    this.socket.on(`listaBotonazos${idReporte}`, (data) => {
+      this.activaciones = data.activaciones;
+      // Guardar data en Array de Botonazo
+      console.log('this.activaciones = ');
+      console.log(this.activaciones);
+    });
+  }
+
+  removeListenerBotonazos(idReporte: number){
+    this.socket.removeListener(`listaBotonazos${idReporte}`);
+    this.activaciones = [];
+  }
+  
   filtrarMultimedia(){
     this.imagenes = this.multimedia.filter(dato => dato.tipo_archivo === 'imagen');
     this.audios = this.multimedia.filter(dato => dato.tipo_archivo === 'audio')

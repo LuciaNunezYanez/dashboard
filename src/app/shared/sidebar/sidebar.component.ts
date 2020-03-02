@@ -45,7 +45,6 @@ abrirNuevaPeticion(id_reporte: number, estatus_actual: number){
     id_user_cc: this.idUsuarioNIT,
     estatus_actual
   }
-
   this.alertasService.alertaAbierta(data);
   this.route.navigate(['reporte', id_reporte]);
 }
@@ -53,7 +52,6 @@ abrirNuevaPeticion(id_reporte: number, estatus_actual: number){
 abrirPeticion(id_reporte: number){
   this.route.navigate(['reporte', id_reporte]);
 }
-
 
 
 validarColor(id_usuario: number, estatus_actual: number) {

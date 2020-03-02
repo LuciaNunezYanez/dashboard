@@ -6,9 +6,10 @@ import { mostrarAlertaError } from '../../utilities/utilities';
 import { environment } from '../../../environments/environment';
 import { LoginService } from '../../services/login.service';
 import { IncidentesService } from '../..//services/reporte/incidentes.service';
-import { ThrowStmt } from '@angular/compiler';
 import { AlertasNitService } from '../../services/sockets/alertas.service';
 import Swal from 'sweetalert2';
+import { LocalizacionService } from '../../services/localizacion/localizacion.service';
+import { MapsAPILoader, Geocoder, GeocoderRequest } from '@agm/core';
 
 @Component({
   selector: 'app-reporte',
@@ -51,15 +52,16 @@ export class ReporteComponent implements OnInit {
   latitudActual: number = 0.0;
   longitudActual: number = 0.0;
   fechaCoordenadas: String = "";
-  distancia: number = 0.0;
-  metrosKilometros: any = "";
+  //distancia: number = 0.0;
+  //metrosKilometros: any = "";
 
-  constructor(private routerActive: ActivatedRoute, 
+  constructor(private routerActive: ActivatedRoute,
     private obtener: SharedService, 
     private auth: LoginService,
     public wsService: WebsocketService, 
     private incidentesService: IncidentesService, 
     private alertasService: AlertasNitService, 
+    public _localizacion: LocalizacionService,
     private route: Router) {
         
     // OBTENER LA LISTA DE INCIDENTES DE LA BD 
@@ -88,16 +90,21 @@ export class ReporteComponent implements OnInit {
           mostrarAlertaError('Folio de reporte incorrecto', 'Verifique sus datos');
         }
         else {
+
+          console.log(this.data_reporte);
+
           // Cancelar la suscripción anterior
           this.wsService.removeListenerNuevaImagen(this.ultima_suscripcion);
           this.wsService.removeListenerNuevoAudio(this.ultima_suscripcion);    
-          this.wsService.removeListenerGeolocalizacion(this.ultima_suscripcion);      
+          this.wsService.removeListenerGeolocalizacion(this.ultima_suscripcion);
+          this.wsService.removeListenerBotonazos(this.ultima_suscripcion);      
 
           // Suscribirse a los cambios de una imagen y audio
           this.ultima_suscripcion = this.id_reporte;
           this.wsService.escucharNuevaImagen(this.id_reporte);
           this.wsService.escucharNuevoAudio(this.id_reporte);
           this.wsService.escucharNuevaGeolocalizacion(this.id_reporte);
+          this.wsService.escucharNuevoBotonazos(this.id_reporte);
 
           this.cargarDatosReporte(); 
           // Traer los datos del comercio (2)
@@ -108,7 +115,6 @@ export class ReporteComponent implements OnInit {
               this.data_comercio = data_comercio.comercio[0];
               this.latitudComercio = this.data_comercio.lat_dir;
               this.longitudComercio = this.data_comercio.lgn_dir;
-              // console.log("LATITUD COM: " + this.latitudComercio + " LONGITUD COM: " + this.longitudComercio);
               // console.log(this.data_comercio);
             });
           }
@@ -119,9 +125,17 @@ export class ReporteComponent implements OnInit {
           } else {
             this.obtener.getDataUsuarioComercio(this.id_user_app).subscribe( (data_usuario_comercio  : any) => {
               this.data_usuario_comercio = data_usuario_comercio.resp;
-              // console.log('Los datos del comercio son:', this.data_usuario_comercio);
             });
           }
+          
+          // Obtener el número de activaciones por reporte
+          this.obtener.getDataActivaciones(this.id_reporte).subscribe( (data_activaciones: any) => {
+            if(data_activaciones.ok){
+              this.wsService.activaciones = [];
+              this.wsService.activaciones = data_activaciones.activaciones;
+              console.log(`Las activaciones del reporte ${this.id_reporte} son:`, this.wsService.activaciones );
+            }  
+          });
 
           // Traer los datos de la multimedia (4)
           this.obtener.getDataMultimedia(this.id_reporte).subscribe( (data_multimedia: any) => {
@@ -135,8 +149,8 @@ export class ReporteComponent implements OnInit {
             this.longitudActual = 0.0;
             this.latitudActual = 0.0;
             this.fechaCoordenadas = "";
-            this.distancia = 0.0;
-            this.metrosKilometros = "";
+            _localizacion.distancia = 0.0;
+            _localizacion.metrosKilometros = "";
 
             //Traer nuevos valores
             if(data_coordenadas.id_coord_reporte){
@@ -148,7 +162,7 @@ export class ReporteComponent implements OnInit {
                 // console.log('LONGITUD ACTUAL: ', this.longitudActual);
                 // console.log('FECHA COORDENADAS: ', this.fechaCoordenadas);
 
-                this.distancia = this.getDistanceBetweenTwoCoordinates(this.latitudComercio, this.longitudComercio, this.latitudActual, this.longitudActual);
+                _localizacion.distancia = _localizacion.getDistanceBetweenTwoCoordinates(this.latitudComercio, this.longitudComercio, this.latitudActual, this.longitudActual);
               }
             }
             
@@ -217,6 +231,8 @@ export class ReporteComponent implements OnInit {
     
   }
 
+
+
   // COMIENZA LOGICA PARA SELECTED ANIDADOS
   // COMIENZA LOGICA PARA SELECTED ANIDADOS
   // COMIENZA LOGICA PARA SELECTED ANIDADOS
@@ -261,13 +277,13 @@ export class ReporteComponent implements OnInit {
 
   onSelectIncidente(id_incidente: number){
     this.selectedIncidente = id_incidente;
-    console.log('El incidente es: ', this.selectedIncidente);
+    // console.log('El incidente es: ', this.selectedIncidente);
   }
  
   // TERMINA LOGICA PARA SELECTED ANIDADOS
 
   // CALCULA LA DISTANCIA ENTRE DOS COORDENADAS 
-  getDistanceBetweenTwoCoordinates(lat1, lon1, lat2, lon2) {
+  /*getDistanceBetweenTwoCoordinates(lat1, lon1, lat2, lon2) {
 
     // console.log('Està: ');
     // console.log('latitud', this.latitudActual);
@@ -299,5 +315,5 @@ export class ReporteComponent implements OnInit {
   
   deg2rad(deg) {
     return deg * (Math.PI/180)
-  }
+  }*/
 }

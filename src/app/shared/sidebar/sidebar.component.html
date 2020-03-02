@@ -13,6 +13,9 @@
                 <li *ngIf="validarColor(alerta.id_user_cc, alerta.estatus_actual)" (click)="abrirPeticion(alerta.id_reporte)"> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded badge-success pull-right">{{alerta.botonazos}}</span></span></a></li>
                 <!-- Amarillo, le pertenece a alguin mas y no se puede abrir-->
                 <li *ngIf="alerta.estatus_actual == 1 && idUsuarioNIT != alerta.id_user_cc"> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded badge-warning pull-right">{{alerta.botonazos}}</span></span></a></li>
+                <!-- Azul, el usuario canceló la alerta-->
+                <li *ngIf="alerta.estatus_actual == 3" (click)="abrirPeticion(alerta.id_reporte)"> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded badge-info pull-right">{{alerta.botonazos}}</span></span></a></li>
+
             </ul>
         </nav>
     </div>

@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'
-
 import { SharedModule } from '../shared/shared.module';
 
 // ROUTES
 import { PAGES_ROUTES } from './pages.routes';
-import { AgmCoreModule } from '@agm/core'
 
 
 // COMPONENTS
@@ -33,7 +31,7 @@ import { ReportesComponent } from './reportes/reportes.component';
         // AgmCoreModule.forRoot({
         //   apiKey: 'AIzaSyCqxLlIIJcj2ItDwwu3FwliQmE3lPh_pw0'
         // }
-        //) 
+        // ) 
     ]
 })
 
