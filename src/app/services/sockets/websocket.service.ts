@@ -1,5 +1,10 @@
+import { debugOutputAstAsTypeScript } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
+import { SidebarComponent } from 'src/app/shared/sidebar/sidebar.component';
+import { LoginService } from '../login.service';
+import { NotificationDesktopService } from '../notification/notification-desktop.service';
+import { UsuariosNitService } from '../usuarios/usuarios-nit.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,29 +12,80 @@ import { Socket } from 'ngx-socket-io';
 export class WebsocketService {
 
   public socketStatus = false;
+  private socketStatusAnt;
+  private cont = 0;
+
   alertas: Alerta[] = [];
   multimedia = [];
   imagenes = [];
   audios = [];
+  videos = [];
   activaciones = [];
   valor = false;
+  estatusAlerta = 0;
 
-  constructor( private socket: Socket ) {
+  audio;
+
+  num_alertas_viejas: number = 0;
+  num_alertas_nuevas: number = 0;
+
+  latitudActual: number = 0.0;
+  longitudActual: number = 0.0;
+  tipo_ubicacion: string = '';
+
+  ruta_nueva_alerta: string = "../../../assets/sounds/sonido_alarma_corto.mp3";
+  ruta_nuevo_botonazo: string = "../../../assets/sounds/sonido_botonazo.mp3"
+
+  constructor( private socket: Socket, private _notification: NotificationDesktopService) {
     this.checkStatus();
     this.escucharCambioUsuariosNIT();
+    //this.alertasActualizadas();
     this.alertas = [];
   }
 
   // Verificar el estatus del servidor
   checkStatus() {
+    console.log('CHECANDO ESTATUS');
     this.socket.on('connect', () => {
+      // window.location.reload();
+      if(this.cont === 1)
+        window.location.reload();
+      this.socketStatusAnt = this.socketStatus;
       this.socketStatus = true;
+      this.alertasActualizadas();
+      // if(this.socketStatusAnt === false && this.socketStatus){
+      //   window.location.reload();
+      //   this.socketStatusAnt = true;
+      // }
+      
     });
 
     this.socket.on('disconnect', () => {
+      this.socketStatusAnt = this.socketStatus;
       this.socketStatus = false;
+      if(this.cont != 1)
+        this.cont = 1;
+      
+      // window.location.reload();
     });
   }
+
+  removeCheckStatus(){
+    console.log('CANCELÉ SUCRIPCION A: checkStatus');
+    this.socket.removeListener('connect');
+    this.socket.removeListener('disconnect');
+  }
+
+  // enviarLogin(){
+  //   // Volver a enviar Login 
+  //     let token_encriptado = this.auth.leerToken();
+  //     var userLog = {
+  //       token: token_encriptado,
+  //       idEstacion: this.auth.leerEstacion(),
+  //       sala: this.auth.leerSala()
+  //     }
+  //     this.usuariosService.usuarioConectadoNIT(userLog);
+  // }
 
   emitirAlerta(evento: string, payload?: any, callback?: Function) {
     this.socket.emit(evento, payload, callback);
@@ -43,7 +99,7 @@ export class WebsocketService {
   // Vulnerabilidad 
   escucharCambioUsuariosNIT() {
     this.socket.on('listaUsuariosNIT', function( listaUsuariosNITActualizada ){
-      console.log(listaUsuariosNITActualizada);
+      // console.log(listaUsuariosNITActualizada);
     });
   }
 
@@ -55,18 +111,32 @@ export class WebsocketService {
   */ 
   // Ya no se va a utilizar 
   escucharNuevaAlerta() {
-    this.socket.on('alertaAgregada', ( alertaAgregada ) => {
-      console.log('La alerta agregada es: ', alertaAgregada);  
+    this.socket.on('alertaAgregada', ( alertaAgregada ) => { 
       this.alertas.push(alertaAgregada);
       return alertaAgregada;
     })
   }
 
   alertasActualizadas(){
-    this.socket.on('alertasActualizadas', (alertasActualizadas) => {
+    console.log('SUSCRIPCION A ', 'alertasActualizadas' + localStorage.getItem('estacion'));
+    this.socket.on('alertasActualizadas'+ localStorage.getItem('estacion'), (alertasActualizadas) => {   
+      // console.log('A A <<---------'); 
       this.alertas = alertasActualizadas.alertas;
-      console.log('Las alertas actualizadas son: ', alertasActualizadas);
+      this.num_alertas_viejas = this.num_alertas_nuevas;
+      this.num_alertas_nuevas = this.alertas.length;
+      // console.log('Alertas viejas: ', this.num_alertas_viejas);
+      // console.log('Alertas nuevas: ', this.num_alertas_nuevas);
+
+      if(this.num_alertas_nuevas > this.num_alertas_viejas){
+        this.reproducirAudio(this.ruta_nueva_alerta);
+        this._notification.mostrarNotificacion("ALERTA DE PÁNICO", "Nueva alerta recibida", "https://pbs.twimg.com/profile_images/2510152567/mqqyay4mvor5y9fnkf8k_400x400.gif");
+      }
     });
+  }
+
+  removeListenerAlertasActualizadas(){
+    console.log('CANCELÉ SUCRIPCION A: alertasActualizadas'+localStorage.getItem('estacion'));
+    this.socket.removeListener('alertasActualizadas'+localStorage.getItem('estacion'));
   }
 
   public agregarMultimediaService(data: any){
@@ -77,7 +147,6 @@ export class WebsocketService {
   escucharNuevaImagen(idReporte: number){
     this.socket.on(`nuevaImagen${idReporte}`, (data) => {
       this.agregarMultimediaService(data);
-      // console.log('Se recibió nueva imagen', data);
       this.valor = true;
     })
   }
@@ -97,11 +166,27 @@ export class WebsocketService {
     this.socket.removeListener(`nuevoAudio${idReporte}`);
   }
 
+  escucharNuevoVideo(idReporte: number){
+    this.socket.on(`nuevoVideo${idReporte}`, (data) => {
+      // console.log('LLEGÓ UN VIDEO');
+      // console.log(data);
+      const videos: any[] = data.videos;
+      this.videos = videos.filter(dato => dato.tipo_archivo === 'video');
+      // console.log(this.videos);
+    });
+  }
+
+  removeListenerNuevoVideo(idReporte: number){
+    this.socket.removeListener(`nuevoVideo${idReporte}`);
+  }
+
   // No esta guardando en ningun lado la geolocalización
   escucharNuevaGeolocalizacion(idReporte: number){
     this.socket.on(`nuevaGeolocalizacion${idReporte}`, (data) => {
-      console.log('Nueva geolocalizacion; ', idReporte);
-      console.log(data);
+      this.latitudActual = data.lat_coord_reporte;
+      this.longitudActual = data.lng_coord_reporte;
+      this.tipo_ubicacion = data.tipo_ubicacion;
+      console.log('EH RECIBIDO NUEVA GEOLOCALIZACIÓN');
     })
   }
 
@@ -112,10 +197,21 @@ export class WebsocketService {
   escucharNuevoBotonazos(idReporte: number){
     this.socket.on(`listaBotonazos${idReporte}`, (data) => {
       this.activaciones = data.activaciones;
-      // Guardar data en Array de Botonazo
-      console.log('this.activaciones = ');
-      console.log(this.activaciones);
+      this.reproducirAudio(this.ruta_nuevo_botonazo);
     });
+  }
+
+  escucharAlertaCancelada(idReporte: number){
+    this.socket.on(`alertaCancelada${idReporte}`, (data) => {
+      if(data.estatus){
+        this.estatusAlerta = data.estatus;
+      }
+    });
+  }
+
+  removeListenerAlertaCancelada(idReporte: number){
+    this.socket.removeListener(`alertaCancelada${idReporte}`);
+    this.estatusAlerta = 0;
   }
 
   removeListenerBotonazos(idReporte: number){
@@ -125,7 +221,8 @@ export class WebsocketService {
   
   filtrarMultimedia(){
     this.imagenes = this.multimedia.filter(dato => dato.tipo_archivo === 'imagen');
-    this.audios = this.multimedia.filter(dato => dato.tipo_archivo === 'audio')
+    this.audios = this.multimedia.filter(dato => dato.tipo_archivo === 'audio');
+    this.videos = this.multimedia.filter(dato => dato.tipo_archivo === 'video');
     // console.log('Mi multimedia es: ', this.multimedia);
     // console.log('Array imagenes: ', this.imagenes);
     // console.log('Array audios: ', this.audios);
@@ -137,6 +234,22 @@ export class WebsocketService {
     });
 
     return alerta;
+  }
+
+  reproducirAudio(ruta: string){
+    const audio = new Audio();
+    audio.src = ruta;
+    audio.muted = false;
+    audio.load();
+    audio.play().then( () => {
+      console.log('Reproducido con exito');
+    }).catch( (err)=>{
+      console.log("No se pudo repducir: ", err);
+    });;
+  }
+
+  pausarAudio(){
+    this.audio.pause();
   }
 
 }
@@ -160,7 +273,13 @@ export interface Alerta {
   num_unidad?: string,
   id_corporacion?: number,
   tipo_corp?: string, 
-  botonazos?: number
+  botonazos?: number,
+
+  tipo_incid_usuario?: string, 
+  cuerpo_emerg_usuario?: string, 
+  descrip_emerg_usuario?: string, 
+  quien_emergencia?: string,
+  abrev_grupo?: string
 }
 
 export interface Comercio { 
@@ -242,4 +361,27 @@ export interface Multimedia {
   tipo_archivo: string,
   ruta: string,
   id_reporte_mult: number
+}
+
+
+export interface DatosMedicos {
+  id_dato_medico: number, 
+  habla: number,
+  escucha: number,
+  lee: number,
+  escribe: number,
+  habla_LSM: number,
+  toma_medicamentos: string, 
+  peso: string, 
+  estatura: string, 
+  senas_particulares: string  
+
+}
+
+export interface ContactoEmergencia {
+  id_contacto_emergencia?: number, 
+  id_usuario_app_emergencia?: number, 
+  nombre_contacto_emerg: string,
+  telefono_contacto_emerg: string, 
+  parentezco_contacto_emerg: string
 }

@@ -1,0 +1,15 @@
+.img-tam {
+    height: 80%;
+    width: 70vh;
+}
+
+
+/* Estilos para el mapa */
+
+agm-map {
+    height: 100%;
+}
+
+height-mapa {
+    height: 100%;
+}

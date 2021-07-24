@@ -3,9 +3,13 @@ import { Component, OnInit } from '@angular/core';
 // Servicios 
 import { WebsocketService, Alerta } from '../../services/sockets/websocket.service';
 import { AlertasNitService } from '../../services/sockets/alertas.service';
-import { UsuariosNitService, Usuario } from '../../services/sockets/usuarios-nit.service';
+import { UsuariosNitService, Usuario } from '../../services/usuarios/usuarios-nit.service';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
+import { SwPush }  from  '@angular/service-worker';
+
+const VAPID_PUBLIC = 'BOa5kTrF7tS_ix4l2Mglhq1XQJK-mg4u7xfxKoFimw4dCYeOV8kMybuzD0W1aHjQr2QJcfLyJBs9XZEHKpN-zk8';
+
 
 @Component({
   selector: 'app-sidebar',
@@ -22,9 +26,10 @@ constructor(public wsService: WebsocketService, // VERIFICA LA CONEXION AL SERVI
             private alertasService: AlertasNitService,
             private usuariosService: UsuariosNitService,
             private auth: LoginService,
-            private route: Router) {
+            private route: Router,
+            _swPush: SwPush) {
 
-  this.wsService.alertasActualizadas();
+  // this.wsService.alertasActualizadas();
   this.alertas = [];
  }
 
@@ -33,17 +38,22 @@ ngOnInit() {
   this.idUsuarioNIT = Number.parseInt(this.auth.leerIDUsuario());
   var userLog = {
     token: token_encriptado,
-    sala: 'NIT'
+    idEstacion: this.auth.leerEstacion(),
+    sala: this.auth.leerSala()
   }
   //Método de uso temporal
+  this.wsService.alertasActualizadas();
   this.usuariosService.usuarioConectadoNIT(userLog);
 }
 
-abrirNuevaPeticion(id_reporte: number, estatus_actual: number){
+abrirNuevaPeticion(id_reporte: number, estatus_actual: number, nuevo_estatus: number){
+  
   const data = {
     id_reporte, 
     id_user_cc: this.idUsuarioNIT,
-    estatus_actual
+    estatus_actual,
+    nuevo_estatus: nuevo_estatus,
+    idEstacion: this.auth.leerEstacion()
   }
   this.alertasService.alertaAbierta(data);
   this.route.navigate(['reporte', id_reporte]);

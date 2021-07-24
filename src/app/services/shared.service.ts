@@ -37,4 +37,21 @@ export class SharedService {
   getDataActivaciones ( id_alerta ) {
     return this.http.get(`${this.URL_API}/activaciones/${id_alerta}`);
   }
+
+  getDireccionComercio(id_comercio: number){
+    return this.http.get(`${this.URL_API}/direccion/${id_comercio}`);
+  }
+
+  getDatosMedicos(id_medico: number){
+    return this.http.get(`${this.URL_API}/datosmedicos/${id_medico}`);
+  }
+
+  getContactoEmergencia(id_usuario: number){
+    return this.http.get(`${this.URL_API}/contactoemerg/${id_usuario}`);
+  }
+
+  sendMessage(id_usuario: number, titulo: string, descripcion: string){
+    console.log('SEND MESSAGE');
+    return this.http.post(`${this.URL_API}/mensajes/${id_usuario}`, {titulo, descripcion});
+  }
 }

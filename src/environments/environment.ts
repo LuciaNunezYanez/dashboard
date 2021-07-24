@@ -4,9 +4,12 @@
 
 export const environment = {
   production: false,
-  // wsUrl: 'http://localhost:3000'
-  // wsUrl: 'http://192.168.43.208:3000'
-  wsUrl: 'http://10.11.124.205:3000'
+  // wsUrl: 'http://localhost:8888',
+  API_KEY: 'AIzaSyCqxLlIIJcj2ItDwwu3FwliQmE3lPh_pw0',
+  // wsUrl: 'http://192.168.0.11:8888',
+  wsUrl: 'http://10.11.127.70:8888',
+  urlNotification: 'https://getbootstrap.com/docs/5.0/content/typography/',
+  // wsUrl: 'http://10.11.118.91:8888'
   // wsUrl: 'http://10.11.112.166:3000'
   //wsUrl: 'https://boton-panico.herokuapp.com'
 };

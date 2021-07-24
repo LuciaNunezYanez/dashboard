@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm} from '@angular/forms';
 
-import { Usuario } from '../services/sockets/usuarios-nit.service';
+import { Usuario } from '../services/usuarios/usuarios-nit.service';
 import { LoginService } from '../services/login.service';
 
 import Swal from 'sweetalert2';

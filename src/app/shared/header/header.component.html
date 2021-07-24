@@ -1,56 +1,23 @@
-<!-- ============================================================== -->
-<!-- Topbar header - style you can find in pages.scss -->
-<!-- ============================================================== -->
 <header class="topbar">
-    <nav class="navbar top-navbar navbar-expand-md navbar-light">
-        <!-- ============================================================== -->
-        <!-- Logo -->
-        <!-- ============================================================== -->
-        <div class="navbar-header" style="background-color: rgba(0,0,0,.0);">
+
+    <nav class="navbar top-navbar navbar-expand-lg navbar-light" style="background-color:  rgb(58, 61, 71)">
+        <div class="navbar-header" style="background-color:  rgb(86,90,105)">
             <a class="navbar-brand" href="index.html">
-                <!-- Logo icon --><b>
-                    <h3 class="h5 text-white pl-3">Botón de Pánico</h3>
-                    <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                    <!-- Dark Logo icon -->
-                    <!-- <img src="./assets/images/icons8-sirena-50.png" alt="homepage" class="dark-logo" /> -->
-                    <!-- Light Logo icon -->
-                    <!-- <img src="./assets/images/logo_ssp_png.png" alt="homepage" class="light-logo" /> -->
-                </b>
-                <!--End Logo icon -->
-                <!-- Logo text --><span>
-               <!-- dark Logo text -->
-               
-               <!-- <img src="./assets/images/titulo_boton_panico.png" alt="homepage" class="dark-logo" /> -->
-               <!-- Light Logo text -->    
-               <!-- <img src="./assets/images/logo-light-text.png" class="light-logo" alt="homepage" /> -->
+                <b>
+                    <h3 class="h6 text-white m-0 p-0 ml-1">ALERTAS DE PÁNICO</h3>
+                  
+                </b><span>
             </span> </a>
         </div>
-        <!-- ============================================================== -->
-        <!-- End Logo -->
-        <!-- ============================================================== -->
         <div class="navbar-collapse">
-            <!-- ============================================================== -->
-            <!-- toggle and nav items -->
-            <!-- ============================================================== -->
             <ul class="navbar-nav mr-auto">
-                <!-- This is  -->
-
-                <!-- <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
-                <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
-                <li class="nav-item hidden-sm-down"></li> -->
             </ul>
-            <!-- ============================================================== -->
-            <!-- User profile and search -->
-            <!-- ============================================================== -->
             <ul class="navbar-nav my-lg-0">
-                <!-- ============================================================== -->
-                <!-- Search -->
-                <!-- ============================================================== -->
-                <li class="nav-item hidden-xs-down search-box"> <a class="nav-link py-0 hidden-sm-down waves-effect waves-dark" [routerLink]="['/']">Alertas</a>
+                <li class="nav-item hidden-xs-down search-box"> <a class="nav-link py-0 hidden-sm-down waves-effect waves-dark " [routerLink]="['/']">ALERTAS</a>
                 </li>
-                <li class="nav-item hidden-xs-down search-box"> <a class="nav-link py-0 hidden-sm-down waves-effect waves-dark" [routerLink]="['/reportes']">Reportes</a>
+                <li class="nav-item hidden-xs-down search-box"> <a class="nav-link py-0 hidden-sm-down waves-effect waves-dark" [routerLink]="['/reportes']">BUSCAR</a>
                 </li>
-                <li class="nav-item hidden-xs-down search-box"> <a class="nav-link py-0 hidden-sm-down waves-effect waves-dark" [routerLink]="['/login']" (click)="cerrarSesion()">Cerrar sesion</a>
+                <li class="nav-item hidden-xs-down search-box"> <a class="nav-link py-0 hidden-sm-down waves-effect waves-dark" [routerLink]="['/login']" (click)="cerrarSesion()">SALIR</a>
                 </li>
                 <div class="alerta-status alert text-center m-0" *ngIf="_ws.socketStatus">
                     <img src="../../../assets/images/foco_amarillo_3.png" alt="">
@@ -64,14 +31,8 @@
 
     <div class="row justify-content-end">
         <div class="alert alert-danger alert-dismissible col-5 fade show" *ngIf="!_ws.socketStatus" role="alert">
-            <strong>Sin conexión!</strong> No existe una conexión valida con el servidor. Favor de comunicarse con el administrador.
-            <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button> -->
+            <strong>¡Sin conexión!</strong> No existe una conexión valida con el servidor. Favor de comunicarse con el administrador.
+
         </div>
     </div>
-
 </header>
-<!-- ============================================================== -->
-<!-- End Topbar header -->
-<!-- ============================================================== -->

@@ -9,14 +9,20 @@ import { LoginService } from '../../services/login.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public _ws: WebsocketService, public _login: LoginService) { }
+  constructor(public _ws: WebsocketService, public _login: LoginService, private _wsService: WebsocketService) { }
 
   ngOnInit() {
   }
 
   cerrarSesion() {
-    console.log('Cerró sesión');
+    this._wsService.removeListenerAlertasActualizadas();
     this._login.cerrarSesion();
+    
+  }
+
+  comprobarSockets(){
+    console.log('Comprobaré los sockets.');
+
     
   }
 }

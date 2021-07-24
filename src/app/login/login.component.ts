@@ -4,10 +4,12 @@ import { NgForm } from '@angular/forms';
 
 import { WebsocketService } from '../services/sockets/websocket.service';
 import { AlertasNitService } from '../services/sockets/alertas.service';
-import { Usuario } from '../services/sockets/usuarios-nit.service';
+import { Usuario } from '../services/usuarios/usuarios-nit.service';
 import { LoginService } from '../services/login.service';
 
 import Swal from 'sweetalert2';
+import { environment } from 'src/environments/environment';
+import { NotificationDesktopService } from '../services/notification/notification-desktop.service';
 
 
 @Component({
@@ -21,11 +23,12 @@ export class LoginComponent implements OnInit {
   
   constructor(
       private router: Router,
-      private auth: LoginService
+      private auth: LoginService,
+      private _notification: NotificationDesktopService
       // public wsService: WebsocketService
       // public alertasNIT: AlertasNitService
       ) {
-
+        this.validarNotification();
   }
 
   ngOnInit() {
@@ -70,7 +73,7 @@ export class LoginComponent implements OnInit {
           text: '¡Bienvenido!'
         });
         // reporte
-        this.router.navigate(['/']); 
+        this.router.navigate(['/']);
       }
     }, (err) => {
       console.log(err);
@@ -82,4 +85,26 @@ export class LoginComponent implements OnInit {
     });
   } 
 
+  validarNotification(){
+    console.log('---> ' + Notification.permission);
+
+    if(Notification.permission === "granted"){
+      console.log("Permiso concedido");
+      // this._notification.mostrarNotificacion("ALERTA DE PÁNICO",
+      //     "Permiso concedido para mostrar notificaciones en el escritorio.",
+      //     "https://cdn.icon-icons.com/icons2/1506/PNG/512/emblemok_103757.png");
+
+    } else if(Notification.permission === "default"){
+      Notification.requestPermission().then(permission => {
+        console.log('PERMISSION: ' + permission);
+        if(permission === "granted"){
+          this._notification.mostrarNotificacion("ALERTA DE PÁNICO",
+          "Permiso concedido para mostrar notificaciones en el escritorio.",
+          "https://cdn.icon-icons.com/icons2/1506/PNG/512/emblemok_103757.png");
+        }
+      })
+    }
+  }
+
+ 
 }

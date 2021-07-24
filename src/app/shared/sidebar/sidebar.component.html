@@ -4,17 +4,48 @@
         <!-- <img class="img-fluid p-4 " src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcREGjy9DcMEx6o6f1MtfeRPOA0-yMMfSgLhXcBJOgR-Bcm3q_Jm" alt=""> -->
         <!-- <img class="img-fluid p-4 " src="./assets/images/logotipo.jpg" alt=""> -->
 
-        <nav class="sidebar-nav">
-
+        <nav class="sidebar-nav" style="background-color: rgb(86,90,105);">
             <ul id="sidebarnav" *ngFor="let alerta of wsService.alertas; let i = index">
-                <!-- Rojo, el usuario que lo abra le pertecene-->
-                <li *ngIf="alerta.estatus_actual == 0" (click)="abrirNuevaPeticion(alerta.id_reporte, alerta.estatus_actual)"> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded label-themecolor pull-right">{{alerta.botonazos}}</span></span></a></li>
+                <!-- Roja, es alerta nueva y se puede abrir-->
+                <li *ngIf="alerta.estatus_actual == 0" (click)="abrirNuevaPeticion(alerta.id_reporte, alerta.estatus_actual, 1)">
+                    <a class="has-arrow waves-effect waves-dark text-danger font-weight-bold" aria-expanded="false"><i class="mdi mdi-alert-circle-outline"></i>
+                        <span class="hide-menu"> {{alerta.abrev_grupo}} - {{alerta.id_reporte | number: '3.0-3'}}<span class="label label-rouded label-themecolor pull-right">{{alerta.botonazos}}</span></span></a></li>
+
                 <!-- Verde, le pertenece al usuario y se puede abrir-->
-                <li *ngIf="validarColor(alerta.id_user_cc, alerta.estatus_actual)" (click)="abrirPeticion(alerta.id_reporte)"> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded badge-success pull-right">{{alerta.botonazos}}</span></span></a></li>
+                <li *ngIf="validarColor(alerta.id_user_cc, alerta.estatus_actual)" (click)="abrirPeticion(alerta.id_reporte)">
+                    <a class="has-arrow waves-effect waves-dark text-success font-weight-bold" aria-expanded="false">
+                        <i class="mdi mdi-alert-circle-outline"></i>
+                        <span class="hide-menu"> {{alerta.abrev_grupo}} - {{alerta.id_reporte | number: '3.0-3'}}
+                            <span class="label label-rouded badge-success pull-right">{{alerta.botonazos}}
+
+                            </span>
+                        </span>
+                    </a>
+                </li>
+
                 <!-- Amarillo, le pertenece a alguin mas y no se puede abrir-->
-                <li *ngIf="alerta.estatus_actual == 1 && idUsuarioNIT != alerta.id_user_cc"> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded badge-warning pull-right">{{alerta.botonazos}}</span></span></a></li>
-                <!-- Azul, el usuario canceló la alerta-->
-                <li *ngIf="alerta.estatus_actual == 3" (click)="abrirPeticion(alerta.id_reporte)"> <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">ALERTA - 00{{alerta.id_reporte}}<span class="label label-rouded badge-info pull-right">{{alerta.botonazos}}</span></span></a></li>
+                <li *ngIf="alerta.estatus_actual == 1 && idUsuarioNIT != alerta.id_user_cc || alerta.estatus_actual == 3 && (idUsuarioNIT != alerta.id_user_cc && alerta.id_user_cc != 1)">
+                    <a class="waves-effect waves-dark text-warning" href="#" aria-expanded="false">
+                        <i class="mdi mdi-alert-circle-outline"></i>
+                        <span class="hide-menu"> {{alerta.abrev_grupo}} - {{alerta.id_reporte | number: '3.0-3'}}
+                            <span class="label label-rouded badge-warning pull-right">{{alerta.botonazos}}
+
+                            </span>
+                        </span>
+                    </a>
+                </li>
+
+                <!-- Negro, el usuario canceló la alerta-->
+                <li *ngIf="alerta.estatus_actual == 3 && alerta.id_user_cc == 1" (click)="abrirNuevaPeticion(alerta.id_reporte, alerta.estatus_actual, 3)">
+                    <a class="has-arrow waves-effect waves-dark text-dark" aria-expanded="false"><i class="mdi mdi-alert-circle-outline"></i><span class="hide-menu"> {{alerta.abrev_grupo}} - {{alerta.id_reporte | number: '3.0-3'}}
+                        <span class="label label-rouded badge-dark pull-right">{{alerta.botonazos}}</span></span></a></li>
+
+                <!-- Azul, es mía y el resto la ven amarilla -->
+                <li *ngIf="alerta.estatus_actual == 3 && idUsuarioNIT == alerta.id_user_cc" (click)="abrirPeticion(alerta.id_reporte)">
+                    <a class="has-arrow waves-effect waves-dark text-info font-weight-bold" aria-expanded="false"><i class="mdi mdi-alert-circle-outline"></i><span class="hide-menu"> {{alerta.abrev_grupo}} - {{alerta.id_reporte | number: '3.0-3'}}
+                        <span class="label label-rouded badge-info pull-right">{{alerta.botonazos}}</span></span></a></li>
+
+
 
             </ul>
         </nav>

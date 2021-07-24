@@ -1,92 +1,127 @@
 <div class="row">
-    <div class="col-xl-6 col-lg-12 height-fragment padre">
+    <div class="col-xl-6 col-lg-12 padre">
         <div class="hijo">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="row" *ngIf="this.data_reporte.estatus_actual == 3">
+                    <div class="row" *ngIf="wsService?.estatusAlerta == 3">
                         <div class="col-12">
-                            <div class="alert alert-info" role="alert">
+                            <div class="alert alert-danger text-center" role="alert">
                                 ¡El usuario canceló la alerta!
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card shadow-sm border">
 
+                    <div class="row">
+
+                        <div class="col-md-10 col-12">
+                            <div class="card shadow-sm border formatear-texto">
                                 <!-- INFORMACIÓN DEL COMERCIO -->
 
-                                <div class="card-body">
-                                    <div class="row  align-items-end">
-                                        <div class="col-12 col-xl-7 p-r-0">
-                                            <h6 class="h6">Comercio: {{this.data_comercio?.nombre_comercio}}</h6>
-                                            <h6 class="text-muted">Teléfono: {{this.data_comercio?.telefono_fijo}}</h6>
-                                            <h6 class="text-muted">{{this.data_comercio?.calle}} #{{this.data_comercio?.numero}} {{this.data_comercio?.colonia}}</h6>
-                                            <h6 class="text-muted">Entre: {{this.data_comercio?.entre_calle_1}} y {{this.data_comercio?.entre_calle_2}}</h6>
-                                            <h6 class="text-muted">C.P: {{this.data_comercio?.cp}}, {{this.data_comercio?.nombre_estado}}, {{this.data_comercio?.nombre_municipio}}</h6>
-                                            <h6 class="text-muted">Fachada: {{this.data_comercio?.fachada}}</h6>
+                                <div class="card-body" style="border: 1px solid rgb(214, 214, 214);">
+                                    <div class="row" *ngIf="nocomercio">
+                                        <div class="col-12">
+                                            <h6 class="text-center">{{tipo_grupo}}</h6>
                                         </div>
-                                        <div class="col-12 col-xl-5 text-left">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="text-right mb-2">
-                                                        <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modalComercio" data-whatever="@mdo"><i class="mdi mdi-store"></i></button>
-                                                        <!-- <h2><i class="mdi mdi-store"></i></h2> -->
-                                                    </div>
-                                                </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-10 col-xl-10">
+                                            <label class="row m-0 p-0" *ngIf="this.data_usuario_comercio?.sexo_app === 'F'" style="color: hotpink;">{{this.data_usuario_comercio?.nombres_usuarios_app}} {{this.data_usuario_comercio?.apell_pat}} {{this.data_usuario_comercio?.apell_mat}}</label>
+                                            <label class="row m-0 p-0" *ngIf="this.data_usuario_comercio?.sexo_app === 'M'" style="color: dodgerblue;">{{this.data_usuario_comercio?.nombres_usuarios_app}} {{this.data_usuario_comercio?.apell_pat}} {{this.data_usuario_comercio?.apell_mat}}</label>
+                                            <label class="row m-0 p-0" *ngIf="this.data_usuario_comercio?.sexo_app != 'M' && this.data_usuario_comercio?.sexo_app != 'F'" class="h6">{{this.data_usuario_comercio?.nombres_usuarios_app}} {{this.data_usuario_comercio?.apell_pat}} {{this.data_usuario_comercio?.apell_mat}}</label>
+                                            <label class="row m-0 p-0">Teléfono móvil: <span>{{this.data_usuario_comercio?.tel_movil}}</span></label>
+                                            <label class="row m-0 p-0">{{this.data_comercio?.calle}} #{{this.data_comercio?.numero}}</label>
+                                            <label class="row m-0 p-0">{{this.data_comercio?.colonia}}, C.P. {{this.data_comercio?.cp}}</label>
+                                            <label class="row m-0 p-0">{{this.data_comercio?.nombre_municipio}}, {{this.data_comercio?.nombre_localidad}}</label>
+                                            <!-- <label class="">Fachada: {{this.data_comercio?.fachada}}</h6> -->
+                                            <label class="row m-0 p-0" *ngIf="this.data_comercio?.entre_calle_1.length>0 || this.data_comercio?.entre_calle_2.length>0">Entre: {{this.data_comercio?.entre_calle_1}} y {{this.data_comercio?.entre_calle_2}}</label>
+
+                                        </div>
+                                        <div class="col-2 col-xl-2">
+                                            <div class="row justify-content-end mb-1 mr-1">
+                                                <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modalUsuario" data-whatever="@mdo"><i class="mdi mdi-account"></i></button>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <h6 class="text-muted">No. Empleados: {{this.data_comercio?.num_empleados }}</h6>
-                                                    <h6 class="text-muted">Razón social: {{this.data_comercio?.razon_social}}</h6>
-                                                    <h6 class="text-muted">Giro: {{this.data_comercio?.giro}}</h6>
-                                                </div>
+                                            <div class="row justify-content-end mb-1 mr-1">
+                                                <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modalMedico" data-whatever="@mdo"><i class="mdi mdi-medical-bag"></i></button>
                                             </div>
-
-
-
+                                            <div class="row justify-content-end mr-1">
+                                                <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modalComercio" data-whatever="@mdo"><i class="mdi mdi-store"></i></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-2 col-12">
+
+                            <div class="card shadow-sm">
+                                <!-- INFORMACIÓN DEL COMERCIO -->
+
+                                <div class="card-body" style="border: 1px solid rgb(214, 214, 214);">
+                                    <h6 class="text-center font-weight-bold">Hora</h6>
+                                    <div class="row justify-content-center">
+                                        <span class="badge bg-secondary mx-1 mb-1" *ngFor="let activ of this.wsService.activaciones">{{ activ.fecha_hora_activacion | date: 'hh:mm:ss' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-12">
                             <div class="card shadow-sm border">
 
-                                <!-- INFORMACIÓN DEL USUARIO -->
+                                INFORMACIÓN DEL USUARIO 
 
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col p-r-0">
-                                            <h6 class="h6">{{this.data_usuario_comercio?.nombres_usuarios_app}} {{this.data_usuario_comercio?.apell_pat}} {{this.data_usuario_comercio?.apell_mat}}</h6>
-                                            <h6 class="text-muted">Teléfono: {{this.data_usuario_comercio?.tel_movil}}</h6>
+                                        <div class="col-10 col-xl-10 p-r-0">
+                                            <h6 *ngIf="this.data_usuario_comercio?.sexo_app === 'F'" class="h6" style="color: hotpink;">{{this.data_usuario_comercio?.nombres_usuarios_app}} {{this.data_usuario_comercio?.apell_pat}} {{this.data_usuario_comercio?.apell_mat}}</h6>
+                                            <h6 *ngIf="this.data_usuario_comercio?.sexo_app === 'M'" class="h6" style="color: dodgerblue;">{{this.data_usuario_comercio?.nombres_usuarios_app}} {{this.data_usuario_comercio?.apell_pat}} {{this.data_usuario_comercio?.apell_mat}}</h6>
+                                            <h6 *ngIf="this.data_usuario_comercio?.sexo_app != 'M' && this.data_usuario_comercio?.sexo_app != 'F'" class="h6">{{this.data_usuario_comercio?.nombres_usuarios_app}} {{this.data_usuario_comercio?.apell_pat}} {{this.data_usuario_comercio?.apell_mat}}</h6>
+                                            <h6 class="font-weight-bolder">Teléfono móvil: {{this.data_usuario_comercio?.tel_movil}}</h6>
                                         </div>
-                                        <div class="col text-right align-self-center">
+                                        <div class="col-1 col-xl-1 text-right align-self-center">
                                             <div>
                                                 <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modalUsuario" data-whatever="@mdo"><i class="mdi mdi-account"></i></button>
                                             </div>
                                         </div>
+                                        <div class="col-1 col-xl-1 text-right align-self-center">
+                                            <div>
+                                                <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modalMedico" data-whatever="@mdo"><i class="mdi mdi-medical-bag"></i></button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                 </div>
 
-                <div class="col-md-12">
-                    <div class="card shadow-sm border">
-                        <div class="card-body">
-                            <h6 class="h6 text-center"> Activaciones</h6>
-                            <div class="row justify-content-center">
-                                <!-- <div class="col-lg-2 col-xs-4 col-md-3 m-1 alert alert-secondary text-center" *ngFor="let activ of this.wsService.activaciones">
-                                    <h6>{{ activ.fecha_hora_activacion | date: 'hh:mm:ss' }}</h6>
 
-                                </div> -->
-                                <div class="col-xl-4 col-xlg-2 col-lg-3 col-sm-6 col-xs-12  m-1 alert alert-secondary text-center" *ngFor="let activ of this.wsService.activaciones">
-                                    {{ activ.fecha_hora_activacion | date: 'hh:mm:ss' }}
+                <div class="col-md-12">
+                    <div class="card shadow-sm border formatear-texto">
+
+                        <div class="card-body mt-0 pt-0" style="border: 1px solid rgb(214, 214, 214);">
+                            <h6 class="text-center font-weight-bold mt-2 mb-0 pb-0"> INFORMACIÓN DEL REPORTE MANUAL </h6>
+                            <div class="row mb-0">
+                                <div class="form-group col-5" style="margin: 0% !important;">
+                                    <label class=""><span>Corporación:</span></label>
+                                    <input type="text" class="form-control form-control-sm" value="{{this.data_reporte?.cuerpo_emerg_usuario}}" disabled>
                                 </div>
+                                <div class="form-group col-5" style="margin: 0% !important;">
+                                    <label class="">Tipo de incidente:</label>
+                                    <input type="text" class="form-control form-control-sm" value="{{this.data_reporte?.tipo_incid_usuario}}" disabled>
+                                </div>
+                                <div class="form-group col-2" style="margin: 0% !important;">
+                                    <label class="">Persona:</label>
+                                    <input type="text" class="form-control form-control-sm" value="{{this.data_reporte?.quien_emergencia}}" disabled>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="form-group col-12" style="margin: 0% !important;">
+                                    <label class="">Descripción de la emergencia:</label>
+                                    <textarea rows="2" class="form-control form-control-sm" value="{{this.data_reporte?.descrip_emerg_usuario}}" disabled> </textarea>
+                                </div>
+
                             </div>
                         </div>
 
@@ -95,38 +130,35 @@
 
                 <div class="col-md-12">
                     <div class="card shadow-sm border">
-                        <div class="card-body">
+                        <div class="card-body formatear-texto" style="border: 1px solid rgb(214, 214, 214);">
 
                             <!-- ENCABEZADO DEL REPORTE -->
-
                             <div class="row">
                                 <div class="col-6 p-r-0">
-                                    <h6 class="h6 text-danger">Folio: 00{{ this.data_reporte?.id_reporte}}</h6>
+                                    <h6 class="text-success">{{this.data_reporte?.abrev_grupo}} - {{ this.data_reporte?.id_reporte | number: '3.0-3'}}</h6>
                                 </div>
                                 <div class="col-6 mr-0">
-                                    <h5 class="font-light text-right">{{ this.data_reporte?.fecha_hora_ataq | date:'dd-MM-yyyy hh:mm:ss'}}</h5>
+                                    <h6 class="text-right">{{ this.data_reporte?.fecha_hora_ataq | date:'dd-MM-yyyy'}}</h6>
                                 </div>
                             </div>
 
                             <!-- FORMULARIO DE ENVIO  -->
 
                             <div class="row">
-                                <form class="col-12" #data="ngForm" (ngSubmit)="guardarCampos(data)">
+                                <form class="col-12" #data="ngForm" (ngSubmit)="guardarCampos(data)" autocomplete="off">
                                     <div class="row justify-content-between">
-                                        <div class="col">
+                                        <div class="col-6">
                                             <!-- requiered -->
-                                            <select *ngIf="clasificacion" [(ngModel)]="selectedClasificacion" (change)="onSelectClasificacion($event.target.value)" class="form-control my-1" id="clasificacion" name="clasificacion"> 
-                                                <option value="0">SELECCIONE CLASIFICACIÓN</option>
+                                            <select *ngIf="clasificacion" [(ngModel)]="selectedClasificacion" (change)="onSelectClasificacion($event.target.value)" class="form-control form-control-sm my-1" id="clasificacion" name="clasificacion"> 
+                                                <option value="0">SELECCIONE CORPORACIÓN *</option>
                                                 <option *ngFor="let clasif of clasificacion"
                                                         value="{{clasif.id_clasificacion}}"> 
                                                         {{clasif.clasificacion}}</option>
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="row justify-content-between">
-                                        <div class="col">
-                                            <select *ngIf="filtro_subclasificacion" [(ngModel)]="selectedSubclasificacion" (change)="onSelectSubclasificacion($event.target.value)" class="form-control my-1" id="subclasificacion" name="subclasificacion">
-                                                <option value="0">SELECCIONE SUBCLASIFICACIÓN</option>
+                                        <div class="col-6">
+                                            <select *ngIf="filtro_subclasificacion" [(ngModel)]="selectedSubclasificacion" (change)="onSelectSubclasificacion($event.target.value)" class="form-control form-control-sm my-1" id="subclasificacion" name="subclasificacion">
+                                                <option value="0">SELECCIONE CLASIFICACIÓN *</option>
                                                 <option *ngFor="let subcl of filtro_subclasificacion"
                                                         value="{{subcl.id_subclasificacion}}">
                                                         {{subcl.subclasificacion}}</option>
@@ -135,8 +167,8 @@
                                     </div>
                                     <div class="row justify-content-between">
                                         <div class="col">
-                                            <select *ngIf="filtro_incidentes" [(ngModel)]="selectedIncidente" (change)="onSelectIncidente($event.target.value)" class="form-control  my-1" id="incidente" name="incidente">
-                                                <option value="0">SELECCIONE INCIDENTE</option>
+                                            <select *ngIf="filtro_incidentes" [(ngModel)]="selectedIncidente" (change)="onSelectIncidente($event.target.value)" class="form-control form-control-sm my-1" id="incidente" name="incidente">
+                                                <option value="0">SELECCIONE INCIDENTE *</option>
                                                 <option *ngFor="let incid of filtro_incidentes"
                                                         value="{{incid.id_incidente}}">
                                                         {{incid.incidente}}</option>
@@ -151,139 +183,328 @@
                                                     </select>
                                         </div> -->
                                         <div class="col-12">
-                                            <textarea class="form-control" rows="2" placeholder="Descripción de la emergencia" name="notas" ngModel required></textarea>
+                                            <textarea class="form-control form-control-sm" rows="2" placeholder="DESCRIPCIÓN DE LA EMERGENCIA" name="notas" ngModel></textarea>
 
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
-                                            <input ngModel name="cierre" class="form-control  my-1" type="text" placeholder="Conclusión" name="cierre" ngModel required>
+                                            <input ngModel name="cierre" class="form-control form-control-sm my-1" type="text" placeholder="CONCLUSIÓN *" name="cierre" ngModel required>
                                         </div>
                                         <div class="col-6">
-                                            <input list="unidades" class="form-control  my-1" type="text" placeholder="Unidad atendida" name="unidad" ngModel required>
-                                            <datalist id="unidades"> 
-                                                <option value="Internet Explorer">
-                                                <option value="Firefox">
-                                                <option value="Google Chrome">
-                                                <option value="Opera">
-                                                <option value="Safari">
-                                            </datalist>
-
-                                        </div>
-
-                                    </div>
-                                    <div class="row mt-1">
-                                        <!-- <div class="col-7">
-                                            <button class="btn btn-info col-12 btn-sm">Agregar nota</button>
-                                        </div> -->
-                                        <div class="col-12 mb-1 text-center">
-                                            <button class="btn btn-success" type="submit">Terminar reporte</button>
+                                            <input class="form-control form-control-sm my-1" type="text" placeholder="FOLIO CAD *" name="unidad" ngModel required>
                                         </div>
                                     </div>
-
+                                    <div class="row mt-1 justify-content-center mb-1">
+                                        <button class="btn btn-outline-secondary mr-1" data-toggle="modal" data-target="#modalMensaje" data-whatever="@mdo" type="button"><i class="mdi mdi-message"></i></button>
+                                        <button class="btn btn-dark" type="submit">Cerrar reporte</button>
+                                    </div>
+                                    <!-- <div class="row">
+                                        <div class="col" style="background-color: goldenrod;">
+                                            <label class="" style="background-color: deepskyblue;"><span class="text-danger">*</span> Campos obligatorios</label>
+                                        </div>
+                                    </div> -->
                                 </form>
                             </div>
-
                             <!-- TERMINA FORMULARIO  -->
                         </div>
                     </div>
                 </div>
-
-
-
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-6 col-lg-12 height-fragment padre">
-        <div class="hijo">
-
-            <!-- CAROUSEL DE IMAGENES -->
-
-            <div id="carouselExAdminProIndicators2" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" *ngFor="let x of this.wsService.imagenes;let i = index" [attr.data-slide-to]="i" ngClass="i == 0 ? 'active' : ''"></li>
-                </ol>
-                <div class="carousel-inner" role="listbox">
-                    <div *ngFor="let j of this.wsService.imagenes; let k = index" [ngClass]="k == 0 ? 'carousel-item active' : 'carousel-item'">
-                        <img class="img-fluid img-tam" [src]="generarRuta(j.ruta)" alt="First slide">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h3 class="text-white">{{j.fechahora_captura | date:'hh:mm:ss'}}</h3>
-                        </div>
-                    </div>
-
-                </div>
-                <a class="carousel-control-prev" href="#carouselExAdminProIndicators2" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExAdminProIndicators2" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-                <div *ngIf="this.wsService.imagenes.length === 0" id="carouselExAdminProIndicators2" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-target="#myCarousel" ngClass="i == 0 ? 'active' : ''"></li>
-                    </ol>
-                    <div class="carousel-inner" role="listbox">
-                        <div>
-                            <img class="img-fluid img-tam" src="../../../assets/images/no_registrada.jpg" alt="First slide">
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- TERMINA CAROUSEL -->
             </div>
         </div>
     </div>
 
+
+    <div class="col-xl-6 col-lg-12">
+        <div class="">
+            <div class="card-body bg-white" style="border: 1px solid rgb(214, 214, 214);">
+                <div class="row mb-1">
+                    <div class="col-12">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a type="button" class="btn btn-outline-secondary tablinks active mult" (click)="openCity($event, 'GPS')" data-whatever="@mdo">
+                                    <i class="mdi mdi-map-marker"></i>
+                                    <span id="mult_menu_num" *ngIf="this.wsService.tipo_ubicacion && this.wsService.latitudActual != 0.0 && this.wsService.latitudActual != undefined" data-action="mult-can" class="badge rounded-circle">1</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a type="button" class="btn btn-outline-secondary tablinks mult ml-2" (click)="openCity($event, 'IMG')" data-whatever="@mdo">
+                                    <i class="mdi mdi-camera"></i>
+                                    <span id="mult_menu_num" *ngIf="this.wsService.imagenes.length> 0" data-action="mult-can" class="badge rounded-circle">{{this.wsService.imagenes.length}}</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a type="button" class="btn btn-outline-secondary tablinks mult ml-2" (click)="openCity($event, 'AUDIO')" data-whatever="@mdo">
+                                    <i class="mdi mdi-volume-high"></i>
+                                    <span id="mult_menu_num" *ngIf="this.wsService.audios.length > 0" data-action="mult-can" class="badge rounded-circle">{{this.wsService.audios.length}}</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a type="button" class="btn btn-outline-secondary tablinks mult ml-2" (click)="openCity($event, 'VIDEO')" data-whatever="@mdo">
+                                    <i class="mdi mdi-video"></i>
+                                    <span id="mult_menu_num" *ngIf="this.wsService.videos.length > 0" data-action="mult-can" class="badge rounded-circle">{{this.wsService.videos.length}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row" style="height: 650px;">
+                    <div id="GPS" class="tabcontent col-12" style="display: block;" *ngIf="true">
+                        <div class="">
+                            <div class="form-group row mr-2 mt-3" *ngIf="this.wsService.latitudActual === 0.0 || this.wsService.tipo_ubicacion.length < 4">
+                                <div class="alert alert-danger text-center ml-3 mb-0" role="alert">
+                                    ¡Sin ubicación registrada!
+                                </div>
+                            </div>
+                            <div class="form-group row mr-2 mt-3" *ngIf="this.wsService.tipo_ubicacion === 'Casa'">
+                                <div class="alert alert-danger text-center ml-3 mb-0" role="alert">
+                                    ¡Emergencia en dirección registrada!
+                                </div>
+                            </div>
+                            <div class="form-group row mr-2 mt-3" *ngIf="this.wsService.tipo_ubicacion === 'Otra'">
+                                <div class="alert alert-danger text-center ml-3 mb-0" role="alert">
+                                    ¡Emergencia en {{this.wsService.tipo_ubicacion}}!
+                                </div>
+                            </div>
+
+                            <div class="row mt-2" style="height: 470px;" *ngIf="this.wsService.tipo_ubicacion === 'Actual' || this.wsService.tipo_ubicacion === 'Otra'">
+                                <div class="col" *ngIf="this.wsService.latitudActual != 0.0 && this.wsService.latitudActual != undefined">
+                                    <agm-map [latitude]="this.wsService.latitudActual" [longitude]="this.wsService.longitudActual" [zoom]="15" *ngIf="tengoCoordenadas <= 3" style="width: 100%; height: 100%;">
+                                        <agm-marker [latitude]="this.latitudComercio" [longitude]="this.longitudComercio" *ngIf="(this.latitudComercio > 1 && this.longitudComercio < 1) && (this.latitudComercio != null && this.longitudComercio != null)">
+                                            <agm-info-window>
+                                                <h6 class="h5 text-success">Ubicación registrada</h6>
+                                                <p>
+                                                    {{this.direccionRegistrada}}
+                                                </p>
+                                                <!-- <div>
+                                                    <button class="btn btn-sm btn-success">Copiar dirección</button>
+                                                </div> -->
+
+                                            </agm-info-window>
+                                        </agm-marker>
+                                        <agm-marker *ngIf="(this.wsService.latitudActual != 0.0 && this.wsService.longitudActual != 0.0) && (this.wsService.latitudActual != null && this.wsService.longitudActual != null)" [latitude]="this.wsService.latitudActual" [longitude]="this.wsService.longitudActual">
+                                            <agm-info-window>
+                                                <h6 class="h5 text-danger">Ubicación actual</h6>
+                                                <p>
+                                                    {{this.direccionActual}} {{this.wsService.latitudActual}} {{this.wsService.longitudActual}}
+                                                </p>
+                                                <!-- <div>
+                                                    <button class="btn btn-sm btn-danger">Copiar dirección</button>
+                                                </div> -->
+
+                                            </agm-info-window>
+                                        </agm-marker>
+                                    </agm-map>
+                                </div>
+                            </div>
+                            <div class="row justify-content-end mt-1 mr-2 align-items-center" *ngIf="(this.latitudComercio != null && this.latitudComercio != undefined && this.latitudComercio != 0.0 && this.latitudComercio != 0) &&
+                            (this.wsService.latitudActual != null && this.wsService.latitudActual != 0.0 && this.wsService.latitudActual != 0 && this.wsService.latitudActual != undefined)">
+
+                                <div class="col-auto">
+                                    <label for="distancia" class="col-form-label">Distancia entre ubicaciones: </label>
+                                </div>
+                                <div class="col-auto">
+                                    <input id="distancia" class="form-control" type="number" name="distancia" disabled [ngModel]="_direccion.distancia">
+                                </div>
+                                <p class="col-2 col-form-label text-white bg-success" *ngIf="_direccion.metrosKilometros === 'Metros'">Metros</p>
+                                <p class="col-1 col-form-label text-white bg-danger" *ngIf="_direccion.metrosKilometros === 'Kilometros'">Km</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- align-content-center justify-content-center align-self-center -->
+                    <div id="IMG" class="tabcontent col-12" style="display: none;">
+
+                        <div class="py-3 align-content-center justify-content-center pr-3">
+                            <!-- <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                                <div class="carousel-indicators">
+                                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                </div>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active" data-bs-interval="10000">
+                                        <img src="../../../assets/images/background/login-register.jpg" class="d-block w-100" alt="...">
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <h5>First slide label</h5>
+                                            <p>Some representative placeholder content for the first slide.</p>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item" data-bs-interval="2000">
+                                        <img src="../../../assets/images/background/login-register.jpg" class="d-block w-100" alt="...">
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <h5>Second slide label</h5>
+                                            <p>Some representative placeholder content for the second slide.</p>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="../../../assets/images/background/login-register.jpg" class="d-block w-100" alt="...">
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <h5>Third slide label</h5>
+                                            <p>Some representative placeholder content for the third slide.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                  <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                  <span class="visually-hidden">Next</span>
+                                </button>
+                            </div> -->
+                            <div class="row justify-content-center">
+                                <div class="col-1 align-self-center" *ngIf="this.wsService.imagenes.length > 0">
+                                    <button class="btn btn-outline-secondary" href="#carouselImagenes" data-slide="prev"> <i class="mdi mdi-chevron-left"></i> </button>
+                                </div>
+                                <div id="carouselImagenes" class="carousel slide col-10 align-content-center justify-content-center tam_img">
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#myCarouselImagenes" *ngFor="let x of this.wsService.imagenes;let i = index" [attr.data-slide-to]="i" ngClass="i == 0 ? 'active' : ''"></li>
+                                    </ol>
+                                    <div class="carousel-inner" role="listbox">
+                                        <div *ngFor="let j of this.wsService.imagenes; let k = index" [ngClass]="k == 0 ? 'carousel-item active' : 'carousel-item'">
+                                            <img class="img-fluid img-tam" [src]="this._utl.generarRuta(j.ruta)" style="height: 100%; max-height: 550px;">
+                                            <div class="carousel-caption d-none d-md-block">
+
+                                                <h3 class="text-white">{{j.fechahora_captura | date:'hh:mm:ss'}}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-1 align-self-center" *ngIf="this.wsService.imagenes.length > 0">
+                                    <button class="btn btn-outline-secondary mr-2 mt-1" href="#carouselImagenes" data-slide="next"> <i class="mdi mdi-chevron-right"></i> </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="AUDIO" class="tabcontent col-11" style="display: none;">
+                        <div class="table-responsive">
+                            <table id="demo-foo-row-toggler" class="table" data-toggle-column="first">
+                                <thead>
+                                    <tr>
+                                        <th class="">Hora</th>
+                                        <th class="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-expanded="true" *ngFor="let aud of this.wsService.audios">
+                                        <td>{{aud.fechahora_captura | date:'hh:mm:ss'}}</td>
+                                        <td class="col">
+                                            <audio class="col" controls>
+                                                <source [src]="this._utl.generarRuta(aud.ruta)" type="">
+                                            </audio>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="VIDEO" class="tabcontent col-11 align-content-center justify-content-center" style="display: none;">
+
+                        <div class="row justify-content-between" *ngIf="this.wsService.videos.length> 1">
+                            <button class="btn btn-outline-secondary ml-2 mt-1" href="#carouselVideos" data-slide="prev"> Anterior </button>
+                            <button class="btn btn-outline-secondary mr-2 mt-1" href="#carouselVideos" data-slide="next"> Siguiente </button>
+                        </div>
+
+                        <div class="row py-3 align-content-center justify-content-center">
+                            <div id="carouselVideos" class="carousel slide col align-content-center justify-content-center" style="max-width: 90% !important;">
+                                <ol class="carousel-indicators">
+                                    <li data-target="#myCarouselVideos" *ngFor="let x of this.wsService.videos;let i = index" [attr.data-slide-to]="i" ngClass="i == 0 ? 'active' : ''"></li>
+                                </ol>
+                                <div class="carousel-inner" role="listbox">
+                                    <div *ngFor="let j of this.wsService.videos; let k = index" [ngClass]="k == 0 ? 'carousel-item active' : 'carousel-item'">
+
+                                        <video class="col align-self-center align-content-center" style=" max-height: 550px; max-width: 100%;" controls controlslist="nodownload">
+                                                    <source [src]="this._utl.generarRuta(j.ruta)" type="video/mp4">
+                                                </video>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
-<div class="row mb-5">
 
-    <!-- MAPA -->
 
-    <div class="col-xl-6 col-lg-12 mb-3">
-        <!-- <agm-map [latitude]="this.latitudComercio" [longitude]="this.longitudComercio" [zoom]="15" *ngIf="(this.latitudComercio != null && this.longitudComercio != null) || (this.latitudActual != 0.0 && this.longitudActual != 0.0)">
-            <agm-marker [latitude]="this.latitudComercio" [longitude]="this.longitudComercio">
-                <agm-info-window>
-                    <h6 class="h5 text-success">Ubicación registrada</h6>
-                    <p>
-                        Calle Abasolo #1040 Col. IV Centenario
-                    </p>
-                    <div>
-                        <button class="btn btn-sm btn-success">Copiar dirección</button>
-                    </div>
 
-                </agm-info-window>
-            </agm-marker>
-            <agm-marker *ngIf="this.latitudActual != 0.0." [latitude]="this.latitudActual" [longitude]="this.longitudActual">
-                <agm-info-window>
-                    <h6 class="h5 text-danger">Ubicación actual</h6>
-                    <p>
-                        Calle Abasolo #1040 Col. IV Centenario
-                    </p>
-                    <div>
-                        <button class="btn btn-sm btn-danger">Copiar dirección</button>
-                    </div>
+<!-- <div class="row">
 
-                </agm-info-window>
-            </agm-marker>
-        </agm-map> -->
-        <div class="form-group row justify-content-end mr-2 mt-3" *ngIf="(this.latitudComercio != null && this.longitudComercio != null) && (this.latitudActual != 0.0 && this.longitudActual != 0.0)">
-            <div class="col-4">
-                <input class="form-control" type="number" name="distancia" disabled [ngModel]="_localizacion.distancia">
+    <div class="col-xl-6 col-lg-12 mb-3 shadow-sm" *ngIf="true">
+        <h4 class="card-header text-center text-white" style="background-color:  rgb(255, 136, 158)">
+            Geolocalización
+        </h4>
+        <div class="card-body bg-white">
+            <div class="form-group row justify-content-end mr-2 mt-3" *ngIf="this.latitudComercio === 0 && this.wsService.latitudActual === 0 && this.wsService.tipo_ubicacion.length < 4">
+                <div class="alert alert-danger text-center" role="alert">
+                    ¡Sin ubicación registrada!
+                </div>
             </div>
-            <p class="col-2 col-form-label text-white bg-success" *ngIf="_localizacion.metrosKilometros === 'Metros'">Metros</p>
-            <p class="col-2 col-form-label text-white bg-danger" *ngIf="_localizacion.metrosKilometros === 'Kilometros'">Km</p>
-            <!-- <div class="p-3 mb-2 bg-danger text-white">{{this.metrosKilometros}}</div> -->
+            <div class="form-group row justify-content-end mr-2 mt-3" *ngIf="this.wsService.tipo_ubicacion === 'Casa' || this.wsService.tipo_ubicacion === 'Otra'">
+                <div class="alert alert-danger text-center" role="alert">
+                    ¡Emergencia en {{this.wsService.tipo_ubicacion}}!
+                </div>
+            </div>
+
+            <div class="row" style="height: 470px;" *ngIf="this.wsService.tipo_ubicacion === 'Actual' || this.wsService.tipo_ubicacion === 'Otra'">
+                <div class="col">
+                    <agm-map [latitude]="this.wsService.latitudActual" [longitude]="this.wsService.longitudActual" [zoom]="15" *ngIf="tengoCoordenadas <= 3" style="width: 100%; height: 100%;">
+                        <agm-marker [latitude]="this.latitudComercio" [longitude]="this.longitudComercio" *ngIf="(this.latitudComercio > 1 && this.longitudComercio < 1) && (this.latitudComercio != null && this.longitudComercio != null)">
+                            <agm-info-window>
+                                <h6 class="h5 text-success">Ubicación registrada</h6>
+                                <p>
+                                    {{this.direccionRegistrada}}
+                                </p>
+                                <div>
+                                    <button class="btn btn-sm btn-success">Copiar dirección</button>
+                                </div>
+
+                            </agm-info-window>
+                        </agm-marker>
+                        <agm-marker *ngIf="(this.wsService.latitudActual != 0.0 && this.wsService.longitudActual != 0.0) && (this.wsService.latitudActual != null && this.wsService.longitudActual != null)" [latitude]="this.wsService.latitudActual" [longitude]="this.wsService.longitudActual">
+                            <agm-info-window>
+                                <h6 class="h5 text-danger">Ubicación actual</h6>
+                                <p>
+                                    {{this.direccionActual}} {{this.wsService.latitudActual}} {{this.wsService.longitudActual}}
+                                </p>
+                                <div>
+                                    <button class="btn btn-sm btn-danger">Copiar dirección</button>
+                                </div>
+
+                            </agm-info-window>
+                        </agm-marker>
+                    </agm-map>
+                </div>
+            </div>
+            <div class="form-group row justify-content-end mr-2 mt-3" *ngIf="(this.latitudComercio != null && this.longitudComercio != null) && (this.wsService.latitudActual != 0.0 && this.wsService.longitudActual != 0.0)">
+                <div class="col-4">
+                    <input class="form-control" type="number" name="distancia" disabled [ngModel]="_direccion.distancia">
+                </div>
+                <p class="col-2 col-form-label text-white bg-success" *ngIf="_direccion.metrosKilometros === 'Metros'">Metros</p>
+                <p class="col-2 col-form-label text-white bg-danger" *ngIf="_direccion.metrosKilometros === 'Kilometros'">Km</p>
+
+            </div>
         </div>
     </div>
 
-    <!-- TABLA DE AUDIOS  -->
+
 
     <div class="col-xl-6 col-lg-12 mb-3">
         <div>
-            <div class="table-responsive bg-white">
+            <h4 class="card-header text-center text-white" style="background-color:  rgb(255, 136, 158)">
+                Grabaciones
+            </h4>
+            <div class="card-body table-responsive bg-white">
                 <table id="demo-foo-row-toggler" class="table table-bordered" data-toggle-column="first">
                     <thead>
                         <tr>
@@ -306,14 +527,49 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
+
+<!-- VIDEOS -->
+<!-- <div class="row mb-5" *ngIf="this.wsService.videos.length > 0">
+    <div class="col">
+        <div class="hijo">
+            <div class="row">
+                <div class="col">
+                    <div class="shadow-sm border">
+                        <h4 class="card-header text-center text-white" style="background-color:  rgb(255, 136, 158)">
+                            Videos
+                        </h4>
+
+                        <div class="card-body bg-white">
+                            <div class="row py-3 align-items-center">
+                                <div class="col" *ngFor="let v of this.wsService.videos; let k = index">
+                                    <video class="col align-self-center" style="max-height: 700px;" controls controlslist="nodownload">
+                                <source [src]="generarRuta(v.ruta)" type="video/mp4">
+                            </video>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div> -->
+
+<!-- MODAL DE DATOS DEL COMERCIO -->
+<!-- MODAL DE DATOS DEL COMERCIO -->
+<!-- MODAL DE DATOS DEL COMERCIO -->
 
 
 <div class="modal fade bd-example-modal-lg" id="modalComercio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
+        <div class="modal-content formatear-texto">
             <div class="modal-header">
-                <h5 class="h5 modal-title" id="exampleModalLabel">Datos del comercio</h5>
+                <h5 class="h5 modal-title" id="exampleModalLabel">DOMICILIO:</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -322,68 +578,71 @@
                 <form>
                     <div class="row">
                         <div class="col-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Nombre del comercio:</label>
-                                <input type="text" class="form-control" value="{{this.data_comercio?.nombre_comercio}}" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Teléfono fijo:</label>
-                                <input type="text" class="form-control" value="{{this.data_comercio?.telefono_fijo}}" disabled>
-                            </div>
-                            <div class="form-group">
+
+                            <div class="form-group mb-0">
                                 <label class="col-form-label">Calle:</label>
                                 <input type="text" class="form-control" value="{{this.data_comercio?.calle}}" disabled>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mt-1 mb-0">
                                 <label class="col-form-label">Número:</label>
                                 <input type="text" class="form-control" value="{{this.data_comercio?.numero}}" disabled>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mt-1 mb-0">
                                 <label class="col-form-label">Colonia/Fraccionamiento:</label>
                                 <input type="text" class="form-control" value="{{this.data_comercio?.colonia}}" disabled>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mt-1 mb-0">
                                 <label class="col-form-label">Código postal:</label>
                                 <input type="text" class="form-control" value="{{this.data_comercio?.cp}}" disabled>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Localidad:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.nombre_localidad}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Municipio:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.nombre_municipio}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
                                 <label class="col-form-label">Entre calle #1:</label>
                                 <input type="text" class="form-control" value="{{this.data_comercio?.entre_calle_1}}" disabled>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mt-1 mb-0">
                                 <label class="col-form-label">Entre calle #2:</label>
                                 <input type="text" class="form-control" value="{{this.data_comercio?.entre_calle_2}}" disabled>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Localidad:</label>
-                                <input type="text" class="form-control" value="{{this.data_comercio?.nombre_localidad}}" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Municipio:</label>
-                                <input type="text" class="form-control" value="{{this.data_comercio?.nombre_municipio}}" disabled>
-                            </div>
-                            <div class="form-group">
+
+                            <!-- <div class="form-group">
                                 <label class="col-form-label">Estado:</label>
                                 <input type="text" class="form-control" value="{{this.data_comercio?.nombre_estado}}" disabled>
+                            </div> -->
+                            <div class="form-group mb-0">
+                                <label class="col-form-label">Nombre del comercio: <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.nombre_comercio}}" disabled>
                             </div>
-                            <div class="form-group">
-                                <label for="" class="col-form-label">Razón social:</label>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Teléfono fijo: <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.telefono_fijo}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label for="" class="col-form-label">Razón social: <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" value="{{this.data_comercio?.razon_social}}" disabled>
                             </div>
-                            <div class="form-group">
-                                <label for="" class="col-form-label">Giro:</label>
+                            <div class="form-group mt-1 mb-0">
+                                <label for="" class="col-form-label">Giro: <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" value="{{this.data_comercio?.giro}}" disabled>
                             </div>
-                            <div class="form-group">
-                                <label for="" class="col-form-label">Número de empleados:</label>
+                            <div class="form-group mt-1 mb-0">
+                                <label for="" class="col-form-label">Número de empleados: <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" value="{{this.data_comercio?.num_empleados}}" disabled>
                             </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Fachada del comercio:</label>
+                            <div class="form-group  mt-1 mb-1">
+                                <label class="col-form-label">Fachada:</label>
                                 <textarea class="form-control" id="message-text" rows="4" value="{{this.data_comercio?.fachada}}" disabled></textarea>
                             </div>
+                            <h5 class="col-form-label mt-0"><span class="text-danger">*</span> Solo aplica en comercios.</h5>
                         </div>
                     </div>
 
@@ -392,71 +651,236 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL MENSAJES-->
+<!-- MODAL MENSAJES-->
+<!-- MODAL MENSAJES-->
+
+
+<div class="modal fade bd-example-modal-sm" id="modalMensaje" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content formatear-texto">
+            <div class=" modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">ENVIAR MENSAJE PERSONAL</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form #dataMensaje="ngForm" (ngSubmit)="enviarMensaje(dataMensaje)">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Titulo:</label>
+                                <input type="text" id="lblTitulo" name="lblTitulo" class="form-control" value="Titulo por default" ngModel required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-form-label">Descripción:</label>
+                                <textarea id="txtDescripcion" name="txtDescripcion" class="form-control" maxlength="50" value="" ngModel required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-dark">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DE DATOS DEL USUARIO-->
+<!-- MODAL DE DATOS DEL USUARIO-->
+<!-- MODAL DE DATOS DEL USUARIO-->
+
+<div class="modal fade bd-example-modal-lg" id="modalUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content formatear-texto">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">DATOS DEL USUARIO:</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group mb-0">
+                                <label class="col-form-label">Nombre (s):</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.nombres_usuarios_app}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Apellido Paterno:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.apell_pat}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Apellido Materno:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.apell_mat}}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group mb-0">
+                                <label class="col-form-label">Teléfono móvil:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.tel_movil}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Sexo:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.sexo_app}}" disabled>
+                            </div>
+
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Fecha de nacimiento:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.fecha_nacimiento | date: 'dd-MM-yyyy'}}" disabled>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+                <form>
+                    <div class="row align-content-center align-self-center mt-4">
+                        <h6 class="col-12"> CONTACTO DE EMERGENCIA:</h6>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group" style="margin-bottom: 0% !important;">
+                                <label class="col-form-label">Nombre Completo:</label>
+                                <input type="text" class="form-control" value="{{this.model_contacto_emergencia?.nombre_contacto_emerg}}" disabled>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group" style="margin-bottom: 0% !important;">
+                                <label class="col-form-label">Parentezco:</label>
+                                <input type="text" class="form-control" value="{{this.model_contacto_emergencia?.parentezco_contacto_emerg}}" disabled>
+                            </div>
+
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group" style="margin-bottom: 0% !important;">
+                                <label class="col-form-label">Número de télefono:</label>
+                                <input type="text" class="form-control" value="{{this.model_contacto_emergencia?.telefono_contacto_emerg}}" disabled>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
 </div>
 
 
-<div class="modal fade bd-example-modal-lg" id="modalUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- MODAL DE DATOS MÉDICOS -->
+<!-- MODAL DE DATOS MÉDICOS -->
+<!-- MODAL DE DATOS MÉDICOS -->
+
+<div class="modal fade bd-example-modal-lg" id="modalMedico" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
+        <div class="modal-content formatear-texto">
             <div class="modal-header">
-                <h5 class="h5 modal-title" id="exampleModalLabel">Datos del usuario</h5>
+                <h5 class="h5 modal-title" id="exampleModalLabel">DATOS MÉDICOS: </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Nombre (s):</label>
-                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.nombres_usuarios_app}}" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Apellido Paterno:</label>
-                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.apell_pat}}" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Apellido Materno:</label>
-                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.apell_mat}}" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Teléfono móvil:</label>
-                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.tel_movil}}" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Sexo:</label>
-                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.sexo_app}}" disabled>
-                            </div>
+                    <div class="row my-1">
+                        <div class="mb-1 form-group col-4">
+                            <label>Tipo de sangre:</label>
+                            <input type="text" class="form-control" value="{{this.data_usuario_comercio?.tipo_sangre}}" disabled>
                         </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Fecha de nacimiento:</label>
-                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.fecha_nacimiento | date: 'dd-MM-yyyy'}}" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Tipo de sangre:</label>
-                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.tipo_sangre}}" disabled>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-form-label">Padecimientos:</label>
-                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.padecimientos}}" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Alergias:</label>
-                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.alergias}}" disabled>
-                            </div>
+                        <div class="mb-1 form-group col-4">
+                            <label>Peso:</label>
+                            <input type="text" class="form-control" value="{{this.data_medico?.peso}}" disabled>
+                        </div>
+                        <div class="mb-1 form-group col-4">
+                            <label>Estatura:</label>
+                            <input type="text" class="form-control" value="{{this.data_medico?.estatura}}" disabled>
                         </div>
                     </div>
+
+                    <div class="mb-1 form-group">
+                        <label for="areaAlergias">Alergias:</label>
+                        <textarea class="form-control" maxlength="200" value="{{this.data_usuario_comercio?.alergias}}" disabled></textarea>
+                    </div>
+                    <div class="mb-1 form-group">
+                        <label for="areaPadecimientos">Padecimientos:</label>
+                        <textarea class="form-control" maxlength="500" value="{{this.data_usuario_comercio?.padecimientos}}" disabled></textarea>
+                    </div>
+                    <div class="mb-1 form-group">
+                        <label for="areaMedicamentos">Toma medicamentos:</label>
+                        <textarea class="form-control" maxlength="100" value="{{this.data_medico?.toma_medicamentos}}" disabled></textarea>
+                    </div>
+                    <div class="mb-1 form-group">
+                        <label for="areaSenasParticulares">Señas particulares de la persona:</label>
+                        <textarea class="form-control" maxlength="100" value="{{this.data_medico?.senas_particulares}}" disabled></textarea>
+                    </div>
+
+
+                    <!--<div class="form-group">
+                        <label class="col-form-label">Tipo de sangre:</label>
+                        <input type="text" class="form-control"  disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-form-label">Padecimientos:</label>
+                        <input type="text" class="form-control"  disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Alergias:</label>
+                        <input type="text" class="form-control"  disabled>
+                    </div> -->
+
+                    <div class="row" *ngIf="this.data_medico">
+                        <!-- <div class="mb-1 form-group col-2">
+                            <label>Habla:</label>
+                            <input type="text" class="form-control" value="SI" disabled *ngIf="this.data_medico?.habla===1">
+                            <input type="text" class="form-control" value="NO" disabled *ngIf="this.data_medico?.habla===0">
+                        </div>
+                        <div class="mb-1 form-group col-2">
+                            <label>Escucha:</label>
+                            <input type="text" class="form-control" value="SI" disabled *ngIf="this.data_medico?.escucha===1">
+                            <input type="text" class="form-control" value="NO" disabled *ngIf="this.data_medico?.escucha===0">
+                        </div> -->
+                        <div class="mb-1 form-group col-2">
+                            <label> Lee:</label>
+                            <input type="text" class="form-control" value="SI" disabled *ngIf="this.data_medico?.lee===1">
+                            <input type="text" class="form-control" value="NO" disabled *ngIf="this.data_medico?.lee===0">
+                        </div>
+                        <div class="mb-1 form-group col-2">
+                            <label> Escribe:</label>
+                            <input type="text" class="form-control" value="SI" disabled *ngIf="this.data_medico?.escribe===1">
+                            <input type="text" class="form-control" value="NO" disabled *ngIf="this.data_medico?.escribe===0">
+                        </div>
+                        <div class="mb-1 form-group col-3">
+                            <label> Comprende LSM:   </label>
+                            <input type="text" class="form-control" value="SI" disabled *ngIf="this.data_medico?.habla_LSM===1">
+                            <input type="text" class="form-control" value="NO" disabled *ngIf="this.data_medico?.habla_LSM===0">
+                        </div>
+                    </div>
+
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

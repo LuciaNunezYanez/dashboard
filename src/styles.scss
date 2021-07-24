@@ -1,8 +1,79 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'font-texto';
+    src: url(assets/fonts/exo_2/Exo2-Light.otf);
+}
 
-// .height-fragment {
-//     height: 50vh !important;
-// }
+@font-face {
+    font-family: 'font-option';
+    src: url(assets/fonts/exo_2/Exo2-Light.otf);
+}
+
+@font-face {
+    font-family: 'font-titulo';
+    src: url(assets/fonts/exo_2/Exo2-Bold.otf);
+}
+
+.font-titulo {
+    font-family: 'font-texto';
+    font-size: 18px;
+    color: rgb(110, 112, 112);
+}
+
+.formatear-texto,
+label,
+input:enabled,
+button {
+    font-family: 'font-texto';
+    font-size: 16px;
+    color: rgb(110, 112, 112);
+}
+
+.formatear-texto,
+textarea:disabled,
+input:disabled {
+    font-family: 'font-titulo';
+    font-size: 16px;
+    color: rgb(110, 112, 112);
+}
+
+.formatear-texto,
+td {
+    font-family: 'font-texto';
+    font-size: 14px;
+    color: rgb(110, 112, 112);
+}
+
+.formatear-texto,
+label {
+    font-family: 'font-texto';
+    font-size: 14px;
+    color: rgb(110, 112, 112);
+}
+
+.formatear-texto,
+th {
+    font-family: 'font-titulo';
+    font-size: 15px;
+    color: rgb(110, 112, 112);
+}
+
+.formatear-texto,
+option,
+select,
+p,
+textarea:enabled {
+    font-family: 'font-option';
+    font-size: 16px;
+    color: rgb(110, 112, 112);
+}
+
+.formatear-texto,
+h6 {
+    font-family: 'font-titulo';
+    font-size: 20px;
+    color: rgb(110, 112, 112);
+}
+
 .card {
     margin-bottom: 10px !important;
 }
@@ -56,4 +127,101 @@ tbody {
     width: 100%;
     overflow-x: scroll;
     white-space: nowrap;
+}
+
+
+/* VERTICAL TABS */
+
+* {
+    box-sizing: border-box
+}
+
+
+/* Style the tab */
+
+.tab {
+    border: 1px solid rgb(228, 228, 228);
+    border-left: none;
+    border-top: none;
+    border-bottom: none;
+    /* background-color: #f1f1f1; */
+    /* width: 30%;
+    height: 300px; */
+}
+
+.centrado {
+    align-content: center !important;
+    align-items: center !important;
+    align-self: center !important;
+    background: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    justify-self: center !important;
+    align-items: center !important;
+    align-self: center !important;
+}
+
+
+/* Change background color of buttons on hover */
+
+.tab button:hover,
+a:hover {
+    background-color: rgb(130, 132, 138);
+    /* background-color: #fdd4db; */
+    color: #FFFF;
+}
+
+
+/* Create an active/current "tab button" class */
+
+.tab button.active,
+a.active {
+    background-color: rgb(27, 62, 189);
+    /* background-color: #FF889E; */
+    color: #FFFF;
+}
+
+.tam_img {
+    min-width: auto;
+    max-width: 70% !important;
+    height: auto !important;
+    max-height: 700px;
+}
+
+
+/* Style the tab content */
+
+.tabcontent {
+    float: left;
+    padding: 0px 12px;
+    /* border: 1px solid rgb(228, 228, 228); */
+    /* width: fit-content; */
+    /* width: 80%; */
+    border-left: none;
+    /* height: 100%; */
+}
+
+
+/* ICONO CON CIRCULO ROJO */
+
+
+/* CSS para posicionar el bade cerca del boton*/
+
+.mult {
+    position: relative;
+}
+
+#mult_menu_num {
+    position: absolute;
+    top: 0;
+    left: 55%;
+    background: red;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 2px;
 }

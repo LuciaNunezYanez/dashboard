@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SharedModule } from '../shared/shared.module';
+import { AgmCoreModule } from '@agm/core'
 
 // ROUTES
 import { PAGES_ROUTES } from './pages.routes';
@@ -11,6 +12,7 @@ import { PagesComponent } from './pages.component';
 import { ReporteComponent } from './reporte/reporte.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReportesComponent } from './reportes/reportes.component';
+import { environment } from 'src/environments/environment';
 
 
 @NgModule({
@@ -27,11 +29,12 @@ import { ReportesComponent } from './reportes/reportes.component';
         SharedModule,
         PAGES_ROUTES,
         FormsModule,
-        BrowserModule
-        // AgmCoreModule.forRoot({
-        //   apiKey: 'AIzaSyCqxLlIIJcj2ItDwwu3FwliQmE3lPh_pw0'
-        // }
-        // ) 
+        ReactiveFormsModule,
+        BrowserModule,
+        AgmCoreModule.forRoot({
+          apiKey: environment.API_KEY
+        }
+        ) 
     ]
 })
 
