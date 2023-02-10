@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router'
 import { Usuario } from './usuarios/usuarios-nit.service';
 import { environment } from '../../environments/environment';
 import { WebsocketService } from './sockets/websocket.service';
@@ -12,12 +13,14 @@ export class LoginService {
 
   url = environment.wsUrl;
   userToken: string;
+  id_asociacion: number = 0;
   estacion: number;
   idUsuarioNIT: string;
   expiresIn: string;
   salaUsuarioNIT: string;
+  tipoPermiso: string;
 
-  constructor( private http: HttpClient) {
+  constructor( private http: HttpClient, private router: Router) {
     this.leerToken();
     this.leerIDUsuario();
   }
@@ -40,13 +43,19 @@ export class LoginService {
     .pipe(
       map( (resp: any) => {
         if (resp.token) {
-          console.log(resp);
+          // Es un usuario inválido
+          if(this.buscarPermiso(resp) === ''){
+            return { ok: false };
+          }
+
           // Guardar la información del usuario 
+          this.guardarAsociacion(Number.parseInt(resp.id_asociacion));
           this.guardarToken(resp.token);
           this.guardarIDUsuario(resp.id_usuario);
           this.guardarEstacion(resp.estacion);
           this.guardarExpires(resp.expiresIn);
           this.guardarSala(resp.sala);
+          this.guardarTipoPermiso(this.buscarPermiso(resp));
         }
         return resp;
       })
@@ -83,6 +92,16 @@ export class LoginService {
     this.userToken = idToken;
     localStorage.setItem('token', idToken);
   }
+  
+  private guardarAsociacion( idAsociacion: number ) {
+    if(idAsociacion != 0){
+      this.id_asociacion = idAsociacion;
+      localStorage.setItem('asoc', idAsociacion+'');
+    } else {
+      this.id_asociacion = 0;
+      localStorage.removeItem('asoc');
+    }
+  }
 
   private guardarEstacion( idEstacion: string ) {
     this.estacion = Number.parseInt(idEstacion);
@@ -104,6 +123,11 @@ export class LoginService {
   private guardarSala ( sala: any ) {
     this.salaUsuarioNIT = sala;
     localStorage.setItem('sala', sala);
+  }
+
+  private guardarTipoPermiso ( tipoPermiso: string ) {
+    this.tipoPermiso = tipoPermiso;
+    localStorage.setItem('tp', tipoPermiso);
   }
 
   // =========================================
@@ -140,6 +164,8 @@ export class LoginService {
     localStorage.removeItem('estacion');
     localStorage.removeItem('expiresIn');
     localStorage.removeItem('sala');
+    localStorage.removeItem('asoc');
+    localStorage.removeItem('tp');
   }
 
   // =========================================
@@ -152,6 +178,15 @@ export class LoginService {
       this.userToken = '';
     }
     return this.userToken;
+  }
+
+  leerAsociacion() {
+    if ( localStorage.getItem('asoc') ){
+      this.id_asociacion = Number.parseInt(localStorage.getItem('asoc'));
+    } else {
+      this.id_asociacion = 0;
+    }
+    return this.id_asociacion;
   }
 
   leerEstacion() {
@@ -185,6 +220,32 @@ export class LoginService {
       return this.salaUsuarioNIT= localStorage.getItem('sala');
     } else {
       return this.salaUsuarioNIT = undefined;
+    }
+  }
+
+  leerTipoPermiso(){
+    if(localStorage.getItem('tp')){
+      return this.tipoPermiso = localStorage.getItem('tp');
+    } else {
+      return this.tipoPermiso = undefined;
+    }
+  }
+
+  buscarPermiso(data: any){
+    if(data.p_normal === 1){
+      if(data.p_admin === 1){
+        return 'p_normal_admin'
+      } 
+      return 'p_normal'
+
+    } else if(data.p_tr === 1){
+      if(data.p_admin === 1){
+        return 'p_tr_admin'
+      }
+      return 'p_tr';
+
+    } else {
+      return '';
     }
   }
 

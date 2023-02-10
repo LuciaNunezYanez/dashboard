@@ -1,31 +1,16 @@
 <div id="main-wrapper">
-    <app-header></app-header>
-    <!-- ============================================================== -->
-    <!-- Page wrapper  -->
-    <!-- ============================================================== -->
+    <!-- <app-header></app-header> -->
     <app-sidebar></app-sidebar>
-    <div class="page-wrapper ">
-        <!-- ============================================================== -->
-        <!-- Container fluid  -->
-        <!-- ============================================================== -->
-        <div class="container-fluid" style="margin-top: 55px !important; background-color: #F4F6F9;">
-            <!-- background-color: #F4F6F9; -->
-            <!-- <app-breadcrumbs></app-breadcrumbs> -->
-            <!-- ============================================================== -->
-            <!-- Start Page Content -->
-            <!-- ============================================================== -->
-
+    <section class="alertas">
+        <div class="pb-0" style="background-color: #F4F6F9; ">
+            <app-header></app-header>
             <router-outlet></router-outlet>
-            <!-- ============================================================== -->
-            <!-- End PAge Content -->
-            <!-- ============================================================== -->
         </div>
+    </section>
 
-        <!-- ============================================================== -->
-        <!-- End Container fluid  -->
-        <!-- ============================================================== -->
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Page wrapper  -->
-    <!-- ============================================================== -->
+    <!-- <div class="page-wrapper">
+        <div class="container-fluid pb-0" style="background-color: #F4F6F9; ">
+            <router-outlet></router-outlet>
+        </div>
+    </div> -->
 </div>

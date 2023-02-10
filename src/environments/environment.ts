@@ -4,21 +4,17 @@
 
 export const environment = {
   production: false,
-  // wsUrl: 'http://localhost:8888',
-  API_KEY: 'AIzaSyCqxLlIIJcj2ItDwwu3FwliQmE3lPh_pw0',
-  // wsUrl: 'http://192.168.0.11:8888',
-  wsUrl: 'http://10.11.127.70:8888',
+  API_KEY: 'AIzaSyCqxLlIIJcj2ItDwwu3FwliQmE3lPh_pw0', //Registro comercio panico (Cloud Platform)
   urlNotification: 'https://getbootstrap.com/docs/5.0/content/typography/',
+  
   // wsUrl: 'http://10.11.118.91:8888'
-  // wsUrl: 'http://10.11.112.166:3000'
-  //wsUrl: 'https://boton-panico.herokuapp.com'
-};
+  // wsUrl: 'http://localhost:8888'
+  wsUrl: 'http://10.11.127.70:8888',
 
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+  
+  salaEmergencias: 'C5DURANGO',
+  estacionEmergencias: 9959697,
+  asociacionEmergencias: 2,
+  dptoEmergencias: ''
+
+};

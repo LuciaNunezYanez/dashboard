@@ -1,0 +1,1021 @@
+<div class="container-fluid">
+    <div class="row align-items-start">
+        <div class="col-md-12">
+            <div class="row justify-content-around">
+                <div class="col-xl-3 col-md-12" *ngIf="this.opcionesHabilitadas.reporte.informacion">
+                    <div class="row p-0 mt-2">
+                        <div class="col-12 p-0">
+                            <div class="card shadow-sm formatear-texto">
+                                <!-- INFORMACIÓN DEL COMERCIO/GRUPO  -->
+
+                                <div class="card-body" style="border: 1px solid rgb(214, 214, 214);">
+                                    <div class="row" *ngIf="nocomercio">
+                                        <div class="col-12">
+                                            <h6 class="text-center">{{tipo_grupo}}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="text-center">{{ this.data_reporte?.fecha_hora_ataq | date:'dd-MM-yyyy'}}
+                                                <span *ngFor="let activ of this.wsService.activaciones">{{
+                                                    activ?.fecha_hora_activacion | date: 'hh:mm:ss' }}</span>
+                                            </h5>
+                                        </div>
+                                        <div class="col-10 col-xl-10">
+                                            <label class="row m-0 p-0" *ngIf="this.data_usuario_comercio?.sexo_app === 'F'" style="color: hotpink;">{{this.data_usuario_comercio?.nombres_usuarios_app}}
+                                                {{this.data_usuario_comercio?.apell_pat}}
+                                                {{this.data_usuario_comercio?.apell_mat}}</label>
+                                            <label class="row m-0 p-0" *ngIf="this.data_usuario_comercio?.sexo_app === 'M'" style="color: dodgerblue;">{{this.data_usuario_comercio?.nombres_usuarios_app}}
+                                                {{this.data_usuario_comercio?.apell_pat}}
+                                                {{this.data_usuario_comercio?.apell_mat}}</label>
+                                            <label class="row m-0 p-0" *ngIf="this.data_usuario_comercio?.sexo_app != 'M' && this.data_usuario_comercio?.sexo_app != 'F'" class="h6">{{this.data_usuario_comercio?.nombres_usuarios_app}}
+                                                {{this.data_usuario_comercio?.apell_pat}}
+                                                {{this.data_usuario_comercio?.apell_mat}}</label>
+                                            <label class="row m-0 p-0">{{this.data_usuario_comercio?.tel_movil}}</label>
+                                            <label class="row m-0 p-0" *ngIf="(this.wsService.latitudActual != 0.0 && this.wsService.longitudActual != 0.0) && (this.wsService.latitudActual != null && this.wsService.longitudActual != null)">
+                                                    {{this.direccionActual?.calle}} #{{this.direccionActual?.numero}}, {{this.direccionActual?.colonia}} C.P. {{this.direccionActual?.cp}}     
+                                                </label>
+                                            <label class="row m-0 p-0" *ngIf="(this.wsService.latitudActual != 0.0 && this.wsService.longitudActual != 0.0) && (this.wsService.latitudActual != null && this.wsService.longitudActual != null)">
+                                                    {{this.direccionActual?.localidad}} {{this.direccionActual?.municipio}}     
+                                                </label>
+                                            <label class="row m-0 p-0" *ngIf="(this.wsService.latitudActual != 0.0 && this.wsService.longitudActual != 0.0) && (this.wsService.latitudActual != null && this.wsService.longitudActual != null)">
+                                                    {{this.wsService.latitudActual}}, {{this.wsService.longitudActual}}    
+                                                </label>
+
+                                        </div>
+                                        <div class="col-2 col-xl-2">
+                                            <div class="row justify-content-end mb-1 mr-1">
+                                                <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modalUsuario" data-whatever="@mdo"><i
+                                                        class="mdi mdi-account"></i></button>
+                                            </div>
+                                            <div class="row justify-content-end mb-1 mr-1">
+                                                <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modalMedico" data-whatever="@mdo"><i
+                                                        class="mdi mdi-medical-bag"></i></button>
+                                            </div>
+                                            <div class="row justify-content-end mr-1">
+                                                <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#modalComercio" data-whatever="@mdo"><i
+                                                        class="mdi mdi-store"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row p-0">
+                        <div class="col-12 p-0">
+                            <div class="card shadow-sm formatear-texto">
+                                <div class="card-body" style="border: 1px solid rgb(214, 214, 214);" *ngIf="this.chat === undefined">
+                                    <h6 class="h6">No se encontró registro de chat.</h6>
+
+                                </div>
+                                <div class="card-body" style="border: 1px solid rgb(214, 214, 214);" *ngIf="this.chat?.id_unidad_chat > 1">
+                                    TIENE UNIDAD ASIGNADA MOSTRAR INFORMACIÓN DE LA UNIDAD
+                                    <div class="row my-2 justify-content-center" *ngIf="this.chat?.unidad_usuario_chat != undefined && this.chat?.id_unidad_chat > 1">
+                                        <!-- Validar si ya se asignó el reporte -->
+                                        <button class="btn btn-sm btn-outline-success" *ngIf="this.chat?.unidad_usuario_chat === 0" (click)="habilitarDeshabilitarChat(1)">HABILITAR CHAT UNIDAD -
+                                            USUARIO</button>
+                                        <button class="btn btn-sm btn-outline-secondary" *ngIf="this.chat?.unidad_usuario_chat === 1" (click)="habilitarDeshabilitarChat(0)">DESHABILITAR CHAT UNIDAD -
+                                            USUARIO</button>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="border: 1px solid rgb(214, 214, 214);" *ngIf="this.chat?.id_unidad_chat === 1 || this.chat?.id_unidad_chat === 0">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h6 class="text-center">Unidades disponibles</h6>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <select id="datalistCorporacion" (change)="onSelectCorporacion($event.target.value)" class="form-control form-control-sm">
+                                            <option value="0"> Seleccione corporación</option>
+                                            <option *ngFor="let unid of this.filtro_corporaciones"
+                                                value="{{unid?.id_corp}}">
+                                                {{unid?.tipo_corp}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <select id="datalistUnidades" (change)="onSelectUnidad($event.target.value)" class="form-control form-control-sm">
+                                            <option value="0"> Seleccione unidad</option>
+                                            <option *ngFor="let unid of this.filtro_unidades"
+                                                value="{{unid?.id_unidad}}">
+                                                {{unid?.num_unidad}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <select id="datalistOficial" (change)="onSelectOficial($event.target.value)" class="form-control form-control-sm">
+                                            <option value="0"> Seleccione oficial</option>
+                                            <option *ngFor="let unid of this.filtro_oficiales"
+                                                value="{{unid?.id_usuarios_cc}}">
+                                                {{unid?.apellido_paterno}} {{unid?.nombres_usuarios_cc}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <button class="btn btn-dark my-1" (click)="asignar_unidad()">Asignar
+                                            unidad</button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 col-12">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row" style="height: 470px;">
+                                <div class="col-12">
+                                    <div class="chat-window mt-2">
+                                        <!-- <h1 class="h4 text-center"> Chat</h1>
+                                    <hr> -->
+                                        <div class="app-mensajes" id="app-mensajes">
+                                            <div class="text-right mr-2 ">
+                                                <span class="badge bg-success">Yo</span> <span class="text-secondary">
+                                                    10:32 </span>
+                                                <p style="margin-left: 120px;">Este es un mensaje del chat</p>
+                                            </div>
+                                            <div>
+                                                <span class="badge bg-danger">Usuario</span> <span class="text-secondary"> 10:33 </span>
+                                                <p style="margin-right: 120px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                                                    ex ea commodo consequat.</p>
+                                            </div>
+                                            <div class="text-right mr-2">
+                                                <span class="badge bg-success">Yo</span> <span class="text-secondary">
+                                                    10:34 </span>
+                                                <p style="margin-left: 120px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                                                    ex ea commodo consequat. </p>
+                                            </div>
+                                            <!-- [(ngModel)]="mensaje" -->
+
+                                            <!-- <ul>
+                                        <li class="text" *ngFor="let chat of chats"> {{chat.mensaje}}</li>
+                                    </ul> -->
+                                        </div>
+                                        <div>
+                                            <input type="text" class="form-control mt-1" name="mensaje" placeholder="Enviar mensaje a usuario" (keyup.enter)="enviar_mensaje_usuario()" [disabled]="this.chat?.operador_usuario_chat === 0 || this.chat === undefined">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-6">
+                            <div class="row" style="height: 470px;">
+                                <div class="col-12">
+                                    <div class="chat-window mt-2">
+                                        <!-- <h1 class="h4 text-center"> Chat</h1>
+                                    <hr> -->
+                                        <div class="app-mensajes" id="app-mensajes">
+                                            <div class="text-right mr-2 ">
+                                                <span class="badge bg-success">Yo</span> <span class="text-secondary">
+                                                    10:32 </span>
+                                                <p style="margin-left: 120px;">Lorem ipsum dolor sit amet</p>
+                                            </div>
+                                            <div>
+                                                <span class="badge bg-info">Unidad</span> <span class="text-secondary">
+                                                    10:33 </span>
+                                                <p style="margin-right: 120px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                                </p>
+                                            </div>
+                                            <!-- [(ngModel)]="mensaje" -->
+
+                                            <!-- <ul>
+                                        <li class="text" *ngFor="let chat of chats"> {{chat.mensaje}}</li>
+                                    </ul> -->
+                                        </div>
+                                        <div>
+                                            <input type="text" class="form-control mt-1" name="mensaje" placeholder="Enviar mensaje a unidad" (keyup.enter)="enviar_mensaje_unidad()" [disabled]="this.chat?.operador_unidad_chat === 0 || this.chat === undefined">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- this.opcionesHabilitadas.reporte.mapa -->
+                        <!-- *ngIf="unidadAsignada" -->
+                        <div id="GPS" class="tabcontent col-12" *ngIf="true">
+                            <div class="">
+                                <div class="row mt-2" style="height: 350px;" *ngIf="this.wsService.tipo_ubicacion === 'Actual' || this.wsService.tipo_ubicacion === 'Otra'">
+                                    <div class="col" *ngIf="this.wsService.latitudActual != 0.0 && this.wsService.latitudActual != undefined">
+                                        <agm-map [latitude]="this.wsService.latitudActual" [longitude]="this.wsService.longitudActual" [zoom]="15" *ngIf="tengoCoordenadas <= 3" style="width: 100%; height: 100%;">
+                                            <agm-marker [latitude]="this.latitudComercio" [longitude]="this.longitudComercio" *ngIf="(this.latitudComercio > 1 && this.longitudComercio < 1) && (this.latitudComercio != null && this.longitudComercio != null)">
+                                                <agm-info-window>
+                                                    <h6 class="h5 text-success">Ubicación registrada</h6>
+                                                    <p>
+                                                        {{this.direccionRegistrada}}
+                                                    </p>
+                                                    <!-- <div>
+                                                            <button class="btn btn-sm btn-success">Copiar dirección</button>
+                                                        </div> -->
+
+                                                </agm-info-window>
+                                            </agm-marker>
+                                            <agm-marker *ngIf="(this.wsService.latitudActual != 0.0 && this.wsService.longitudActual != 0.0) && (this.wsService.latitudActual != null && this.wsService.longitudActual != null)" [latitude]="this.wsService.latitudActual" [longitude]="this.wsService.longitudActual">
+                                                <agm-info-window>
+                                                    <h6 class="h5 text-danger">Ubicación actual</h6>
+                                                    <p>
+                                                        {{this.direccionActual?.calle}} #{{this.direccionActual?.numero}}, {{this.direccionActual?.colonia}} C.P. {{this.direccionActual?.cp}} {{this.direccionActual?.localidad}}, {{this.direccionActual?.municipio}}
+                                                    </p>
+                                                    <!-- <div>
+                                                            <button class="btn btn-sm btn-danger">Copiar dirección</button>
+                                                        </div> -->
+
+                                                </agm-info-window>
+                                            </agm-marker>
+                                        </agm-map>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-12" *ngIf="this.wsService.activaciones.length > 1">
+
+                    <div class="card shadow-sm">
+                        <!-- INFORMACIÓN DEL COMERCIO -->
+
+                        <div class="card-body" style="border: 1px solid rgb(214, 214, 214);">
+                            <h6 class="text-center font-weight-bold">Hora</h6>
+                            <div class="row justify-content-center">
+                                <span class="badge bg-secondary mx-1 mb-1" *ngFor="let activ of this.wsService.activaciones">{{ activ?.fecha_hora_activacion |
+                                    date: 'hh:mm:ss' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-12" *ngIf="this.opcionesHabilitadas.reporte.reporteManual">
+                    <div class="card shadow-sm border formatear-texto">
+
+                        <div class="card-body mt-0 pt-0" style="border: 1px solid rgb(214, 214, 214);">
+                            <h6 class="text-center font-weight-bold mt-2 mb-2 pb-0"> Información del reporte manual
+                            </h6>
+                            <!-- ENCABEZADO DEL REPORTE -->
+                            <div class="row">
+                                <div class="col-6 p-r-0">
+                                    <h6 class="text-success h6">{{this.data_reporte?.abrev_grupo}} - {{ this.data_reporte?.id_reporte | number: '3.0-3'}}</h6>
+                                </div>
+                                <div class="col-6 mr-0">
+                                    <h6 class="text-right h6">{{ this.data_reporte?.fecha_hora_ataq | date:'dd-MM-yyyy'}}
+                                        <!-- <span *ngFor="let activ of this.wsService.activaciones">{{
+                                            activ?.fecha_hora_activacion | date: 'hh:mm:ss' }}
+                                        </span> -->
+                                        <span>{{this.wsService.activaciones[0]?.fecha_hora_activacion | date: 'hh:mm:ss' }}</span>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="row mb-0">
+                                <div class="form-group col-5" style="margin: 0% !important;">
+                                    <label class=""><span>Tipo de incidente:</span></label>
+                                    <input type="text" class="form-control form-control-sm" value="{{this.data_reporte?.cuerpo_emerg_usuario}}" disabled>
+                                </div>
+                                <div class="form-group col-5" style="margin: 0% !important;">
+                                    <label class="">Subtipo:</label>
+                                    <input type="text" class="form-control form-control-sm" value="{{this.data_reporte?.tipo_incid_usuario}}" disabled>
+                                </div>
+                                <div class="form-group col-2" style="margin: 0% !important;">
+                                    <label class="">Afectado(s):</label>
+                                    <input type="text" class="form-control form-control-sm" value="{{this.data_reporte?.quien_emergencia}}" disabled>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="form-group col-12" style="margin: 0% !important;">
+                                    <label class="">Descripción del incidente:</label>
+                                    <textarea rows="3" class="form-control form-control-sm" value="{{this.data_reporte?.descrip_emerg_usuario}}" disabled> </textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-12" *ngIf="this.opcionesHabilitadas.reporte.cerrarReporte">
+                    <div class="card shadow-sm border">
+                        <div class="card-body formatear-texto" style="border: 1px solid rgb(214, 214, 214);">
+                            <!-- FORMULARIO DE ENVIO  -->
+
+                            <div class="row">
+                                <form class="col-12" #data="ngForm" (ngSubmit)="guardarCampos(data)" autocomplete="off">
+                                    <h6 class="text-center font-weight-bold mt-1 mb-2"> Cierre </h6>
+                                    <div class="row justify-content-between">
+                                        <div class="col-6">
+                                            <!-- requiered -->
+                                            <select *ngIf="clasificacion" [(ngModel)]="selectedClasificacion" (change)="onSelectClasificacion($event.target.value)" class="form-control form-control-sm my-1" id="clasificacion" name="clasificacion">
+                                                <option value="0">SELECCIONE TIPO DE INCIDENTE</option>
+                                                <option *ngFor="let clasif of clasificacion"
+                                                    value="{{clasif.id_clasificacion}}">
+                                                    {{clasif.clasificacion}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <select *ngIf="filtro_subclasificacion" [(ngModel)]="selectedSubclasificacion" (change)="onSelectSubclasificacion($event.target.value)" class="form-control form-control-sm my-1" id="subclasificacion" name="subclasificacion">
+                                                <option value="0">SELECCIONE SUBTIPO </option>
+                                                <option *ngFor="let subcl of filtro_subclasificacion"
+                                                    value="{{subcl.id_subclasificacion}}">
+                                                    {{subcl.subclasificacion}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-between">
+                                        <div class="col">
+                                            <select *ngIf="filtro_incidentes" [(ngModel)]="selectedIncidente" (change)="onSelectIncidente($event.target.value)" class="form-control form-control-sm my-1" id="incidente" name="incidente">
+                                                <option value="0">SELECCIONE NOMBRE DEL INCIDENTE</option>
+                                                <option *ngFor="let incid of filtro_incidentes"
+                                                    value="{{incid.id_incidente}}">
+                                                    {{incid.incidente}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="row mt-1">
+                                        <div class="col-12">
+                                            <textarea class="form-control form-control-sm" rows="2" placeholder="DESCRIPCIÓN DEL INCIDENTE" name="notas" ngModel></textarea>
+
+                                        </div>
+                                    </div> -->
+                                    <div class="row">
+                                        <!-- <div class="col-6">
+                                            <input ngModel name="cierre" class="form-control form-control-sm my-1" type="text" placeholder="CONCLUSIÓN *" name="cierre" ngModel>
+                                        </div> -->
+                                        <div class="col-6">
+                                            <input class="form-control form-control-sm my-1" type="text" placeholder="FOLIO CAD (Obligatorio)" name="unidad" ngModel required>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row mt-1 mb-1">
+                                                <button class="btn btn-dark mr-2" type="submit">Cerrar reporte</button>
+                                                <button class="btn btn-outline-secondary" data-toggle="modal" data-target="#modalMensaje" data-whatever="@mdo" type="button"><i
+                                                        class="mdi mdi-message"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- TERMINA FORMULARIO  -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- <div class="row align-items-start">
+        <div class="col-12">
+            <div class="">
+                <div class="card-body bg-white" style="border: 1px solid rgb(214, 214, 214);">
+                    <div class="row mb-1">
+                        <div class="col-12">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item" *ngIf="this.opcionesHabilitadas.reporte.mapa">
+                                    <a type="button" class="btn btn-outline-secondary tablinks active mult" (click)="open($event, 'GPS')" data-whatever="@mdo">
+                                        <i class="mdi mdi-map-marker"></i>
+                                        <span id="mult_menu_num" *ngIf="this.wsService.tipo_ubicacion && this.wsService.latitudActual != 0.0 && this.wsService.latitudActual != undefined" data-action="mult-can" class="badge rounded-circle">1</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" *ngIf="this.opcionesHabilitadas.reporte.chat">
+                                    <a type="button" class="btn btn-outline-secondary tablinks mult ml-2" (click)="open($event, 'CHAT')" data-whatever="@mdo">
+                                        <i class="mdi mdi-message-reply-text"></i>
+                                    </a>
+                                </li>
+                                <li class="nav-item" *ngIf="this.opcionesHabilitadas.reporte.imagenes">
+                                    <a type="button" class="btn btn-outline-secondary tablinks mult ml-2" (click)="open($event, 'IMG')" data-whatever="@mdo">
+                                        <i class="mdi mdi-camera"></i>
+                                        <span id="mult_menu_num" *ngIf="this.wsService.imagenes.length> 0" data-action="mult-can" class="badge rounded-circle">{{this.wsService.imagenes.length}}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" *ngIf="this.opcionesHabilitadas.reporte.audio">
+                                    <a type="button" class="btn btn-outline-secondary tablinks mult ml-2" (click)="open($event, 'AUDIO')" data-whatever="@mdo">
+                                        <i class="mdi mdi-volume-high"></i>
+                                        <span id="mult_menu_num" *ngIf="this.wsService.audios.length > 0" data-action="mult-can" class="badge rounded-circle">{{this.wsService.audios.length}}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" *ngIf="this.opcionesHabilitadas.reporte.video">
+                                    <a type="button" class="btn btn-outline-secondary tablinks mult ml-2" (click)="open($event, 'VIDEO')" data-whatever="@mdo">
+                                        <i class="mdi mdi-video"></i>
+                                        <span id="mult_menu_num" *ngIf="this.wsService.videos.length > 0" data-action="mult-can" class="badge rounded-circle">{{this.wsService.videos.length}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div id="GPS" class="tabcontent col-12" style="display: none;" *ngIf="!this.opcionesHabilitadas.reporte.mapa">
+                            <div class="">
+                                <div class="form-group row mr-2 mt-3" *ngIf="this.wsService.latitudActual === 0.0 || this.wsService.tipo_ubicacion.length < 4">
+                                    <div class="alert alert-danger text-center ml-3 mb-0" role="alert">
+                                        ¡Sin ubicación registrada!
+                                    </div>
+                                </div>
+                                <div class="form-group row mr-2 mt-3" *ngIf="this.wsService.tipo_ubicacion === 'Casa'">
+                                    <div class="alert alert-danger text-center ml-3 mb-0" role="alert">
+                                        ¡Emergencia en dirección registrada!
+                                    </div>
+                                </div>
+                                <div class="form-group row mr-2 mt-3" *ngIf="this.wsService.tipo_ubicacion === 'Otra'">
+                                    <div class="alert alert-danger text-center ml-3 mb-0" role="alert">
+                                        ¡Emergencia en {{this.wsService.tipo_ubicacion}}!
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2" style="height: 470px;" *ngIf="this.wsService.tipo_ubicacion === 'Actual' || this.wsService.tipo_ubicacion === 'Otra'">
+                                    <div class="col" *ngIf="this.wsService.latitudActual != 0.0 && this.wsService.latitudActual != undefined">
+                                        <agm-map [latitude]="this.wsService.latitudActual" [longitude]="this.wsService.longitudActual" [zoom]="15" *ngIf="tengoCoordenadas <= 3" style="width: 100%; height: 100%;">
+                                            <agm-marker [latitude]="this.latitudComercio" [longitude]="this.longitudComercio" *ngIf="(this.latitudComercio > 1 && this.longitudComercio < 1) && (this.latitudComercio != null && this.longitudComercio != null)">
+                                                <agm-info-window>
+                                                    <h6 class="h5 text-success">Ubicación registrada</h6>
+                                                    <p>
+                                                        {{this.direccionRegistrada}}
+                                                    </p>
+
+                                                </agm-info-window>
+                                            </agm-marker>
+                                            <agm-marker *ngIf="(this.wsService.latitudActual != 0.0 && this.wsService.longitudActual != 0.0) && (this.wsService.latitudActual != null && this.wsService.longitudActual != null)" [latitude]="this.wsService.latitudActual" [longitude]="this.wsService.longitudActual">
+                                                <agm-info-window>
+                                                    <h6 class="h5 text-danger">Ubicación actual</h6>
+                                                    <p>
+                                                        {{this.direccionActual}} {{this.wsService.latitudActual}} {{this.wsService.longitudActual}}
+                                                    </p>
+
+                                                </agm-info-window>
+                                            </agm-marker>
+                                        </agm-map>
+                                    </div>
+
+                                </div>
+                                <div class="row justify-content-end mt-1 mr-2 align-items-center" *ngIf="(this.latitudComercio != null && this.latitudComercio != undefined && this.latitudComercio != 0.0 && this.latitudComercio != 0) &&
+                                (this.wsService.latitudActual != null && this.wsService.latitudActual != 0.0 && this.wsService.latitudActual != 0 && this.wsService.latitudActual != undefined)">
+
+                                    <div class="col-auto">
+                                        <label for="distancia" class="col-form-label">Distancia entre ubicaciones:
+                                        </label>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input id="distancia" class="form-control" type="number" name="distancia" disabled [ngModel]="_direccion.distancia">
+                                    </div>
+                                    <p class="col-2 col-form-label text-white bg-success" *ngIf="_direccion.metrosKilometros === 'Metros'">Metros</p>
+                                    <p class="col-1 col-form-label text-white bg-danger" *ngIf="_direccion.metrosKilometros === 'Kilometros'">Km</p>
+                                </div>
+                                <div class="row mt-2 mb-1 justify-content-center">
+                                    <div class="btn btn-dark">Asignar reporte</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="CHAT" class="tabcontent col-12" style="display: block;" *ngIf="this.opcionesHabilitadas.reporte.chat">
+
+                        </div>
+
+                        <div id="IMG" class="tabcontent col-12" style="display: none;" *ngIf="this.opcionesHabilitadas.reporte.imagenes">
+
+                            <div class="py-3 align-content-center justify-content-center pr-3">
+                                <div class="row justify-content-center">
+                                    <div class="col-1 align-self-center" *ngIf="this.wsService.imagenes.length > 0">
+                                        <button class="btn btn-outline-secondary" href="#carouselImagenes" data-slide="prev"> <i class="mdi mdi-chevron-left"></i> </button>
+                                    </div>
+                                    <div id="carouselImagenes" class="carousel slide col-10 align-content-center justify-content-center tam_img">
+                                        <ol class="carousel-indicators">
+                                            <li data-target="#myCarouselImagenes" *ngFor="let x of this.wsService.imagenes;let i = index" [attr.data-slide-to]="i" ngClass="i == 0 ? 'active' : ''"></li>
+                                        </ol>
+                                        <div class="carousel-inner" role="listbox">
+                                            <div *ngFor="let j of this.wsService.imagenes; let k = index" [ngClass]="k == 0 ? 'carousel-item active' : 'carousel-item'">
+                                                <img class="img-fluid img-tam" [src]="this._utl.generarRuta(j.ruta)" style="height: 100%; max-height: 550px;">
+                                                <div class="carousel-caption d-none d-md-block">
+
+                                                    <h3 class="text-white">{{j.fechahora_captura | date:'hh:mm:ss'}}
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 align-self-center" *ngIf="this.wsService.imagenes.length > 0">
+                                        <button class="btn btn-outline-secondary mr-2 mt-1" href="#carouselImagenes" data-slide="next"> <i class="mdi mdi-chevron-right"></i> </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="AUDIO" class="tabcontent col-11" style="display: none;" *ngIf="this.opcionesHabilitadas.reporte.audio">
+                            <div class="table-responsive">
+                                <table id="demo-foo-row-toggler" class="table" data-toggle-column="first">
+                                    <thead>
+                                        <tr>
+                                            <th class="">Hora</th>
+                                            <th class="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-expanded="true" *ngFor="let aud of this.wsService.audios">
+                                            <td>{{aud.fechahora_captura | date:'hh:mm:ss'}}</td>
+                                            <td class="col">
+                                                <audio class="col" controls>
+                                                    <source [src]="this._utl.generarRuta(aud.ruta)" type="">
+                                                </audio>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div id="VIDEO" class="tabcontent col-11 align-content-center justify-content-center" style="display: none;" *ngIf="this.opcionesHabilitadas.reporte.video">
+
+                            <div class="row justify-content-between" *ngIf="this.wsService.videos.length> 1">
+                                <button class="btn btn-outline-secondary ml-2 mt-1" href="#carouselVideos" data-slide="prev"> Anterior </button>
+                                <button class="btn btn-outline-secondary mr-2 mt-1" href="#carouselVideos" data-slide="next"> Siguiente </button>
+                            </div>
+
+                            <div class="row py-3 align-content-center justify-content-center">
+                                <div id="carouselVideos" class="carousel slide col align-content-center justify-content-center" style="max-width: 90% !important;">
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#myCarouselVideos" *ngFor="let x of this.wsService.videos;let i = index" [attr.data-slide-to]="i" ngClass="i == 0 ? 'active' : ''"></li>
+                                    </ol>
+                                    <div class="carousel-inner" role="listbox">
+                                        <div *ngFor="let j of this.wsService.videos; let k = index" [ngClass]="k == 0 ? 'carousel-item active' : 'carousel-item'">
+
+                                            <video class="col align-self-center align-content-center" style=" max-height: 550px; max-width: 100%;" controls controlslist="nodownload">
+                                                <source [src]="this._utl.generarRuta(j.ruta)" type="video/mp4">
+                                            </video>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
+
+
+
+<!-- <div class="row">
+
+    <div class="col-xl-6 col-lg-12 mb-3 shadow-sm" *ngIf="true">
+        <h4 class="card-header text-center text-white" style="background-color:  rgb(255, 136, 158)">
+            Geolocalización
+        </h4>
+        <div class="card-body bg-white">
+            <div class="form-group row justify-content-end mr-2 mt-3" *ngIf="this.latitudComercio === 0 && this.wsService.latitudActual === 0 && this.wsService.tipo_ubicacion.length < 4">
+                <div class="alert alert-danger text-center" role="alert">
+                    ¡Sin ubicación registrada!
+                </div>
+            </div>
+            <div class="form-group row justify-content-end mr-2 mt-3" *ngIf="this.wsService.tipo_ubicacion === 'Casa' || this.wsService.tipo_ubicacion === 'Otra'">
+                <div class="alert alert-danger text-center" role="alert">
+                    ¡Emergencia en {{this.wsService.tipo_ubicacion}}!
+                </div>
+            </div>
+
+            <div class="row" style="height: 470px;" *ngIf="this.wsService.tipo_ubicacion === 'Actual' || this.wsService.tipo_ubicacion === 'Otra'">
+                <div class="col">
+                    <agm-map [latitude]="this.wsService.latitudActual" [longitude]="this.wsService.longitudActual" [zoom]="15" *ngIf="tengoCoordenadas <= 3" style="width: 100%; height: 100%;">
+                        <agm-marker [latitude]="this.latitudComercio" [longitude]="this.longitudComercio" *ngIf="(this.latitudComercio > 1 && this.longitudComercio < 1) && (this.latitudComercio != null && this.longitudComercio != null)">
+                            <agm-info-window>
+                                <h6 class="h5 text-success">Ubicación registrada</h6>
+                                <p>
+                                    {{this.direccionRegistrada}}
+                                </p>
+                                <div>
+                                    <button class="btn btn-sm btn-success">Copiar dirección</button>
+                                </div>
+
+                            </agm-info-window>
+                        </agm-marker>
+                        <agm-marker *ngIf="(this.wsService.latitudActual != 0.0 && this.wsService.longitudActual != 0.0) && (this.wsService.latitudActual != null && this.wsService.longitudActual != null)" [latitude]="this.wsService.latitudActual" [longitude]="this.wsService.longitudActual">
+                            <agm-info-window>
+                                <h6 class="h5 text-danger">Ubicación actual</h6>
+                                <p>
+                                    {{this.direccionActual}} {{this.wsService.latitudActual}} {{this.wsService.longitudActual}}
+                                </p>
+                                <div>
+                                    <button class="btn btn-sm btn-danger">Copiar dirección</button>
+                                </div>
+
+                            </agm-info-window>
+                        </agm-marker>
+                    </agm-map>
+                </div>
+            </div>
+            <div class="form-group row justify-content-end mr-2 mt-3" *ngIf="(this.latitudComercio != null && this.longitudComercio != null) && (this.wsService.latitudActual != 0.0 && this.wsService.longitudActual != 0.0)">
+                <div class="col-4">
+                    <input class="form-control" type="number" name="distancia" disabled [ngModel]="_direccion.distancia">
+                </div>
+                <p class="col-2 col-form-label text-white bg-success" *ngIf="_direccion.metrosKilometros === 'Metros'">Metros</p>
+                <p class="col-2 col-form-label text-white bg-danger" *ngIf="_direccion.metrosKilometros === 'Kilometros'">Km</p>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-xl-6 col-lg-12 mb-3">
+        <div>
+            <h4 class="card-header text-center text-white" style="background-color:  rgb(255, 136, 158)">
+                Grabaciones
+            </h4>
+            <div class="card-body table-responsive bg-white">
+                <table id="demo-foo-row-toggler" class="table table-bordered" data-toggle-column="first">
+                    <thead>
+                        <tr>
+                            <th class="">Hora</th>
+                            <th class="col">Audio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-expanded="true" *ngFor="let aud of this.wsService.audios">
+                            <td>{{aud.fechahora_captura | date:'hh:mm:ss'}}</td>
+                            <td class="col">
+                                <audio class="col" controls>
+                                    <source [src]="generarRuta(aud.ruta)" type="">
+                                </audio>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- VIDEOS -->
+<!-- <div class="row mb-5" *ngIf="this.wsService.videos.length > 0">
+    <div class="col">
+        <div class="hijo">
+            <div class="row">
+                <div class="col">
+                    <div class="shadow-sm border">
+                        <h4 class="card-header text-center text-white" style="background-color:  rgb(255, 136, 158)">
+                            Videos
+                        </h4>
+
+                        <div class="card-body bg-white">
+                            <div class="row py-3 align-items-center">
+                                <div class="col" *ngFor="let v of this.wsService.videos; let k = index">
+                                    <video class="col align-self-center" style="max-height: 700px;" controls controlslist="nodownload">
+                                <source [src]="generarRuta(v.ruta)" type="video/mp4">
+                            </video>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div> -->
+
+<!-- MODAL DE DATOS DEL COMERCIO -->
+<!-- MODAL DE DATOS DEL COMERCIO -->
+<!-- MODAL DE DATOS DEL COMERCIO -->
+
+
+<div class="modal fade bd-example-modal-lg" id="modalComercio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content formatear-texto">
+            <div class="modal-header">
+                <h5 class="h5 modal-title" id="exampleModalLabel">DOMICILIO:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-6">
+
+                            <div class="form-group mb-0">
+                                <label class="col-form-label">Calle:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.calle}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Número:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.numero}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Colonia/Fraccionamiento:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.colonia}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Código postal:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.cp}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Localidad:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.nombre_localidad}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Municipio:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.nombre_municipio}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Entre calle #1:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.entre_calle_1}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Entre calle #2:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.entre_calle_2}}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-6">
+
+                            <!-- <div class="form-group">
+                                <label class="col-form-label">Estado:</label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.nombre_estado}}" disabled>
+                            </div> -->
+                            <div class="form-group mb-0">
+                                <label class="col-form-label">Nombre del comercio: <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.nombre_comercio}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Teléfono fijo: <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.telefono_fijo}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label for="" class="col-form-label">Razón social: <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.razon_social}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label for="" class="col-form-label">Giro: <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.giro}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label for="" class="col-form-label">Número de empleados: <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" value="{{this.data_comercio?.num_empleados}}" disabled>
+                            </div>
+                            <div class="form-group  mt-1 mb-1">
+                                <label class="col-form-label">Fachada:</label>
+                                <textarea class="form-control" id="message-text" rows="4" value="{{this.data_comercio?.fachada}}" disabled></textarea>
+                            </div>
+                            <h5 class="col-form-label mt-0"><span class="text-danger">*</span> Solo aplica en comercios.
+                            </h5>
+                        </div>
+                    </div>
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL MENSAJES-->
+<!-- MODAL MENSAJES-->
+<!-- MODAL MENSAJES-->
+
+
+<div class="modal fade bd-example-modal-sm" id="modalMensaje" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content formatear-texto">
+            <div class=" modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">ENVIAR MENSAJE PERSONAL</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form #dataMensaje="ngForm" (ngSubmit)="enviarMensaje(dataMensaje)">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="col-form-label">Titulo:</label>
+                                <input type="text" id="lblTitulo" name="lblTitulo" class="form-control" value="Titulo por default" ngModel required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-form-label">Descripción:</label>
+                                <textarea id="txtDescripcion" name="txtDescripcion" class="form-control" maxlength="50" value="" ngModel required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-dark">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DE DATOS DEL USUARIO-->
+<!-- MODAL DE DATOS DEL USUARIO-->
+<!-- MODAL DE DATOS DEL USUARIO-->
+
+<div class="modal fade bd-example-modal-lg" id="modalUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content formatear-texto">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">DATOS DEL USUARIO:</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group mb-0">
+                                <label class="col-form-label">Nombre (s):</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.nombres_usuarios_app}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Apellido Paterno:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.apell_pat}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Apellido Materno:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.apell_mat}}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group mb-0">
+                                <label class="col-form-label">Teléfono móvil:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.tel_movil}}" disabled>
+                            </div>
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Sexo:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.sexo_app}}" disabled>
+                            </div>
+
+                            <div class="form-group mt-1 mb-0">
+                                <label class="col-form-label">Fecha de nacimiento:</label>
+                                <input type="text" class="form-control" value="{{this.data_usuario_comercio?.fecha_nacimiento | date: 'dd-MM-yyyy'}}" disabled>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12 ">
+                            <div class="row justify-content-center ">
+                                <h6 class="my-4"> CONTACTOS DE EMERGENCIA </h6>
+                            </div>
+                            <div class="row justify-content-center ">
+                                <div class="table-responsive-xxl" style="max-height: 200px;" *ngIf="this.contactos_emergencia?.length > 0">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col " style="width: 350px; ">Nombre completo</th>
+                                                <th scope="col " style="width: 180px; ">Parentesco</th>
+                                                <th scope="col " style="width: 150px; ">Teléfono móvil</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let contacto of this.contactos_emergencia; let i=index" [attr.data-index]="i ">
+                                                <td style="width: 350px; ">{{contacto?.nombre_contacto_emerg}}</td>
+                                                <td style="width: 180px; ">{{contacto?.parentezco_contacto_emerg}}</td>
+                                                <td style="width: 150px; ">{{contacto?.telefono_contacto_emerg}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-center ">
+                                <div class="" style="max-height: 200px;" *ngIf="this.contactos_emergencia?.length === 0">
+                                    <p class="">No hay contactos registrados.</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </form>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL DE DATOS MÉDICOS -->
+<!-- MODAL DE DATOS MÉDICOS -->
+<!-- MODAL DE DATOS MÉDICOS -->
+
+<div class="modal fade bd-example-modal-lg" id="modalMedico" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content formatear-texto">
+            <div class="modal-header">
+                <h5 class="h5 modal-title" id="exampleModalLabel">DATOS MÉDICOS: </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row my-1">
+                        <div class="mb-1 form-group col-4">
+                            <label>Tipo de sangre:</label>
+                            <input type="text" class="form-control" value="{{this.data_usuario_comercio?.tipo_sangre}}" disabled>
+                        </div>
+                        <div class="mb-1 form-group col-4">
+                            <label>Peso:</label>
+                            <input type="text" class="form-control" value="{{this.data_medico?.peso}}" disabled>
+                        </div>
+                        <div class="mb-1 form-group col-4">
+                            <label>Estatura:</label>
+                            <input type="text" class="form-control" value="{{this.data_medico?.estatura}}" disabled>
+                        </div>
+                    </div>
+
+                    <div class="mb-1 form-group">
+                        <label for="areaAlergias">Alergias:</label>
+                        <textarea class="form-control" maxlength="200" value="{{this.data_usuario_comercio?.alergias}}" disabled></textarea>
+                    </div>
+                    <div class="mb-1 form-group">
+                        <label for="areaPadecimientos">Padecimientos médicos:</label>
+                        <textarea class="form-control" maxlength="500" value="{{this.data_usuario_comercio?.padecimientos}}" disabled></textarea>
+                    </div>
+                    <div class="mb-1 form-group ">
+                        <label for="areaPadecimientos ">Padecimientos psicológicos:</label>
+                        <textarea class="form-control " maxlength="500 " value="{{this.data_medico?.padecimientos_psicologicos}} " disabled></textarea>
+                    </div>
+                    <div class="mb-1 form-group ">
+                        <label for="areaMedicamentos ">Toma medicamentos:</label>
+                        <textarea class="form-control " maxlength="100 " value="{{this.data_medico?.toma_medicamentos}} " disabled></textarea>
+                    </div>
+                    <div class="mb-1 form-group">
+                        <label for="areaSenasParticulares">Características y señas particulares del afectado:</label>
+                        <textarea class="form-control" maxlength="100" value="{{this.data_medico?.senas_particulares}}" disabled></textarea>
+                    </div>
+
+
+                    <!--<div class="form-group">
+                        <label class="col-form-label">Tipo de sangre:</label>
+                        <input type="text" class="form-control"  disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-form-label">Enfermedades y padecimientos:</label>
+                        <input type="text" class="form-control"  disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Alergias:</label>
+                        <input type="text" class="form-control"  disabled>
+                    </div> -->
+
+                    <div class="row" *ngIf="this.data_medico">
+                        <div class="mb-1 form-group col-2">
+                            <label>Habla:</label>
+                            <input type="text" class="form-control" value="SI" disabled *ngIf="this.data_medico?.habla===1">
+                            <input type="text" class="form-control" value="NO" disabled *ngIf="this.data_medico?.habla===0">
+                        </div>
+                        <div class="mb-1 form-group col-2">
+                            <label>Escucha:</label>
+                            <input type="text" class="form-control" value="SI" disabled *ngIf="this.data_medico?.escucha===1">
+                            <input type="text" class="form-control" value="NO" disabled *ngIf="this.data_medico?.escucha===0">
+                        </div>
+                        <div class="mb-1 form-group col-2">
+                            <label> Lee:</label>
+                            <input type="text" class="form-control" value="SI" disabled *ngIf="this.data_medico?.lee===1">
+                            <input type="text" class="form-control" value="NO" disabled *ngIf="this.data_medico?.lee===0">
+                        </div>
+                        <div class="mb-1 form-group col-2">
+                            <label> Escribe:</label>
+                            <input type="text" class="form-control" value="SI" disabled *ngIf="this.data_medico?.escribe===1">
+                            <input type="text" class="form-control" value="NO" disabled *ngIf="this.data_medico?.escribe===0">
+                        </div>
+                        <div class="mb-1 form-group col-3">
+                            <label> Comprende LSM: </label>
+                            <input type="text" class="form-control" value="SI" disabled *ngIf="this.data_medico?.habla_LSM===1">
+                            <input type="text" class="form-control" value="NO" disabled *ngIf="this.data_medico?.habla_LSM===0">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

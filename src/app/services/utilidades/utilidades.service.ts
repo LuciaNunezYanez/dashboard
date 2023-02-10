@@ -54,7 +54,7 @@ export class UtilidadesService {
     // Enviar el codigo del usuario que tiene el reporte
     const RUTA = `${environment.wsUrl}/${ruta}?token=${this.auth.leerToken()}`;
     // console.log('-------------RUTA-------------');
-    console.log(RUTA);
+    // console.log(RUTA);
     return RUTA;
   }
 

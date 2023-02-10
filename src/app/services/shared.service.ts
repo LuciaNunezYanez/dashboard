@@ -50,6 +50,10 @@ export class SharedService {
     return this.http.get(`${this.URL_API}/contactoemerg/${id_usuario}`);
   }
 
+  getRutaImgPerfil(id_foto_perfil: number){
+    return this.http.get(`${this.URL_API}/imagenes/perfil/${id_foto_perfil}`);
+  }
+
   sendMessage(id_usuario: number, titulo: string, descripcion: string){
     console.log('SEND MESSAGE');
     return this.http.post(`${this.URL_API}/mensajes/${id_usuario}`, {titulo, descripcion});

@@ -1,0 +1,93 @@
+<div class="container-fluid formatear-texto">
+    <div class="row">
+        <div class="col my-3">
+            <h6 class="text-center"> REGISTRAR UNIDAD</h6>
+        </div>
+    </div>
+    <form class="row" [formGroup]="formaRegistro" (ngSubmit)="submit()" autocomplete="off">
+        <div class="col-6">
+            <div class="mb-3 row">
+                <label for="folioUnidad" class="col-sm-2 col-form-label">Núm unidad:<span class="text-danger">*</span>
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="folioUnidad" [class.is-invalid]="isInvalidUnidad" formControlName="num_unidad">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="placasUnidad" class="col-sm-2 col-form-label">Placas:<span class="text-danger">*</span>
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="placasUnidad" [class.is-invalid]="isInvalidUnidad" formControlName="placas_unidad">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="mb-1 col-sm-2 col-form-label">Tipo de incidente:<span class="text-danger"></span></label>
+                <div class="col-sm-10">
+                    <select class="form-control" [class.is-invalid]="getValidCorporacion" (change)="onSelectCorporacion($event.target.value)">
+                        <option value="0">Seleccione tipo de incidente</option>
+                        <option *ngFor="let corp of corporaciones" value="{{corp.id_corporacion}}">
+                            {{corp.tipo_corp}}
+
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-3 row">
+                <label class="mb-1 col-sm-2 col-form-label">Estado:<span class="text-danger">*</span></label>
+                <select class="form-control col-sm-9" (change)="onSelectEstado($event.target.value)" formControlName="id_estado">
+                    <option value="{{estado.id_estados}}" *ngFor="let estado of estados">{{estado.nombre_estado}}
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3 row">
+                <label class="mb-1 col-sm-2 col-form-label">Municipio:<span class="text-danger">*</span></label>
+                <select class="form-control col-sm-9" (change)="onSelectMunicipio($event.target.value)">
+                    <option value="0">Seleccione municipio</option>
+                    <option *ngFor="let mun of filtro_municipios" value="{{mun.id_municipios}}">
+                        {{mun.nombre_municipio}}
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3 row">
+                <label class="mb-1 col-sm-2 col-form-label">Localidad: <span class="text-danger">*</span></label>
+                <select class="form-control col-sm-9 " [class.is-invalid]="getValidLocalidad" (change)="onSelectLocalidad($event.target.value)">
+                    <option value="0">Seleccione localidad</option>
+                    <option *ngFor="let loc of filtro_localidades" value="{{loc.id_localidades}}">
+                        {{loc.nombre_localidad}}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col text-center my-3">
+            <button type="submit" class="btn btn-dark mb-3">Registrar unidad</button>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table formatear-texto mb-0">
+                <!-- <thead> -->
+                <tr>
+                    <th scope="col">Núm unidad</th>
+                    <th scope="col">Placas</th>
+                    <th scope="col">Corporación</th>
+                    <th scope="col">Municipio</th>
+                    <th scope="col">Localidad</th>
+                </tr>
+                <!-- </thead>
+                <tbody> -->
+                <tr *ngFor="let un of this.unidades">
+                    <td>{{un?.num_unidad}}</td>
+                    <td>{{un?.placas_unidad}}</td>
+                    <td>{{un?.tipo_corp}}</td>
+                    <td>{{un?.nombre_municipio}}</td>
+                    <td>{{un?.nombre_localidad}}</td>
+                </tr>
+                <!-- </tbody> -->
+            </table>
+        </div>
+    </div>
+</div>

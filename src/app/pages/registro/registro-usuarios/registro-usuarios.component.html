@@ -1,0 +1,111 @@
+<div class="container-fluid formatear-texto">
+    <div class="row">
+        <div class="col my-3">
+            <h6 class="text-center"> REGISTRAR USUARIO</h6>
+        </div>
+    </div>
+    <form class="row" [formGroup]="formaRegistro" (ngSubmit)="submit()" autocomplete="off">
+        <div class="col-6">
+            <div class="mb-3 row">
+                <label for="nombre" class="col-sm-2 col-form-label">Nombre (s):<span class="text-danger">*</span>
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="nombre" maxlength="50" [class.is-invalid]="" formControlName="nombres">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="paterno" class="col-sm-2 col-form-label">Paterno:<span class="text-danger">*</span>
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="paterno" maxlength="40" [class.is-invalid]="" formControlName="apellPat">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="materno" class="col-sm-2 col-form-label">Materno:
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="materno" maxlength="40" [class.is-invalid]="" formControlName="apellMat">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="mb-1 col-sm-2 col-form-label">Sexo:<span class="text-danger">*</span></label>
+                <div class="col-sm-10">
+                    <select class="form-control" formControlName="sexo">
+                        <option value="">Seleccione sexo</option>
+                        <option value="F">Femenino</option>
+                        <option value="M">Masculino</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-3 row">
+                <label for="usuario" class="col-sm-2 col-form-label">Usuario:<span class="text-danger">*</span>
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="usuario" maxlength="30" [class.is-invalid]="" formControlName="usuario">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="contrasena" class="col-sm-2 col-form-label">Contraseña:<span class="text-danger">*</span>
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="contrasena" maxlength="30" [class.is-invalid]="" formControlName="contrasena">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="mb-1 col-sm-2 col-form-label">Privilegio:<span class="text-danger">*</span></label>
+                <div class="col-sm-10">
+                    <select class="form-control" formControlName="privilegio">
+                        <!-- <option value="0">Seleccione privilegio</option> -->
+                        <option *ngFor="let priv of privilegios" value="{{priv.id}}">
+                            {{priv.tipo}}
+
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label class="mb-1 col-sm-2 col-form-label">Unidad:<span class="text-danger">*</span></label>
+                <div class="col-sm-10">
+                    <select class="form-control" formControlName="id_unidad">
+                        <option value="0">Seleccione unidad</option>
+                        <option *ngFor="let unid of unidades" value="{{unid.id_unidad}}">
+                            {{unid.num_unidad}}
+
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col text-center my-3">
+            <button type="submit" class="btn btn-dark mb-3">Registrar usuario</button>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table formatear-texto mb-0">
+                <!-- <thead> -->
+                <tr>
+                    <th scope="col">Nombre(s)</th>
+                    <th scope="col">Apellidos</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Unidad</th>
+                </tr>
+                <!-- </thead>
+                <tbody> -->
+                <tr *ngFor="let us of this.usuarios">
+                    <td>{{us?.nombres_usuarios_cc}}</td>
+                    <td>{{us?.apellido_paterno}} {{us?.apellido_materno}}</td>
+                    <td>{{us?.usuario}}</td>
+                    <td>{{us?.num_unidad}}</td>
+                </tr>
+                <!-- </tbody> -->
+            </table>
+        </div>
+    </div>
+
+</div>

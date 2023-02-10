@@ -9,17 +9,23 @@ import { PAGES_ROUTES } from './pages.routes';
 
 // COMPONENTS
 import { PagesComponent } from './pages.component';
-import { ReporteComponent } from './reporte/reporte.component';
+import { ReporteComponent } from './reporte/reporte/reporte.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReportesComponent } from './reportes/reportes.component';
+import { BusquedaComponent } from './busqueda/busqueda.component';
 import { environment } from 'src/environments/environment';
+import { RegistroUnidadesComponent } from './registro/registro-unidades/registro-unidades.component';
+import { RegistroUsuariosComponent } from './registro/registro-usuarios/registro-usuarios.component';
+import { ReporteTrComponent } from './reporte/reporte-tr/reporte-tr.component';
 
 
 @NgModule({
     declarations: [
         PagesComponent,
         ReporteComponent,
-        ReportesComponent
+        BusquedaComponent,
+        RegistroUnidadesComponent,
+        RegistroUsuariosComponent,
+        ReporteTrComponent
     ],
     exports: [
         PagesComponent,

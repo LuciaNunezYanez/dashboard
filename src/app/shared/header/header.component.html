@@ -1,21 +1,115 @@
-<header class="topbar">
+<header class="topbar ml-0 pl-0">
+    <nav class="navbar navbar-dark bg-dark navbar top-navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand px-2" href="index.html">ALERTAS DE PÁNICO</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <form class="d-flex">
+                    <div class="mr-2" *ngIf="_ws.socketStatus">
+                        <img src="../../../assets/images/foco_amarillo_3.png" alt="Online" height="20px">
+                    </div>
+                    <div class="mr-2" *ngIf="!_ws.socketStatus">
+                        <img src="../../../assets/images/foco_rojo_3.png" alt="Offline" data-target="#staticBackdrop" height="20px">
+                    </div>
+                </form>
+                <ul class="navbar-nav me-auto mx-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Alertas</a>
+                    </li>
+                    <!--  -->
+                    <li class="nav-item" *ngIf="this.opcionesHabilitadas.buscar">
+                        <a class="nav-link" [routerLink]="['/busqueda']">Buscar</a>
+                    </li>
+                    <!--  -->
 
-    <nav class="navbar top-navbar navbar-expand-lg navbar-light" style="background-color:  rgb(58, 61, 71)">
-        <div class="navbar-header" style="background-color:  rgb(86,90,105)">
-            <a class="navbar-brand" href="index.html">
-                <b>
-                    <h3 class="h6 text-white m-0 p-0 ml-1">ALERTAS DE PÁNICO</h3>
-                  
-                </b><span>
-            </span> </a>
+
+                    <li class="nav-item dropdown" *ngIf="this.opcionesHabilitadas.registrar">
+                        <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Registrar
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                            <a class="dropdown-item" [routerLink]="['/regunidades']">Unidad</a>
+                            <a class="dropdown-item" [routerLink]="['/regusuarios']">Usuario</a>
+                            <!-- <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a> -->
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/login']" (click)="cerrarSesion()">Salir</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="navbar-collapse">
-            <ul class="navbar-nav mr-auto">
-            </ul>
-            <ul class="navbar-nav my-lg-0">
-                <li class="nav-item hidden-xs-down search-box"> <a class="nav-link py-0 hidden-sm-down waves-effect waves-dark " [routerLink]="['/']">ALERTAS</a>
+    </nav>
+    <!-- <nav class="navbar navbar-dark bg-dark navbar top-navbar navbar-expand-lg " style="background-color:  rgb(58, 61, 71)">
+        <div class="container-fluid">
+            <a class="navbar-brand px-2" href="index.html">ALERTAS DE PÁNICO</a>
+
+
+            <form class="d-flex">
+                <<ul class="navbar-nav">
+                    <li class="nav-item" *ngIf="this.opcionesHabilitadas.alertas">
+                        <a class="nav-link" aria-current="page" href="#">ALERTAS</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle " id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            REGISTRAR
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" [routerLink]="['/regunidades']">Unidad</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" [routerLink]="['/regusuarios']">Usuario</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/busqueda']">BUSCAR</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['/login']" (click)="cerrarSesion()">SALIR</a>
+                    </li>
+                    <div class="alerta-status alert text-center" *ngIf="_ws.socketStatus">
+                        <img src="../../../assets/images/foco_amarillo_3.png" alt="">
+                    </div>
+                    <div class="alerta-status alert text-center" *ngIf="!_ws.socketStatus">
+                        <img src="../../../assets/images/foco_rojo_3.png" alt="" data-target="#staticBackdrop">
+                    </div>
+                    </ul>
+            </form>
+
+
+        </div> -->
+    <!-- <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">ALERTAS DE PÁNICO</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div> -->
+    <!-- <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item hidden-xs-down search-box" *ngIf="this.opcionesHabilitadas.alertas">
+                    <a class="nav-link py-0 hidden-sm-down waves-effect waves-dark " [routerLink]="['/']">ALERTAS</a>
                 </li>
-                <li class="nav-item hidden-xs-down search-box"> <a class="nav-link py-0 hidden-sm-down waves-effect waves-dark" [routerLink]="['/reportes']">BUSCAR</a>
+                *ngIf="this.opcionesHabilitadas.registrar"
+                <li class="nav-item  dropdown">
+                    <a class="nav-link dropdown-toggle py-0 hidden-sm-down waves-effect waves-dark " id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        REGISTRAR
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" [routerLink]="['/regunidades']">Unidad</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" [routerLink]="['/regusuarios']">Usuario</a></li>
+                    </ul>
+                </li>
+                *ngIf="this.opcionesHabilitadas.buscar"
+                <li class="nav-item hidden-xs-down search-box"> <a class="nav-link py-0 hidden-sm-down waves-effect waves-dark" [routerLink]="['/busqueda']">BUSCAR</a>
                 </li>
                 <li class="nav-item hidden-xs-down search-box"> <a class="nav-link py-0 hidden-sm-down waves-effect waves-dark" [routerLink]="['/login']" (click)="cerrarSesion()">SALIR</a>
                 </li>
@@ -26,8 +120,8 @@
                     <img src="../../../assets/images/foco_rojo_3.png" alt="" data-target="#staticBackdrop">
                 </div>
             </ul>
-        </div>
-    </nav>
+        </div> -->
+    <!-- </nav> -->
 
     <div class="row justify-content-end">
         <div class="alert alert-danger alert-dismissible col-5 fade show" *ngIf="!_ws.socketStatus" role="alert">

@@ -177,6 +177,7 @@ a:hover {
 .tab button.active,
 a.active {
     background-color: rgb(27, 62, 189);
+    border: 1px solid #c4c4c4;
     /* background-color: #FF889E; */
     color: #FFFF;
 }

@@ -26,6 +26,14 @@ export class UsuariosNitService {
     return this._http.get(`${this.url}/usuarionit/usuarios/${sala}/${estacion}/${dpto}`);
   }
 
+  getUsuariosAsoc(){
+    return this._http.get(`${this.url}/usuarionit/asociac/${this._login.leerAsociacion()}`);
+  }
+
+  addUsuario(data: Object){
+    return this._http.post(`${this.url}/usuarionit/`, data);
+  }
+
 }
 
 export class Usuario {

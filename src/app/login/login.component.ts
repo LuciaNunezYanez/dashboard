@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
         Swal.fire({
           type: 'error',
           title: 'Error al autenticar',
-          text: 'Verifique sus datos'
+          text: 'Verifique sus datos y/o privilegios de acceso.'
         });
       }
       // =================
@@ -86,8 +86,6 @@ export class LoginComponent implements OnInit {
   } 
 
   validarNotification(){
-    console.log('---> ' + Notification.permission);
-
     if(Notification.permission === "granted"){
       console.log("Permiso concedido");
       // this._notification.mostrarNotificacion("ALERTA DE PÁNICO",

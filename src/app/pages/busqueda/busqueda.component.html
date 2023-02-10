@@ -1,0 +1,1108 @@
+<div class="container-fluid">
+
+    <div class="row justify-content-center">
+        <form autocomplete="off" [formGroup]="formaBusqueda" class="formatear-texto col-12" (ngSubmit)="buscarReportes()">
+            <div class="row m-0 p-0 justify-content-center mx-2">
+                <div class=" col-md-4 col-4">
+                    <div class="row">
+                        <div class="col-2 pl-0">
+                            <label for="Folio" class="text-dark mb-0 pb-0">Folio:</label>
+                            <input class="form-control form-control-sm" id="Folio" formControlName="folio" type="text" aria-label=".form-control-sm example" autocomplete="off">
+                        </div>
+
+                        <div class="col-3 pl-0">
+                            <label for="FolioCAD" class="text-dark mb-0 pb-0">Folio CAD:</label>
+                            <input class="form-control form-control-sm" id="FolioCAD" formControlName="folioCAD" type="text" aria-label=".form-control-sm example" autocomplete="off">
+                        </div>
+                        <div class="col-7 pl-0 pt-0">
+
+                            <label for="operadorInput" class="text-dark mb-0 pb-0">Operador:</label>
+                            <select class="form-control form-control-sm mb-0 pb-0" id="operadorInput" formControlName="id_operador">
+                                <option value="0">Todos</option>
+                                <option *ngFor="let oper of objUsuarios" value="{{oper.id_usuarios_cc}}">
+                                    {{oper.nombres_usuarios_cc}} {{oper.apellido_paterno}} {{oper.apellido_materno}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 pl-0">
+                            <label for="fechaInput" class="text-dark mb-0 pb-0">Fecha inicio:</label>
+                            <input class="form-control form-control-sm" id="fechaInput" formControlName="fecha_inicio" type="date" aria-label=".form-control-sm example" autocomplete="off">
+                        </div>
+                        <div class="col-4 pl-0">
+                            <label for="fechaFin" class="text-dark mb-0 pb-0">Fecha fin:</label>
+                            <input class="form-control form-control-sm" id="fechaFin" formControlName="fecha_fin" type="date" aria-label=".form-control-sm example" autocomplete="off">
+                        </div>
+                        <div class="col-4 pl-0">
+                            <label for="telefonoInput" class="text-dark mb-0 pb-0">Tel origen:</label>
+                            <input class="form-control form-control-sm" id="telefonoInput" formControlName="telefono" type="text" aria-label=".form-control-sm example" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-2">
+                    <!-- style="border-left: thick solid #6d7288;" -->
+                    <div class="">
+                        <label for="calleInput" class="text-dark mb-0 pb-0">Calle:</label>
+                        <input class="form-control form-control-sm" id="calleInput" formControlName="calle" type="text" aria-label=".form-control-sm example">
+                    </div>
+                    <div class="">
+                        <label for="numeroInput" class="text-dark mb-0 pb-0">Número exterior:</label>
+                        <input class="form-control form-control-sm" id="numeroInput" formControlName="numero" type="text" aria-label=".form-control-sm example">
+                    </div>
+                </div>
+                <div class="col-md-2 col-2 pl-0">
+                    <div class="">
+                        <label for="coloniaInput" class="text-dark mb-0 pb-0">Colonia:</label>
+                        <input class="form-control form-control-sm" id="coloniaInput" formControlName="colonia" type="text" aria-label=".form-control-sm example">
+                    </div>
+                    <div class="">
+                        <label for="codigoPInput" class="text-dark mb-0 pb-0">Código postal:</label>
+                        <input class="form-control form-control-sm" id="codigoPInput" formControlName="cp" type="text" aria-label=".form-control-sm example">
+                    </div>
+                </div>
+                <div class="col-md-2 col-4 pl-0">
+                    <div class="">
+                        <label for="municipioInput" class="text-dark mb-0 pb-0">Municipio:</label>
+                        <select class="form-control form-control-sm mb-0 pb-0" id="municipioInput" formControlName="id_municipio" (change)="onSelectMunicipio($event.target.value)">
+                            <option value="0">Todos</option>
+                            <option *ngFor="let mun of objMunicipios" value="{{mun.ID_MUNICIPIOS}}">
+                                {{mun.NOMBRE_MUNICIPIO}}</option>
+                        </select>
+                    </div>
+                    <div class="">
+                        <label for="localidadInput" class="text-dark mb-0 pb-0">Localidad:</label>
+                        <select class="form-control form-control-sm mb-0 pb-0" id="localidadInput" formControlName="id_localidad" (change)="onSelectLocalidad($event.target.value)">
+                            <option value="0">Todas</option>
+                            <option *ngFor="let loc of objLocalidades" value="{{loc.ID_LOCALIDADES}}">
+                                {{loc.NOMBRE_LOCALIDAD}}</option>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="col-md-1 col-1 pl-0 align-content-center justify-content-center align-self-center">
+                    <div class="row justify-content-center justify-self-center gravity-center">
+                        <button type="submit" class="btn btn-lg btn-dark">Buscar</button>
+                    </div>
+
+                </div>
+
+            </div>
+            <hr style="border: solid 1px rgb(86,90,105);">
+        </form>
+    </div>
+
+    <!-- TABLA BUSQUEDA -->
+    <!-- TABLA BUSQUEDA -->
+    <!-- TABLA BUSQUEDA -->
+    <!-- TABLA BUSQUEDA -->
+
+    <div class="row justify-content-center" *ngIf="this.TABLA_BUSQUEDA">
+        <div class="card shadow-sm border">
+            <div class="card-body" style="border: 1px solid rgb(214,214,214);">
+                <div class="table-responsive-xxl">
+                    <table class="table table-striped table-hover formatear-texto mb-0 pb-0">
+                        <tr>
+                            <td scope="col">Folio:</td>
+                            <td scope="col">Folio CAD:</td>
+                            <td scope="col">Fecha:</td>
+                            <td scope="col">Operador:</td>
+                            <td scope="col">Tel origen:</td>
+                            <td scope="col">Dirección:</td>
+                            <td scope="col">Localidad:</td>
+                            <td scope="col">Municipio:</td>
+                            <td scope="col">Estatus:</td>
+                            <td scope="col">Acción</td>
+                        </tr>
+                        <tr *ngFor="let item of this.objResults">
+                            <th class="ml-1 pt-0">{{item.abrev_grupo}}-{{item.id_reporte | number: '3.0-3'}}</th>
+                            <th class="ml-1 pt-0">{{item.folioCAD}}</th>
+                            <th class="ml-1 pt-0">{{item.fecha_hora_docum | date:'d-M-yyyy HH:mm:ss'}}</th>
+                            <th class="ml-1 pt-0">{{item.nombre_operador}}</th>
+                            <th class="ml-1 pt-0">{{item.tel_movil}}</th>
+                            <th class="ml-1 pt-0">{{item.calle + ' #' + item.numero + ' ' + item.colonia}}</th>
+                            <th class="ml-1 pt-0">{{item.nombre_localidad}}</th>
+                            <th class="ml-1 pt-0">{{item.nombre_municipio}}</th>
+                            <th class="ml-1 pt-0">{{getEstatus(item.estatus_actual)}}</th>
+                            <th class="ml-1 pt-0"><button type="button" value="item.id_reporte" class="btn btn-sm btn-outline-dark" (click)="verReporte(item.id_reporte)">Ver</button></th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- REPORTE FULL -->
+    <!-- REPORTE FULL -->
+    <!-- REPORTE FULL -->
+    <!-- REPORTE FULL -->
+    <div class="row" *ngIf="this.REPORTE_BUSQUEDA">
+        <div class="col-xl-7 col-xxl-6 col-12">
+            <div class="card-body bg-white" style="border: 1px solid rgb(214, 214, 214);">
+                <div class="row" style="height: 600px; max-height: 600px; overflow-y: scroll;">
+                    <div class="accordion mx-2" id="accordionExample" style="width: 100%;">
+                        <div class="card">
+                            <div class="card-header" id="headingCero">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left text-info" type="button" data-toggle="collapse" data-target="#collapseCero" aria-expanded="true" aria-controls="collapseCero">
+                                        Información del reporte
+                                    </button>
+                                </h2>
+                            </div>
+
+                            <div id="collapseCero" class="collapse show" aria-labelledby="headingCero" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <label>Folio: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.abrev_grupo}}-{{this.objReporteFull?.id_reporte | number: '3.0-3'}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.abrev_grupo+'-'+this.objReporteFull?.id_reporte)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <label>Fecha: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.fecha_hora_ataq | date: 'dd-MM-yyyy'}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.fecha_hora_ataq)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <label>Hora: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.fecha_hora_docum | date: 'HH:mm:ss'}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.fecha_hora_docum)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h6 class="text-center text-info mt-4"> Información del reporte manual </h6>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <label>Tipo de incidente: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.cuerpo_emerg_usuario}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.cuerpo_emerg_usuario)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <label>Subtipo: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.tipo_incid_usuario}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.tipo_incid_usuario)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Afectados: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.quien_emergencia}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.quien_emergencia)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label class="">Descripción del incidente:</label>
+                                                <textarea rows="2" class="form-control form-control-sm" value="{{this.objReporteFull?.descrip_emerg_usuario}}" disabled> </textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label class="">Dirección de la emergencia:</label>
+                                                <textarea rows="4" class="form-control form-control-sm" value="Incidente en el DOMICILIO REGISTRADO:
+{{this.objReporteFull?.calle}} #{{this.objReporteFull?.numero || 'DESC'}} {{this.objReporteFull?.colonia}} C.P. {{this.objReporteFull?.cp || 'DESC'}}
+Fachada: {{this.objReporteFull?.fachada}}
+{{this.objReporteFull?.nombre_localidad}}, {{this.objReporteFull?.nombre_municipio}}" disabled *ngIf="this.objCoordenadas.tipo_ubicacion === 'Casa'"> </textarea>
+
+                                                <textarea rows="3" class="form-control form-control-sm" value="Incidente en {{this.objCoordenadas.tipo_ubicacion.toUpperCase()}}:
+{{this.direccionActual?.calle}} #{{this.direccionActual?.numero}} {{this.direccionActual?.colonia}} C.P. {{this.direccionActual?.cp || 'DESC'}}
+{{this.direccionActual?.localidad}}, {{this.direccionActual?.municipio}}" disabled *ngIf="this.objCoordenadas.tipo_ubicacion != 'Casa'"> </textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label>Latitud: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objCoordenadas?.latitudActual}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objCoordenadas?.latitudActual)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <label>Longitud: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objCoordenadas?.longitudActual}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objCoordenadas?.longitudActual)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h6 class="text-center text-info mt-4"> Cierre </h6>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label>Estatus:</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{getEstatus(this.objReporteFull?.estatus_actual)}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(getEstatus(this.objReporteFull?.estatus_actual))" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <label>Folio CAD: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.num_unidad}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.num_unidad)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label>Operador: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.nombres_usuarios_cc}} {{this.objReporteFull?.apellido_paterno}} {{this.objReporteFull?.apellido_materno}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.nombres_usuarios_cc+ ' '+this.objReporteFull?.apellido_paterno + ' '+this.objReporteFull?.apellido_materno)
+                                    " data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="row">
+                                        Clasificación de cierre
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left text-info" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                        Datos del usuario
+                                    </button>
+                                </h2>
+                            </div>
+
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <h6 class="text-center"> {{this.objReporteFull?.nombre_grupo}} </h6>
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="row px-2">
+                                                        <label>Nombre(s): </label>
+                                                        <div class="input-group">
+                                                            <div class="custom-file">
+                                                                <input type="text" class="form-control" value="{{this.objReporteFull?.nombres_usuarios_app}}" disabled>
+                                                            </div>
+                                                            <div class="input-group-append">
+                                                                <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.nombres_usuarios_app)" data-whatever="@mdo">
+                                                                    <i class="mdi mdi-content-copy"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <label>Apellido paterno: </label>
+                                                        <div class="input-group">
+                                                            <div class="custom-file">
+                                                                <input type="text" class="form-control" value="{{this.objReporteFull?.apell_pat}}" disabled>
+                                                            </div>
+                                                            <div class="input-group-append">
+                                                                <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.apell_pat)" data-whatever="@mdo">
+                                                                    <i class="mdi mdi-content-copy"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <label>Apellido materno: </label>
+                                                        <div class="input-group">
+                                                            <div class="custom-file">
+                                                                <input type="text" class="form-control" value="{{this.objReporteFull?.apell_mat}}" disabled>
+                                                            </div>
+                                                            <div class="input-group-append">
+                                                                <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.apell_mat)" data-whatever="@mdo">
+                                                                    <i class="mdi mdi-content-copy"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="row px-2">
+                                                        <label>Teléfono móvil: </label>
+                                                        <div class="input-group">
+                                                            <div class="custom-file">
+                                                                <input type="text" class="form-control" value="{{this.objReporteFull?.tel_movil}}" disabled>
+                                                            </div>
+                                                            <div class="input-group-append">
+                                                                <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.tel_movil)" data-whatever="@mdo">
+                                                                    <i class="mdi mdi-content-copy"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <label>Sexo: </label>
+                                                        <div class="input-group">
+                                                            <div class="custom-file">
+                                                                <input type="text" class="form-control" value="{{this.objReporteFull?.sexo_app}}" disabled>
+                                                            </div>
+                                                            <div class="input-group-append">
+                                                                <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.sexo_app)" data-whatever="@mdo">
+                                                                    <i class="mdi mdi-content-copy"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <label>Fecha de nacimiento: </label>
+                                                        <div class="input-group">
+                                                            <div class="custom-file">
+                                                                <input type="text" class="form-control" value="{{this.objReporteFull?.fecha_nacimiento | date: 'dd-MM-yyyy'}}" disabled>
+                                                            </div>
+                                                            <div class="input-group-append">
+                                                                <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.fecha_nacimiento)" data-whatever="@mdo">
+                                                                    <i class="mdi mdi-content-copy"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4" *ngIf="this.data_img_perfil?.ruta.length>1">
+                                            <div class="row mt-2 justify-content-center align-items-center">
+                                                <img class="" [src]="this._util.generarRuta(this.data_img_perfil?.ruta)" style="height: 175px; width: 175px;">
+                                            </div>
+                                            <div class="row mt-2 justify-content-center align-items-center">
+                                                <a class="pl-2 pr-2" [href]="this._util.generarRuta(this.data_img_perfil?.ruta)" target="_blank">Ver fotografía</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-4" *ngIf="this.data_img_perfil?.ruta.length<1">
+                                            <div class="row mt-2 justify-content-center">
+                                                <img class="" src="../../../../assets/images/sin_imagen.jpg" style="height: 170px; width: 170px;">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingTwo">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left text-info" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Contactos de emergencia
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="row justify-content-center">
+                                        <div class="table-responsive-xxl" style="height: 200px;" *ngIf="this.objContactos.length> 0">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="width: 350px;">Nombre completo</th>
+                                                        <th scope="col" style="width: 180px;">Parentesco</th>
+                                                        <th scope="col" style="width: 150px;">Teléfono móvil</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let contacto of this.objContactos; let i=index" [attr.data-index]="i">
+                                                        <td style="width: 350px;">{{contacto?.nombre_contacto_emerg}}
+                                                        </td>
+                                                        <td style="width: 180px;">
+                                                            {{contacto?.parentezco_contacto_emerg}}
+                                                        </td>
+                                                        <td style="width: 150px;">{{contacto?.telefono_contacto_emerg}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingThree">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left text-info" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        Datos médicos
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <label>Tipo de sangre: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.tipo_sangre}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.tipo_sangre)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <label>Peso: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.peso}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.peso)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Estatura: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.estatura}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.estatura)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-12" style="margin: 0% !important;">
+                                            <label class="">Alergias:</label>
+                                            <textarea rows="2" class="form-control form-control-sm" value="{{this.objReporteFull?.alergias}}" disabled> </textarea>
+                                        </div>
+                                        <div class="form-group col-12" style="margin: 0% !important;">
+                                            <label class="">Padecimientos médicos:</label>
+                                            <textarea rows="2" class="form-control form-control-sm" value="{{this.objReporteFull?.padecimientos}}" disabled> </textarea>
+                                        </div>
+                                        <div class="form-group col-12" style="margin: 0% !important;">
+                                            <label class="">Padecimientos psicológicos:</label>
+                                            <textarea rows="2" class="form-control form-control-sm" value="{{this.objReporteFull?.padecimientos_psicologicos}}" disabled> </textarea>
+                                        </div>
+                                        <div class="form-group col-12" style="margin: 0% !important;">
+                                            <label class="">Toma medicamentos:</label>
+                                            <textarea rows="2" class="form-control form-control-sm" value="{{this.objReporteFull?.toma_medicamentos}}" disabled> </textarea>
+                                        </div>
+                                        <div class="form-group col-12" style="margin: 0% !important;">
+                                            <label class="">Características y señas particulares del afectado:</label>
+                                            <textarea rows="2" class="form-control form-control-sm" value="{{this.objReporteFull?.senas_particulares}}" disabled> </textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <label>Habla: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this._util.getNumToValor(this.objReporteFull?.habla)}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this._util.getNumToValor(this.objReporteFull?.habla))" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <label>Escucha: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this._util.getNumToValor(this.objReporteFull?.escucha)}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this._util.getNumToValor(this.objReporteFull?.escucha))" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-2">
+                                            <label>Lee: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this._util.getNumToValor(this.objReporteFull?.lee)}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this._util.getNumToValor(this.objReporteFull?.lee))" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <label>Escribe: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this._util.getNumToValor(this.objReporteFull?.escribe)}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this._util.getNumToValor(this.objReporteFull?.escribe))" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <label>Comprende LSM: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this._util.getNumToValor(this.objReporteFull?.habla_LSM)}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this._util.getNumToValor(this.objReporteFull?.habla_LSM))" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingFour">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left text-info" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                        Domicilio
+                                    </button>
+                                </h2>
+                            </div>
+
+                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <label>Calle: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.calle}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.calle)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <label>Número: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.numero}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.numero)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <label>Colonia/Fraccionamiento: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.colonia}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.colonia)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <label>C.P.: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.cp}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.cp)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label>Localidad: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.nombre_localidad}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.nombre_localidad)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label>Municipio: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.nombre_municipio}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.nombre_municipio)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label>Entre calle: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.entre_calle_1}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.entre_calle_1)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label>Y calle: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.entre_calle_2}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.entre_calle_2)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <label>Fachada: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.fachada}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.fachada)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingFive">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left text-info" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                        Información del comercio*
+                                    </button>
+                                </h2>
+                            </div>
+
+                            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <label>Nombre del comercio/grupo: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.nombre_comercio}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.nombre_comercio)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <label>Teléfono fijo: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.telefono_fijo}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.telefono_fijo)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Razón social: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.razon_social}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.razon_social)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-2">
+                                        <div class="col-6">
+                                            <label>Giro: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.giro}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.giro)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label>Número de empleados: </label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="text" class="form-control" value="{{this.objReporteFull?.num_empleados}}" disabled>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <a type="button" class="btn btn-outline-secondary" (click)="copyText(this.objReporteFull?.num_empleados)" data-whatever="@mdo">
+                                                        <i class="mdi mdi-content-copy"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <label class="mb-2 text-danger"> *Solo aplica para comercios</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--
+                                <div class="row" *ngIf="this.objActivaciones.length>1">
+                                    <div class="card shadow-sm" style=" min-width: 100%;">
+                                        <div class="card-body" style="border: 1px solid rgb(214, 214, 214);">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label class="mr-2">Horas de activación: </label>
+                                                    <span class="badge bg-warning text-dark font-weight-bold ml-1" *ngFor="let item of this.objActivaciones">{{item?.fecha_hora_activacion | date: 'HH:mm:ss'}}</span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+            </div>
+        </div>
+
+
+
+
+        <!-- MULTIMEDIA  -->
+        <!-- MULTIMEDIA  -->
+        <!-- MULTIMEDIA  -->
+        <div class="col-xl-5 col-xxl-6 col-12">
+            <div class="">
+                <div class="card-body bg-white" style="border: 1px solid rgb(214, 214, 214);">
+                    <div class="row mb-1">
+                        <div class="col-12">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                    <a type="button" class="btn btn-outline-secondary tablinks active mult ml-2 mt-2" (click)="openCity($event, 'GPS')" data-whatever="@mdo">
+                                        <i class="mdi mdi-map-marker"></i>
+                                        <span id="mult_menu_num" *ngIf="this.objCoordenadas?.tipo_ubicacion && this.objCoordenadas?.latitudActual != 0.0 && this.objCoordenadas?.latitudActual != undefined" data-action="mult-can" class="badge rounded-circle">1</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a type="button" class="btn btn-outline-secondary tablinks mult ml-2 mt-2" (click)="openCity($event, 'IMG')" data-whatever="@mdo">
+                                        <i class="mdi mdi-camera"></i>
+                                        <span id="mult_menu_num" *ngIf="this.objImagenes.length> 0" data-action="mult-can" class="badge rounded-circle">{{this.objImagenes.length}}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a type="button" class="btn btn-outline-secondary tablinks mult ml-2 mt-2" (click)="openCity($event, 'AUDIO')" data-whatever="@mdo">
+                                        <i class="mdi mdi-volume-high"></i>
+                                        <span id="mult_menu_num" *ngIf="this.objAudio.length > 0" data-action="mult-can" class="badge rounded-circle">{{this.objAudio.length}}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a type="button" class="btn btn-outline-secondary tablinks mult ml-2 mt-2" (click)="openCity($event, 'VIDEO')" data-whatever="@mdo">
+                                        <i class="mdi mdi-video"></i>
+                                        <span id="mult_menu_num" *ngIf="this.objVideo.length > 0" data-action="mult-can" class="badge rounded-circle">{{this.objVideo.length}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row" style="height: 550px;">
+                        <div id="GPS" class="tabcontent col-12" style="display: block;" *ngIf="true">
+                            <div class="">
+                                <!--CONDICION MAPA -->
+
+                                <div class="form-group row mr-2 mt-3" *ngIf="this.objCoordenadas?.latitudActual === 0.0 && this.objReporteFull?.lat_dir === 0">
+                                    <div class="alert alert-danger text-center ml-3 mb-0" role="alert">
+                                        ¡Sin ubicación registrada!
+                                    </div>
+                                </div>
+                                <div class="form-group row mr-2 mt-3" *ngIf="this.objCoordenadas?.tipo_ubicacion === 'Casa'">
+                                    <div class="alert alert-primary text-center ml-3 mb-0" role="alert">
+                                        Incidente en el <span class="font-weight-bold text-dark">domicilio registrado</span>
+                                    </div>
+                                </div>
+                                <div class="form-group row mr-2 mt-3" *ngIf="this.objCoordenadas?.tipo_ubicacion === 'Otra'">
+                                    <div class="alert alert-primary text-center ml-3 mb-0" role="alert">
+                                        Incidente en <span class="font-weight-bold text-dark">otra ubicación</span>
+                                    </div>
+                                </div>
+                                <div class="form-group row mr-2 mt-3" *ngIf="this.objCoordenadas?.tipo_ubicacion === 'Actual'">
+                                    <div class="alert alert-primary text-center ml-3 mb-0" role="alert">
+                                        Incidente en <span class="font-weight-bold text-dark">ubicación actual</span>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2" style="height: 470px;" *ngIf="this.objCoordenadas?.tipo_ubicacion === 'Casa'">
+                                    <div class="col" *ngIf="this.objReporteFull?.lat_dir != 0.0 && this.objReporteFull?.lat_dir != undefined">
+                                        <agm-map [latitude]="this.objReporteFull?.lat_dir" [longitude]="this.objReporteFull?.lgn_dir" [zoom]="15" style="width: 100%; height: 100%;">
+
+                                            <agm-marker [latitude]="this.objReporteFull?.lat_dir" [longitude]="this.objReporteFull?.lgn_dir">
+                                                <agm-info-window>
+                                                    <h6 class="h5 text-success">Incidente en el domicilio registrado
+                                                    </h6>
+                                                    <p>
+                                                        Dirección completa en el apartado de Domicilio.
+                                                    </p>
+                                                    <!-- <div>
+                                                        <button class="btn btn-sm btn-success">Copiar coordenadas</button>
+                                                    </div> -->
+                                                </agm-info-window>
+                                            </agm-marker>
+                                        </agm-map>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2" style="height: 470px;" *ngIf="this.objCoordenadas?.tipo_ubicacion === 'Actual' || this.objCoordenadas?.tipo_ubicacion === 'Otra'">
+                                    <div class="col" *ngIf="this.objCoordenadas?.latitudActual != 0.0 && this.objCoordenadas?.latitudActual != undefined">
+                                        <agm-map [latitude]="this.objCoordenadas?.latitudActual" [longitude]="this.objCoordenadas?.longitudActual" [zoom]="15" style="width: 100%; height: 100%;">
+                                            <agm-marker [latitude]="this.objReporteFull?.lat_dir" [longitude]="this.objReporteFull?.lgn_dir" *ngIf="(this.objReporteFull?.lat_dir > 1 && this.objReporteFull?.lgn_dir < 1) &&
+                                                (this.objReporteFull?.lat_dir != null && this.objReporteFull?.lgn_dir != null && this.objReporteFull?.lgn_dir != 0)">
+                                                <agm-info-window>
+                                                    <h6 class="h5 text-success">Ubicación registrada</h6>
+                                                    <p>
+                                                        {{this.objCoordenadas?.direccionRegistrada}}
+                                                    </p>
+                                                </agm-info-window>
+                                            </agm-marker>
+                                            <agm-marker *ngIf="(this.objCoordenadas?.latitudActual != 0.0 && this.objCoordenadas?.longitudActual != 0.0) && 
+                                            (this.objCoordenadas?.latitudActual != null && this.objCoordenadas?.longitudActual != null)" [latitude]="this.objCoordenadas?.latitudActual" [longitude]="this.objCoordenadas?.longitudActual">
+                                                <agm-info-window>
+                                                    <h6 class="h5 text-danger">Ubicación actual</h6>
+                                                    <p>
+                                                        {{this.objCoordenadas?.direccionActual}} {{this.objCoordenadas?.latitudActual}} {{this.objCoordenadas?.longitudActual}}
+                                                    </p>
+
+                                                </agm-info-window>
+                                            </agm-marker>
+                                        </agm-map>
+                                    </div>
+                                </div>
+                                <div *ngIf="false">
+                                    <div class="form-group row justify-content-end mr-2 mt-3" *ngIf="(this.objReporteFull?.lat_dir != null && this.objReporteFull?.lat_dir != undefined) &&
+                                (this.objCoordenadas?.latitudActual != 0.0 && this.objCoordenadas?.latitudActual != undefined) && (this.objReporteFull?.lat_dir != 0)">
+                                        <!-- <div class="col-5">
+                                        <input class="form-control" type="number" name="distancia" disabled [ngModel]="_direccion.distancia">
+                                    </div>
+                                    <p class="col-2 col-form-label text-white bg-success" *ngIf="_direccion.metrosKilometros === 'Metros'">Metros</p>
+                                    <p class="col-1 col-form-label text-white bg-danger" *ngIf="_direccion.metrosKilometros === 'Kilometros'">Km</p> -->
+
+                                        <div class="col-auto">
+                                            <label for="distancia" class="col-form-label">Distancia entre domicilio
+                                                registrado:
+                                            </label>
+                                        </div>
+                                        <div class="col-auto">
+                                            <input id="distancia" class="form-control" type="number" name="distancia" disabled [ngModel]="_direccion.distancia">
+                                        </div>
+                                        <p class="col-2 col-form-label text-white bg-success" *ngIf="_direccion.metrosKilometros === 'Metros'">Metros</p>
+                                        <p class="col-1 col-form-label text-white bg-danger" *ngIf="_direccion.metrosKilometros === 'Kilometros'">Km</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="IMG" class="tabcontent col-11 align-content-center justify-content-center align-self-center" style="display: none;">
+                            <div class="row justify-content-center">
+                                <div class="col-1 align-self-center" *ngIf="this.objImagenes.length > 0">
+                                    <button class="btn btn-outline-secondary" href="#carouselImagenes" data-slide="prev"> <i class="mdi mdi-chevron-left"></i> </button>
+                                </div>
+                                <div id="carouselImagenes" class="carousel slide col-10 align-content-center justify-content-center tam_img">
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#myCarouselImagenes" *ngFor="let x of this.objImagenes;let i = index" [attr.data-slide-to]="i" ngClass="i == 0 ? 'active' : ''"></li>
+                                    </ol>
+                                    <div class="carousel-inner" role="listbox">
+                                        <div *ngFor="let j of this.objImagenes; let k = index" [ngClass]="k == 0 ? 'carousel-item active' : 'carousel-item'">
+                                            <a [href]="this._util.generarRuta(j.ruta)" target="_blank"><img class="img-fluid img-tam" [src]="this._util.generarRuta(j.ruta)" style="height: 80%; max-height: 550px; width: 70vh;"></a>
+                                            <div class="carousel-caption d-none d-md-block">
+                                                <h3 class="text-white">{{j.fechahora_captura | date:'hh:mm:ss'}}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-1 align-self-center" *ngIf="this.objImagenes.length > 0">
+                                    <button class="btn btn-outline-secondary mr-2 mt-1" href="#carouselImagenes" data-slide="next"> <i class="mdi mdi-chevron-right"></i> </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div id="AUDIO" class="tabcontent col-11" style="display: none;">
+                            <div class="table-responsive">
+                                <table id="demo-foo-row-toggler" class="table" data-toggle-column="">
+                                    <thead>
+                                        <tr>
+                                            <th class="">Hora</th>
+                                            <th class="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-expanded="true" *ngFor="let aud of this.objAudio">
+                                            <td>{{aud.fechahora_captura | date:'hh:mm:ss'}}</td>
+                                            <td class="col">
+                                                <audio class="col" controls>
+                                                    <source [src]="this._util.generarRuta(aud.ruta)" type="">
+                                                </audio>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div id="VIDEO" class="tabcontent col-11 align-content-center justify-content-center" style="display: none;">
+
+                            <div class="row justify-content-between" *ngIf="this.objVideo.length> 1">
+                                <button class="btn btn-outline-secondary ml-2 mt-1" href="#carouselVideos" data-slide="prev"> Anterior </button>
+                                <button class="btn btn-outline-secondary mr-2 mt-1" href="#carouselVideos" data-slide="next"> Siguiente </button>
+                            </div>
+
+                            <div class="row py-3 align-content-center justify-content-center">
+                                <div id="carouselVideos" class="carousel slide col align-content-center justify-content-center" style="max-width: 90% !important;">
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#myCarouselVideos" *ngFor="let x of this.objVideo;let i = index" [attr.data-slide-to]="i" ngClass="i == 0 ? 'active' : ''"></li>
+                                    </ol>
+                                    <div class="carousel-inner" role="listbox">
+                                        <div *ngFor="let j of this.objVideo; let k = index" [ngClass]="k == 0 ? 'carousel-item active' : 'carousel-item'">
+
+                                            <video class="col align-self-center align-content-center" style=" max-height: 530px; max-width: 100%;" controls controlslist="nodownload">
+                                                <source [src]="this._util.generarRuta(j.ruta)" type="video/mp4">
+                                            </video>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
